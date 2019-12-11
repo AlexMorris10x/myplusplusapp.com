@@ -4,19 +4,15 @@ import { Route } from "react-router-dom";
 import "./App.css";
 import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
-import HomeForm from "./components/HomeForm";
+import Home from "./components/Home";
 import DisplayLinks from "./components/DisplayLinks";
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      loggedIn: false,
-      user: null
-    };
-    this._logout = this._logout.bind(this);
-    this._login = this._login.bind(this);
-  }
-  componentDidMount() {
+  state = {
+    loggedIn: false,
+    user: null
+  };
+
+  componentDidMount = () => {
     axios.get("/auth/user").then(response => {
       if (!!response.data.user) {
         this.setState({
@@ -30,9 +26,9 @@ class App extends Component {
         });
       }
     });
-  }
+  };
 
-  _logout(event) {
+  _logout = event => {
     event.preventDefault();
     axios.post("/auth/logout").then(response => {
       if (response.status === 200) {
@@ -42,9 +38,9 @@ class App extends Component {
         });
       }
     });
-  }
+  };
 
-  _login(username, password) {
+  _login = (username, password) => {
     axios
       .post("/auth/login", {
         username,
@@ -59,7 +55,7 @@ class App extends Component {
           });
         }
       });
-  }
+  };
 
   render() {
     return (
@@ -67,7 +63,7 @@ class App extends Component {
         <DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
         <Route
           path="/projects"
-          render={() => <HomeForm user={this.state.user} />}
+          render={() => <Home user={this.state.user} />}
         />
         <Route
           exact
