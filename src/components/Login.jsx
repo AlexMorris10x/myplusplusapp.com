@@ -2,31 +2,26 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { Button, Checkbox, Form, Container } from "semantic-ui-react";
 
-class LoginForm extends Component {
-  constructor() {
-    super();
-    this.state = {
-      username: "",
-      password: "",
-      redirectTo: null
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
+class Login extends Component {
+  state = {
+    username: "",
+    password: "",
+    redirectTo: null
+  };
 
-  handleChange(event) {
+  writeText = e => {
     this.setState({
-      [event.target.name]: event.target.value
+      [e.target.name]: e.target.value
     });
-  }
+  };
 
-  handleSubmit(event) {
-    event.preventDefault();
-    this.props._login(this.state.username, this.state.password);
+  logIn = e => {
+    e.preventDefault();
+    this.props.login(this.state.username, this.state.password);
     this.setState({
       redirectTo: "/projects"
     });
-  }
+  };
 
   render() {
     if (this.state.redirectTo) {
@@ -43,7 +38,7 @@ class LoginForm extends Component {
                   type="text"
                   name="username"
                   value={this.state.username}
-                  onChange={this.handleChange}
+                  onChange={this.writeText}
                 />
               </Form.Field>
               <Form.Field>
@@ -52,13 +47,13 @@ class LoginForm extends Component {
                   type="password"
                   name="password"
                   value={this.state.password}
-                  onChange={this.handleChange}
+                  onChange={this.writeText}
                 />
               </Form.Field>
               <Button
                 basic={true}
                 color={"blue"}
-                onClick={this.handleSubmit}
+                onClick={this.logIn}
                 content={"Login"}
                 disabled={
                   this.state.username.length === 0 ||
@@ -73,4 +68,4 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForm;
+export default Login;

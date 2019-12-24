@@ -34,6 +34,14 @@ class Projects extends React.Component {
   //       todoModalID: null
   //     });
 
+  // projectToggle = (e, titleProps) => {
+  //   const { index } = titleProps;
+  //   const { activeProjectIndex } = this.state;
+  //   const newIndex = activeProjectIndex === index ? -1 : index;
+
+  //   this.setState({ activeProjectIndex: newIndex });
+  // };
+
   render() {
     return (
       <React.Fragment>
@@ -60,7 +68,7 @@ class Projects extends React.Component {
               <Button
                 basic={true}
                 color={"green"}
-                onClick={this.addProject}
+                onClick={this.props.addProject}
                 content={"Add"}
                 icon={"plus"}
               />
@@ -108,11 +116,11 @@ class Projects extends React.Component {
   displayProjects = (projects, username) => {
     return projects.map((project, index) => (
       <React.Fragment>
-        <Link to={`projects/${project._id}`}>
-          <Table.Row key={`${project._id}`}>
-            <Table.Cell>{project.value}</Table.Cell>
-          </Table.Row>
-        </Link>
+        {/* <Link to={`projects/${ project._id}`}> */}
+        <Table.Row key={`${project._id}`}>
+          <Table.Cell>{project.value}</Table.Cell>
+        </Table.Row>
+        {/* </Link> */}
         <Table.Row>
           <Table.Cell collapsing>
             <Button
@@ -132,7 +140,7 @@ class Projects extends React.Component {
               color={"red"}
               content={"Delete"}
               icon={"trash"}
-              onClick={() => this.deleteProject(project._id)}
+              onClick={() => this.props.deleteProject(project._id)}
               disabled={username !== project.username}
             />
           </Table.Cell>

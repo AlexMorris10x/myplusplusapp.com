@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Route } from "react-router-dom";
 import "./App.css";
-import LoginForm from "./components/LoginForm";
-import SignupForm from "./components/SignupForm";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 import Home from "./components/Home";
-import DisplayLinks from "./components/DisplayLinks";
+import Menu from "./components/Menu";
 class App extends Component {
   state = {
     loggedIn: false,
@@ -28,7 +28,7 @@ class App extends Component {
     });
   };
 
-  _logout = event => {
+  logout = event => {
     event.preventDefault();
     axios.post("/auth/logout").then(response => {
       if (response.status === 200) {
@@ -40,7 +40,7 @@ class App extends Component {
     });
   };
 
-  _login = (username, password) => {
+  login = (username, password) => {
     axios
       .post("/auth/login", {
         username,
@@ -60,17 +60,17 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
+        <Menu logout={this.logout} loggedIn={this.state.loggedIn} />
         <Route
           path="/projects"
           render={() => <Home user={this.state.user} />}
         />
+        <Route exact path="/" render={() => <Login login={this.login} />} />
         <Route
           exact
-          path="/"
-          render={() => <LoginForm _login={this._login} />}
+          path="/signup"
+          render={() => <Signup login={this.login} />}
         />
-        <Route exact path="/signup" component={SignupForm} />
       </div>
     );
   }

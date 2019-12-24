@@ -1,48 +1,50 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Redirect, Link } from "react-router-dom";
-import Projects from "./Projects";
 import Todos from "./Todos";
+// import Projects from "./Projects";
 import {
-  Accordion,
-  Button,
-  Container,
-  Form,
-  Table,
-  Divider,
-  Modal,
-  Header
+  Container
+  // Accordion,
+  // Button,
+  // Form,
+  // Table,
+  // Divider,
+  // Modal,
+  // Header
 } from "semantic-ui-react";
+import ProjectMenu from "./ProjectMenu";
+// import { Header, Icon, Image, Menu, Segment, Sidebar } from "semantic-ui-react";
 
 class Home extends Component {
   state = {
     username: "",
     projects: [],
     todos: [],
+    error: null
     // todoText: "text",
-    projectModalOpen: false,
-    projectModalData: null,
-    projectModalID: null,
+    // projectModalOpen: false,
+    // projectModalData: null,
+    // projectModalID: null,
     // todoModalOpen: false,
     // todoModalData: null,
     // todoModalID: null,
-    error: null
     // activeProjectIndex: 0
   };
 
-  projectHandleOpen = (data, id) =>
-    this.setState({
-      projectModalOpen: true,
-      projectModalData: data,
-      projectModalID: id
-    });
+  // projectHandleOpen = (data, id) =>
+  //   this.setState({
+  //     projectModalOpen: true,
+  //     projectModalData: data,
+  //     projectModalID: id
+  //   });
 
-  projectHandleClose = () =>
-    this.setState({
-      projectModalOpen: false,
-      projectModalData: null,
-      projectModalID: null
-    });
+  // projectHandleClose = () =>
+  //   this.setState({
+  //     projectModalOpen: false,
+  //     projectModalData: null,
+  //     projectModalID: null
+  //   });
 
   //grabs user data
   componentWillReceiveProps(nextProps) {
@@ -76,54 +78,23 @@ class Home extends Component {
       });
   };
 
-  //grabs all todos
-  getTodos = () => {
-    axios
-      .get("/todo")
-      .then(res => {
-        if (res.data) {
-          const newState = { ...this.state };
-          newState.todos = res.data.filter(
-            todo => todo.username === this.state.username
-          );
-          this.setState(newState);
-        }
-      })
-      .catch(err => {
-        const newState = { ...this.state };
-        newState.todos = [];
-        newState.error = err;
-        this.setState(newState);
-      });
-  };
-
   addProject = () => {
-    const task = {
+    const project = {
       username: this.state.username,
-      value: this.refs.projectInput.value
+      // value: this.refs.projectInput.value
+      value: "test"
     };
-    if (task.value && task.value.length > 0) {
+    if (project.value && project.value.length > 0) {
       axios
-        .post("/project", task)
+        .post("/project", project)
         .then(res => {
           if (res.data) {
-            this.refs.projectInput.value = "";
+            this.value = "";
             this.getProjects();
           }
         })
         .catch(err => console.log(err));
     }
-  };
-
-  deleteProject = id => {
-    axios
-      .delete(`/project/${id}`)
-      .then(res => {
-        if (res.data) {
-          this.getProjects();
-        }
-      })
-      .catch(err => console.log(err));
   };
 
   updateProject = () => {
@@ -147,37 +118,36 @@ class Home extends Component {
     }
   };
 
-  // todoHandleOpen = (todoValue, todo_id) => {
-  //   console.log(todoValue, todo_id);
-  //   this.setState({
-  //     todoModalOpen: true,
-  //     todoModalData: todoValue,
-  //     todoModalID: todo_id
-  //   });
-  // };
+  deleteProject = id => {
+    axios
+      .delete(`/project/${id}`)
+      .then(res => {
+        if (res.data) {
+          this.getProjects();
+        }
+      })
+      .catch(err => console.log(err));
+  };
 
-  // todoHandleClose = () =>
-  //   this.setState({
-  //     todoModalOpen: false,
-  //     todoModalData: null,
-  //     todoModalID: null
-  //   });
-
-  updateTodo = () => {
-    const { todoModalID, todoModalData } = this.state;
-    const task = { value: this.refs.updateTodoInput.value };
-    if (task.value && task.value.length > 0 && task.value !== todoModalData) {
-      axios
-        .put(`/todo/${todoModalID}`, task)
-        .then(res => {
-          if (res.data) {
-            this.refs.updateTodoInput.value = "";
-            this.todoHandleClose();
-            this.getTodos();
-          }
-        })
-        .catch(err => console.log(err));
-    }
+  //grabs all todos
+  getTodos = () => {
+    axios
+      .get("/todo")
+      .then(res => {
+        if (res.data) {
+          const newState = { ...this.state };
+          newState.todos = res.data.filter(
+            todo => todo.username === this.state.username
+          );
+          this.setState(newState);
+        }
+      })
+      .catch(err => {
+        const newState = { ...this.state };
+        newState.todos = [];
+        newState.error = err;
+        this.setState(newState);
+      });
   };
 
   addTodo = () => {
@@ -202,13 +172,22 @@ class Home extends Component {
     }
   };
 
-  // projectToggle = (e, titleProps) => {
-  //   const { index } = titleProps;
-  //   const { activeProjectIndex } = this.state;
-  //   const newIndex = activeProjectIndex === index ? -1 : index;
-
-  //   this.setState({ activeProjectIndex: newIndex });
-  // };
+  updateTodo = () => {
+    const { todoModalID, todoModalData } = this.state;
+    const task = { value: this.refs.updateTodoInput.value };
+    if (task.value && task.value.length > 0 && task.value !== todoModalData) {
+      axios
+        .put(`/todo/${todoModalID}`, task)
+        .then(res => {
+          if (res.data) {
+            this.refs.updateTodoInput.value = "";
+            this.todoHandleClose();
+            this.getTodos();
+          }
+        })
+        .catch(err => console.log(err));
+    }
+  };
 
   deleteTodo = id => {
     axios
@@ -222,7 +201,7 @@ class Home extends Component {
   };
 
   render() {
-    const { activeProjectIndex, projects, todos, username, error } = this.state;
+    const { username, error } = this.state;
     if (this.state.redirectTo) {
       return <Redirect to={{ pathname: this.state.redirectTo }} />;
     }
@@ -244,16 +223,6 @@ class Home extends Component {
     }
     return (
       <React.Fragment>
-        <Projects
-          projects={this.state.projects}
-          username={this.state.username}
-          addProject={this.addProject}
-          updateProject={this.updateProject}
-          deleteProject={this.deleteProject}
-          projectHandleOpen={this.projectHandleOpen}
-          projectHandleCloset={this.projectHandleClose}
-          // projectText={this.state.projectText}
-        />
         <Todos
           todos={this.state.todos}
           username={this.state.username}
@@ -263,6 +232,16 @@ class Home extends Component {
           todoHandleOpen={this.todoHandleOpen}
           todoHandleCloset={this.todoHandleClose}
           todoText={this.state.todoText}
+        />
+        <ProjectMenu
+          projects={this.state.projects}
+          username={this.state.username}
+          addProject={this.addProject}
+          updateProject={this.updateProject}
+          deleteProject={this.deleteProject}
+          projectHandleOpen={this.projectHandleOpen}
+          projectHandleCloset={this.projectHandleClose}
+          // projectText={this.state.projectText}
         />
       </React.Fragment>
     );

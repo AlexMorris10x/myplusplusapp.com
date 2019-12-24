@@ -36,10 +36,7 @@ class Todos extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div
-          className="CustomForm"
-          style={{ width: 300, float: "left", border: 1 }}
-        >
+        <div>
           <h1>Todos</h1>
           <Container text>
             <Divider horizontal>Add new TODO</Divider>

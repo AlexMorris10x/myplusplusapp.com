@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import React from "react";
+import "./ProjectMenu.css";
 
-const DisplayLinks = props => {
+const Menu = props => {
   if (props.loggedIn) {
     return (
       <ul className="nav">
         <li>
-          <Link to="#" className="nav-link" onClick={props._logout}>
+          <Link to="#" className="nav-link" onClick={props.logout}>
             Logout
           </Link>
         </li>
@@ -30,4 +31,4 @@ const DisplayLinks = props => {
   }
 };
 
-export default DisplayLinks;
+export default Menu;
