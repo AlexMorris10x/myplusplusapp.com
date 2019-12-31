@@ -16,7 +16,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // ===== Middleware ====
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 app.use(
   bodyParser.urlencoded({
     extended: false

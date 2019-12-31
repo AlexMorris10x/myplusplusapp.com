@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import React from "react";
-import "./ProjectMenu.css";
+// import "./ProjectMenu.css";
 
 const Menu = props => {
   if (props.loggedIn) {

@@ -12,6 +12,14 @@ class ProjectMenu extends React.Component {
   };
 
   render() {
+    if (this.state.sidebarOpen === false)
+      return (
+        <div>
+          <button onClick={() => this.onSetSidebarOpen(true)}>
+            Open Projects
+          </button>
+        </div>
+      );
     return (
       <Sidebar
         sidebar={
@@ -27,20 +35,13 @@ class ProjectMenu extends React.Component {
               deleteProject={this.props.deleteProject}
               projectHandleOpen={this.props.projectHandleOpen}
               projectHandleCloset={this.props.projectHandleClose}
-              // projectText={this.state.projectText}
             />
           </b>
         }
         open={this.state.sidebarOpen}
         onSetOpen={this.onSetSidebarOpen}
         styles={{ sidebar: { background: "white" } }}
-      >
-        <div>
-          <button onClick={() => this.onSetSidebarOpen(true)}>
-            Open Projects
-          </button>
-        </div>
-      </Sidebar>
+      ></Sidebar>
     );
   }
 }

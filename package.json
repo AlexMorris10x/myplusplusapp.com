@@ -14,22 +14,27 @@
     "moment": "^2.24.0",
     "mongoose": "^5.4.15",
     "morgan": "^1.8.2",
+    "nodemon": "^2.0.2",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "react": "^16.8.3",
+    "react-beautiful-dnd": "^12.2.0",
     "react-dom": "^16.8.3",
     "react-router-dom": "^4.1.2",
-    "semantic-ui-react": "^0.85.0"
+    "react-sidebar": "^3.0.2",
+    "semantic-ui-react": "^0.85.0",
+    "styled-components": "^4.4.1",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
     "react-scripts": "2.1.5"
   },
   "scripts": {
-    "start": "export NODE_ENV=\"production\" && node server/server.js",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "dev": "concurrently \"react-scripts start\" \"node server/server.js\"",
+    "dev": "concurrently \"react-scripts start\" \"nodemon server/server.js\"",
     "prod": "export NODE_ENV=\"production\" && node server/server.js"
   },
   "proxy": "http://localhost:8080",
