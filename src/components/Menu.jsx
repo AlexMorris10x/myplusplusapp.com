@@ -1,34 +1,109 @@
 import { Link } from "react-router-dom";
 import React from "react";
-// import "./ProjectMenu.css";
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import Projects from "./Projects";
+import Sidebar from "react-sidebar";
 
-const Menu = props => {
-  if (props.loggedIn) {
-    return (
-      <ul className="nav">
-        <li>
-          <Link to="#" className="nav-link" onClick={props.logout}>
-            Logout
-          </Link>
-        </li>
-      </ul>
-    );
-  } else {
-    return (
-      <ul className="nav">
-        <li className="nav-item">
-          <Link to="/" className="nav-link">
-            Login
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link to="/signup" className="nav-link">
-            Sign up
-          </Link>
-        </li>
-      </ul>
-    );
+class Menu extends React.Component {
+  state = {
+    sidebarOpen: false
+  };
+
+  onSetSidebarOpen = open => {
+    this.setState({ sidebarOpen: open });
+  };
+
+  render() {
+    if (this.props.loggedIn && this.state.sidebarOpen === false) {
+      return (
+        <ul className="nav">
+          <li>
+            <Link to="#" className="nav-link" onClick={this.props.logout}>
+              Logout
+            </Link>
+          </li>
+          <ProjectMenuClosed>
+            <li>
+              <button onClick={() => this.onSetSidebarOpen(true)}>
+                <FontAwesomeIcon icon={faBars} />
+              </button>
+            </li>
+          </ProjectMenuClosed>
+        </ul>
+      );
+    } else if (this.props.loggedIn && this.state.sidebarOpen === true) {
+      return (
+        <React.Fragment>
+          <ul className="nav">
+            <li></li>
+            <li>
+              <Link to="#" className="nav-link" onClick={this.props.logout}>
+                Logout
+              </Link>
+            </li>
+          </ul>
+          <Sidebar
+            sidebar={
+              <b>
+                <ul className="nav">
+                  <ProjectMenuOpen>
+                    <button onClick={() => this.onSetSidebarOpen(false)}>
+                      <FontAwesomeIcon icon={faBars} />
+                    </button>
+                  </ProjectMenuOpen>
+                </ul>
+                <Projects
+                  projects={this.props.projects}
+                  username={this.props.username}
+                  addProject={this.props.addProject}
+                  updateProject={this.props.updateProject}
+                  deleteProject={this.props.deleteProject}
+                  projectHandleOpen={this.props.projectHandleOpen}
+                  projectHandleCloset={this.props.projectHandleClose}
+                />
+              </b>
+            }
+            open={this.state.sidebarOpen}
+            onSetOpen={this.onSetSidebarOpen}
+            styles={{ sidebar: { background: "white" } }}
+          ></Sidebar>
+        </React.Fragment>
+      );
+    } else if (!this.props.loggedIn) {
+      return (
+        <ul className="nav">
+          <li className="nav-item">
+            <Link to="/" className="nav-link">
+              Login
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/signup" className="nav-link">
+              Sign up
+            </Link>
+          </li>
+        </ul>
+      );
+    }
   }
-};
+}
 
 export default Menu;
+
+const ProjectMenuClosed = styled.div`
+  float: left;
+  width: 100px;
+  height: 100%;
+  margin: 10px;
+  border-right: 1px solid black;
+`;
+
+const ProjectMenuOpen = styled.div`
+  float: left;
+  width: 157px;
+  height: 100%;
+  margin: 10px;
+  border-right: 1px solid black;
+`;

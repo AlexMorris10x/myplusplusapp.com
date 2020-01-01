@@ -60,10 +60,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Menu logout={this.logout} loggedIn={this.state.loggedIn} />
+        {/* <Menu logout={this.logout} loggedIn={this.state.loggedIn} /> */}
         <Route
           path="/projects"
-          render={() => <Home user={this.state.user} />}
+          render={() => (
+            <Home
+              user={this.state.user}
+              logout={this.logout}
+              loggedIn={this.state.loggedIn}
+            />
+          )}
         />
         <Route exact path="/" render={() => <Login login={this.login} />} />
         <Route

@@ -18,7 +18,7 @@ class Todos extends React.Component {
       <React.Fragment>
         <h1>Todos</h1>
         <Container text>
-          <Divider horizontal>Add new todo</Divider>
+          {/* <Divider horizontal>Add new todo</Divider> */}
           <Form>
             <Form.Field>
               <input
@@ -67,7 +67,7 @@ class Todos extends React.Component {
                   padding: 100,
                   minHeight:
                     this.props.todos.filter(todo => todo.complete === false)
-                      .length * 210
+                      .length * 250
                 }}
               >
                 {todos

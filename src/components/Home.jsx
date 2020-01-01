@@ -5,6 +5,7 @@ import Todos from "./Todos";
 import { Container } from "semantic-ui-react";
 import ProjectMenu from "./ProjectMenu";
 import Line from "./Line";
+import Menu from "./Menu";
 
 class Home extends Component {
   state = {
@@ -194,7 +195,9 @@ class Home extends Component {
     }
     return (
       <React.Fragment>
-        <ProjectMenu
+        <Menu
+          logout={this.props.logout}
+          loggedIn={this.props.loggedIn}
           projects={this.state.projects}
           username={this.state.username}
           addProject={this.addProject}
