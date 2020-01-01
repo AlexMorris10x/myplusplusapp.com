@@ -154,14 +154,18 @@ class Home extends Component {
     let newState = { ...this.state };
     const source = todoLocation.source.index;
     const destination = todoLocation.destination.index;
-    let movedTodo = newState.todos.splice(source, 1);
+    let movedTodo = newState.todos.reverse();
+    movedTodo = newState.todos.splice(source, 1);
     movedTodo = movedTodo[0];
     const project = movedTodo.project;
     newState.todos.splice(destination, 0, movedTodo);
+    newState.todos = newState.todos.reverse();
+    console.log(newState.todos);
     axios
-      .put(`/todo/moveTodo/${project}`, newState.todos)
+      .put(`/todo/moveTodoDelete/${project}`, newState.todos)
       .then(res => {
         if (res.data) {
+          axios.put(`/todo/moveTodoAdd/${project}`, newState.todos);
         }
       })
       .catch(err => console.log(err));

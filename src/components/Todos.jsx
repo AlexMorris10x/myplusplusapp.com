@@ -79,6 +79,7 @@ class Todos extends React.Component {
                         draggableId={todo._id}
                         index={index}
                       >
+                        {/* <div>{console.log(todo)}</div> */}
                         {(provided, snapshot) => {
                           return (
                             <div
@@ -93,6 +94,7 @@ class Todos extends React.Component {
                                   }}
                                   collapsing
                                 >
+                                  {console.log(todo)}
                                   <Button
                                     basic={true}
                                     color={"green"}
