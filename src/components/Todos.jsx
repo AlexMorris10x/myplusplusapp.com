@@ -71,6 +71,7 @@ class Todos extends React.Component {
               >
                 {todos
                   .filter(todo => todo.complete === false)
+                  .reverse()
                   .map((todo, index) => {
                     return (
                       <Draggable
@@ -155,7 +156,7 @@ class Todos extends React.Component {
 
   displayCompleteTodos = (todos, username) => {
     return (
-      <React.Fragment stle={{}}>
+      <React.Fragment style={{}}>
         <DragDropContext
           onDragEnd={todoLocation => this.props.moveTodo(todoLocation)}
         >

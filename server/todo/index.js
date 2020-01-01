@@ -2,7 +2,13 @@ const express = require("express");
 const router = express.Router();
 const TODO = require("../db/models/todo");
 
-router.post("/", (req, res) => {
+router.get("/getTodo", (req, res, next) => {
+  TODO.find()
+    .then(data => res.json(data))
+    .catch(next);
+});
+
+router.post("/addTodo", (req, res) => {
   const { username, value, project, complete } = req.body;
   const newTODO = new TODO({
     username: username,
@@ -17,13 +23,7 @@ router.post("/", (req, res) => {
   });
 });
 
-router.get("/", (req, res, next) => {
-  TODO.find()
-    .then(data => res.json(data))
-    .catch(next);
-});
-
-router.delete("/:id", (req, res, next) => {
+router.delete("/deleteTodo/:id", (req, res, next) => {
   TODO.findOneAndRemove({ _id: req.params.id })
     .then(data => res.json(data))
     .catch(next);
@@ -40,8 +40,16 @@ router.put("/completeTodo/:id", (req, res, next) => {
     .catch(next);
 });
 
-router.put("/moveTodo/:username", (req, res, next) => {
-  console.log("second run", req.params.id);
+router.put("/moveTodo/:project", (req, res, next) => {
+  console.log("movedTod");
+  const todos = req.body;
+  TODO.deleteMany({ project: req.params.project })
+    .exec()
+    .catch(next);
+  TODO.insertMany(todos)
+    .exec()
+    .then(data => res.json(data))
+    .catch(next);
 });
 
 module.exports = router;

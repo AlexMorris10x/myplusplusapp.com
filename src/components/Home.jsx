@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import Todos from "./Todos";
 import { Container } from "semantic-ui-react";
 import ProjectMenu from "./ProjectMenu";
+import uuid from "uuid";
 
 class Home extends Component {
   state = {
@@ -47,15 +48,17 @@ class Home extends Component {
   //grabs all todos
   getTodos = () => {
     const oldState = { ...this.state };
+    oldState.todos = oldState.todos;
     axios
-      .get("/todo")
+      .get("/todo/getTodo")
       .then(res => {
         if (res.data) {
-          const newState = { ...this.state };
-          newState.todos = res.data
-            .filter(todo => todo.username === this.state.username)
-            .reverse();
+          let newState = { ...this.state };
+          newState.todos = res.data.filter(
+            todo => todo.username === this.state.username
+          );
           this.setState(newState);
+          // console.log(this.state);
         }
       })
       .catch(err => {
@@ -88,11 +91,12 @@ class Home extends Component {
       username: this.state.username,
       value: writeTodo,
       project: endURL,
-      complete: false
+      complete: false,
+      order: 0
     };
     if (todo.value && todo.value.length > 0) {
       axios
-        .post("/todo", todo)
+        .post("/todo/addTodo", todo)
         .then(res => {
           if (res.data) {
             this.getTodos();
@@ -103,25 +107,28 @@ class Home extends Component {
   };
 
   deleteProject = id => {
+    const oldState = { ...this.state };
     axios
       .delete(`/project/${id}`)
       .then(res => {
         if (res.data) {
-          this.getProjects();
         }
       })
       .catch(err => console.log(err));
+    this.setState({ oldState });
   };
 
   deleteTodo = id => {
+    const oldState = { ...this.state };
+    this.setState({ todos: this.state.todos.filter(todo => todo._id !== id) });
     axios
-      .delete(`/todo/${id}`)
+      .delete(`/todo/deleteTodo/${id}`)
       .then(res => {
         if (res.data) {
-          this.getTodos();
         }
       })
       .catch(err => console.log(err));
+    this.setState({ oldState });
   };
 
   completeTodo = (id, complete) => {
@@ -143,25 +150,22 @@ class Home extends Component {
 
   moveTodo = todoLocation => {
     if (todoLocation.destination === null) return;
+    const oldState = { ...this.state };
     let newState = { ...this.state };
     const source = todoLocation.source.index;
     const destination = todoLocation.destination.index;
     let movedTodo = newState.todos.splice(source, 1);
     movedTodo = movedTodo[0];
-    console.log(movedTodo);
-    const username = movedTodo.username;
-    console.log(username);
+    const project = movedTodo.project;
     newState.todos.splice(destination, 0, movedTodo);
     axios
-      .put(`/todo/moveTodo/${username}`, newState.todos)
+      .put(`/todo/moveTodo/${project}`, newState.todos)
       .then(res => {
         if (res.data) {
-          this.getTodos();
         }
       })
       .catch(err => console.log(err));
-
-    this.setState(newState);
+    this.setState({ oldState });
   };
 
   render() {

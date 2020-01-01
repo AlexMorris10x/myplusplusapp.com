@@ -6,8 +6,6 @@ const TODOSchema = new Schema({
   username: { type: String, unique: false },
   project: { type: String, unique: false },
   complete: { type: Boolean, unique: false }
-  //   created: { type: Date, default: Date.now },
-  //   updated: { type: Date, default: Date.now }
 });
 
 // Create reference to User & export
