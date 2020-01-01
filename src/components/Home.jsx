@@ -160,9 +160,8 @@ class Home extends Component {
     const project = movedTodo.project;
     newState.todos.splice(destination, 0, movedTodo);
     newState.todos = newState.todos.reverse();
-    console.log(newState.todos);
     axios
-      .put(`/todo/moveTodoDelete/${project}`, newState.todos)
+      .delete(`/todo/moveTodoDelete/${project}`)
       .then(res => {
         if (res.data) {
           axios.put(`/todo/moveTodoAdd/${project}`, newState.todos);

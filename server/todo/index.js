@@ -32,7 +32,6 @@ router.delete("/deleteTodo/:id", (req, res, next) => {
 });
 
 router.put("/completeTodo/:id", (req, res, next) => {
-  console.log("first run");
   const complete = req.body.complete;
   const completeDate = req.body.completeDate;
   TODO.findOneAndUpdate(
@@ -44,9 +43,8 @@ router.put("/completeTodo/:id", (req, res, next) => {
     .catch(next);
 });
 
-router.put("/moveTodoDelete/:project", (req, res, next) => {
-  console.log("movedTod");
-  // const todos = req.body;
+router.delete("/moveTodoDelete/:project", (req, res, next) => {
+  console.log("deleteTodo");
   TODO.deleteMany({ project: req.params.project })
     .then(data => res.json(data))
     .catch(next);
@@ -56,11 +54,8 @@ router.put("/moveTodoDelete/:project", (req, res, next) => {
 });
 
 router.put("/moveTodoAdd/:project", (req, res, next) => {
-  console.log("movedTod");
+  console.log("addTodos");
   const todos = req.body;
-  // TODO.deleteMany({ project: req.params.project })
-  //   .exec()
-  //   .catch(next);
   TODO.insertMany(todos)
     .then(data => res.json(data))
     .catch(next);

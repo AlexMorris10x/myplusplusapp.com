@@ -8,6 +8,7 @@ import {
   VerticalBarSeries,
   VerticalBarSeriesCanvas
 } from "react-vis";
+import styled from "styled-components";
 
 export default class Line extends React.Component {
   state = {
@@ -66,7 +67,7 @@ export default class Line extends React.Component {
     const { useCanvas } = this.state;
     const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
     return (
-      <div>
+      <Chart>
         <XYPlot
           xType="ordinal"
           width={600}
@@ -83,7 +84,14 @@ export default class Line extends React.Component {
             data={this.graphMaker()}
           />
         </XYPlot>
-      </div>
+      </Chart>
     );
   }
 }
+
+const Chart = styled.div`
+  text-align: center;
+  display: inline-block;
+  margin-right: 6px;
+  background-color: #eee;
+`;

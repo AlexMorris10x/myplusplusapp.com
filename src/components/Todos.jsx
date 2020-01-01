@@ -65,8 +65,9 @@ class Todos extends React.Component {
                   textAlign: "center",
                   background: snapshot.isDraggingOver ? "lightblue" : "white",
                   padding: 100,
-                  width: 700,
-                  minHeight: 750
+                  minHeight:
+                    this.props.todos.filter(todo => todo.complete === false)
+                      .length * 210
                 }}
               >
                 {todos
