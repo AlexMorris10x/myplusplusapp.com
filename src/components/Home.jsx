@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import Todos from "./Todos";
 import { Container } from "semantic-ui-react";
 import ProjectMenu from "./ProjectMenu";
-import uuid from "uuid";
+import Line from "./Line";
 
 class Home extends Component {
   state = {
@@ -58,7 +58,7 @@ class Home extends Component {
             todo => todo.username === this.state.username
           );
           this.setState(newState);
-          // console.log(this.state);
+          // console.log(this.state.todos);
         }
       })
       .catch(err => {
@@ -92,7 +92,7 @@ class Home extends Component {
       value: writeTodo,
       project: endURL,
       complete: false,
-      order: 0
+      completeDate: Date()
     };
     if (todo.value && todo.value.length > 0) {
       axios
@@ -137,7 +137,7 @@ class Home extends Component {
     } else {
       complete = true;
     }
-    complete = { complete: complete };
+    complete = { complete: complete, completeDate: Date() };
     axios
       .put(`/todo/completeTodo/${id}`, complete)
       .then(res => {
@@ -204,6 +204,7 @@ class Home extends Component {
           projectHandleOpen={this.projectHandleOpen}
           projectHandleCloset={this.projectHandleClose}
         />
+        <Line todos={this.state.todos} />
         <Todos
           todos={this.state.todos}
           username={this.state.username}
