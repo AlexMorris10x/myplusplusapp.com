@@ -127,6 +127,7 @@ const ProjectItem = styled.div`
   overflow: hidden;
   background-color: white;
 `;
+
 const ProjectText = styled.div`
   text-align: center;
   display: block;
