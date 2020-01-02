@@ -272,7 +272,8 @@ class Home extends Component {
             <h2>
               It's very easy to get started. Simply click the top left menu and
               create your first project. From there, you will be able add
-              different tasks and track them as you complete them.{" "}
+              different tasks and they will be tracked, per each day, as you
+              complete them.
             </h2>
           </HomeText>
         </React.Fragment>

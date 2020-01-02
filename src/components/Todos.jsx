@@ -105,19 +105,19 @@ class Todos extends React.Component {
                                   />
                                 </Table.Cell>
                                 <TodoText>
-                                  <Table.Cell>
-                                    {todo.complete === true ? (
-                                      <h2
-                                        style={{
-                                          textDecoration: "line-through"
-                                        }}
-                                      >
-                                        {todo.value}
-                                      </h2>
-                                    ) : (
-                                      <h2>{todo.value}</h2>
-                                    )}
-                                  </Table.Cell>
+                                  {/* <Table.Cell> */}
+                                  {todo.complete === true ? (
+                                    <h2
+                                      style={{
+                                        textDecoration: "line-through"
+                                      }}
+                                    >
+                                      {todo.value}
+                                    </h2>
+                                  ) : (
+                                    <h2>{todo.value}</h2>
+                                  )}
+                                  {/* </Table.Cell> */}
                                 </TodoText>
                                 <Table.Cell
                                   style={{
@@ -270,13 +270,13 @@ const TodoItem = styled.div`
   text-align: center;
   display: inline-block;
   overflow: hidden;
-  min-width: 300px;
+  width: 430px;
   background-color: white;
 `;
 const TodoText = styled.div`
-  text-align: left;
+  text-align: center;
   display: block;
-  margin: auto;
-  min-width: 300px;
+  width: 300px;
   background-color: white;
+  margin: 0px;
 `;

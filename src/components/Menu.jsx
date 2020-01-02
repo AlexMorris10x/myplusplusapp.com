@@ -118,6 +118,8 @@ const sidebarStyles = {
   sidebar: {
     margin: "auto",
     background: "white",
-    width: 400
+    width: 400,
+    top: 0,
+    bottom: 0
   }
 };
