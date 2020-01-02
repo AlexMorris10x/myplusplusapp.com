@@ -125,16 +125,13 @@ const ProjectItem = styled.div`
   margin: auto;
   display: block;
   overflow: hidden;
-  min-width: 100px;
-  // max-width: 200px;
   background-color: white;
 `;
 const ProjectText = styled.div`
-  text-align: left;
+  text-align: center;
   display: block;
   margin: auto;
-  min-width: 200px;
-  // max-width: 300px;
+  min-width: 200px
   background-color: white;
 `;
 

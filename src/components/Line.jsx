@@ -85,7 +85,7 @@ export default class Line extends React.Component {
         <Chart>
           <XYPlot
             xType="ordinal"
-            width={600}
+            width={700}
             height={300}
             xDistance={1000}
             yDomain={[0, 100]}

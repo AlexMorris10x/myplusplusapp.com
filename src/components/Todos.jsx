@@ -162,63 +162,64 @@ class Todos extends React.Component {
         <Droppable droppableId={"todoBoard"} key={"todoBoard"}>
           {(provieded, snapshot) => {
             return (
-              <div
-                {...provieded.droppableProps}
-                ref={provieded.innerRef}
-                style={{
-                  textAlign: "center",
-                  background: snapshot.isDraggingOver ? "lightblue" : "white",
-                  padding: 100,
-                  minHeight:
-                    this.props.todos.filter(
-                      todo => todo.complete === true && todo.project === endURL
-                    ).length * 210
-                }}
-              >
+              <React.Fragment>
                 <Divider horizontal>
-                  <h1>Completed</h1>
+                  <h1>COMPLETED</h1>
                 </Divider>
-                {todos
-                  .filter(
-                    todo => todo.complete === true && todo.project === endURL
-                  )
-                  .reverse()
-                  .map((todo, index) => {
-                    return (
-                      <Draggable
-                        key={todo._id}
-                        draggableId={todo._id}
-                        index={index}
-                      >
-                        {(provided, snapshot) => {
-                          return (
-                            <TodoItem
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              <Table.Row>
-                                <Table.Cell
-                                  style={{
-                                    textAlign: "right"
-                                  }}
-                                  collapsing
-                                >
-                                  <Button
-                                    basic={true}
-                                    color={"green"}
-                                    icon={"check"}
-                                    onClick={() =>
-                                      this.props.completeTodo(
-                                        todo._id,
-                                        todo.complete
-                                      )
-                                    }
-                                    disabled={username !== todo.username}
-                                  />
-                                </Table.Cell>
-                                <TodoText>
-                                  <Table.Cell>
+                <div
+                  {...provieded.droppableProps}
+                  ref={provieded.innerRef}
+                  style={{
+                    textAlign: "center",
+                    background: snapshot.isDraggingOver ? "lightblue" : "white",
+                    padding: 100,
+                    minHeight:
+                      this.props.todos.filter(
+                        todo =>
+                          todo.complete === true && todo.project === endURL
+                      ).length * 210
+                  }}
+                >
+                  {todos
+                    .filter(
+                      todo => todo.complete === true && todo.project === endURL
+                    )
+                    .reverse()
+                    .map((todo, index) => {
+                      return (
+                        <Draggable
+                          key={todo._id}
+                          draggableId={todo._id}
+                          index={index}
+                        >
+                          {(provided, snapshot) => {
+                            return (
+                              <TodoItem
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <Table.Row>
+                                  <Table.Cell
+                                    style={{
+                                      textAlign: "right"
+                                    }}
+                                    collapsing
+                                  >
+                                    <Button
+                                      basic={true}
+                                      color={"green"}
+                                      icon={"check"}
+                                      onClick={() =>
+                                        this.props.completeTodo(
+                                          todo._id,
+                                          todo.complete
+                                        )
+                                      }
+                                      disabled={username !== todo.username}
+                                    />
+                                  </Table.Cell>
+                                  <TodoText>
                                     {todo.complete === true ? (
                                       <h2
                                         style={{
@@ -230,32 +231,33 @@ class Todos extends React.Component {
                                     ) : (
                                       <h2>{todo.value}</h2>
                                     )}
+                                    {/* </Table.Cell> */}
+                                  </TodoText>
+                                  <Table.Cell
+                                    style={{
+                                      textAlign: "right"
+                                    }}
+                                    collapsing
+                                  >
+                                    <Button
+                                      basic={true}
+                                      color={"red"}
+                                      icon={"trash"}
+                                      onClick={() =>
+                                        this.props.deleteTodo(todo._id)
+                                      }
+                                      disabled={username !== todo.username}
+                                    />
                                   </Table.Cell>
-                                </TodoText>
-                                <Table.Cell
-                                  style={{
-                                    textAlign: "right"
-                                  }}
-                                  collapsing
-                                >
-                                  <Button
-                                    basic={true}
-                                    color={"red"}
-                                    icon={"trash"}
-                                    onClick={() =>
-                                      this.props.deleteTodo(todo._id)
-                                    }
-                                    disabled={username !== todo.username}
-                                  />
-                                </Table.Cell>
-                              </Table.Row>
-                            </TodoItem>
-                          );
-                        }}
-                      </Draggable>
-                    );
-                  })}
-              </div>
+                                </Table.Row>
+                              </TodoItem>
+                            );
+                          }}
+                        </Draggable>
+                      );
+                    })}
+                </div>
+              </React.Fragment>
             );
           }}
         </Droppable>
