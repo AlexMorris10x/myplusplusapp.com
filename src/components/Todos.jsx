@@ -41,6 +41,10 @@ class Todos extends React.Component {
   }
 
   displayTodos = (todos, username) => {
+    let URL = window.location.href;
+    URL = URL.split("/");
+    const endURL = URL[URL.length - 1];
+
     return (
       <DragDropContext
         onDragEnd={todoLocation => this.props.moveTodo(todoLocation)}
@@ -56,12 +60,15 @@ class Todos extends React.Component {
                   background: snapshot.isDraggingOver ? "lightblue" : "white",
                   padding: 100,
                   minHeight:
-                    this.props.todos.filter(todo => todo.complete === false)
-                      .length * 210
+                    this.props.todos.filter(
+                      todo => todo.complete === false && todo.project === endURL
+                    ).length * 210
                 }}
               >
                 {todos
-                  .filter(todo => todo.complete === false)
+                  .filter(
+                    todo => todo.complete === false && todo.project === endURL
+                  )
                   .reverse()
                   .map((todo, index) => {
                     return (
@@ -146,6 +153,9 @@ class Todos extends React.Component {
   };
 
   displayCompleteTodos = (todos, username) => {
+    let URL = window.location.href;
+    URL = URL.split("/");
+    const endURL = URL[URL.length - 1];
     return (
       <React.Fragment>
         <DragDropContext
@@ -156,7 +166,9 @@ class Todos extends React.Component {
               return (
                 <div {...provieded.droppableProps} ref={provieded.innerRef}>
                   {todos
-                    .filter(todo => todo.complete === true)
+                    .filter(
+                      todo => todo.complete === true && todo.project === endURL
+                    )
                     .map((todo, index) => {
                       return (
                         <Draggable

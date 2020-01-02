@@ -16,10 +16,14 @@ export default class Line extends React.Component {
   };
 
   graphMaker = () => {
+    let URL = window.location.href;
+    URL = URL.split("/");
+    const endURL = URL[URL.length - 1];
+
     let data = [];
     let count = 0;
     let todos = this.props.todos
-      .filter(todo => todo.complete === true)
+      .filter(todo => todo.complete === true && todo.project === endURL)
       .map(todo => {
         return this.dateConverter(todo.completeDate);
       })
@@ -29,7 +33,13 @@ export default class Line extends React.Component {
         count++;
       } else {
         count++;
-        data.push({ x: todo, y: (count / this.props.todos.length) * 100 });
+        data.push({
+          x: todo,
+          y:
+            (count /
+              this.props.todos.filter(todo => todo.project === endURL).length) *
+            100
+        });
         count = 0;
       }
       return data;

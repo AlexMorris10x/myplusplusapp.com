@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Button, Form, Table } from "semantic-ui-react";
+import { Container, Button, Form, Table, Divider } from "semantic-ui-react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
 
@@ -7,7 +7,13 @@ class Projects extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <Link to="/" className="nav-link">
+          <h1>HOME</h1>
+        </Link>
         <h1>Projects</h1>
+        <Divider horizontal>
+          <h3>Add New Projects Here:</h3>
+        </Divider>
         <Container text>
           {/* <Divider horizontal>Add new Project</Divider> */}
           <Form>

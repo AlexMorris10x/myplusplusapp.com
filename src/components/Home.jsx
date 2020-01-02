@@ -59,7 +59,6 @@ class Home extends Component {
             todo => todo.username === this.state.username
           );
           this.setState(newState);
-          // console.log(this.state.todos);
         }
       })
       .catch(err => {
@@ -170,7 +169,10 @@ class Home extends Component {
       .delete(`/todo/moveTodoDelete/${project}`)
       .then(res => {
         if (res.data) {
-          axios.put(`/todo/moveTodoAdd/${project}`, newState.todos);
+          axios
+            .put(`/todo/moveTodoAdd/${project}`, newState.todos)
+            .catch(err => console.log(err));
+          this.setState({ oldState });
         }
       })
       .catch(err => console.log(err));
@@ -193,7 +195,10 @@ class Home extends Component {
       .delete(`/project/moveProjectDelete/${username}`)
       .then(res => {
         if (res.data) {
-          axios.put(`/project/moveProjectAdd/${username}`, newState.projects);
+          axios
+            .put(`/project/moveProjectAdd/${username}`, newState.projects)
+            .catch(err => console.log(err));
+          this.setState({ oldState });
         }
       })
       .catch(err => console.log(err));
@@ -221,6 +226,7 @@ class Home extends Component {
     if (this.state.redirectTo) {
       return <Redirect to={{ pathname: this.state.redirectTo }} />;
     }
+
     if (error)
       return (
         <div>
@@ -228,10 +234,8 @@ class Home extends Component {
           <h5>{error}</h5>
         </div>
       );
-    if (
-      (!username && endURL !== "login") ||
-      (!username && endURL !== "signup")
-    ) {
+
+    if (!username) {
       return (
         <div className="CustomForm">
           <Container text>
@@ -243,6 +247,33 @@ class Home extends Component {
         </div>
       );
     }
+    if (endURL === "")
+      return (
+        <React.Fragment>
+          <Menu
+            logout={this.props.logout}
+            loggedIn={this.props.loggedIn}
+            projects={this.state.projects}
+            username={this.state.username}
+            addProject={this.addProject}
+            updateProject={this.updateProject}
+            deleteProject={this.deleteProject}
+            moveProject={this.moveProject}
+            projectText={this.state.projectText}
+            writeProject={this.writeProject}
+          />
+          <h1>Hello Welcome To Progress Tracker</h1>
+          <h2>
+            This app is designed to track and measure your progress as you
+            complete assignments.
+          </h2>
+          <h2>
+            It's very easy to get started. Simply click the top left menu and
+            create your first project. From there, you will be able add
+            different tasks and track them as you complete them.{" "}
+          </h2>
+        </React.Fragment>
+      );
     return (
       <React.Fragment>
         <Menu
