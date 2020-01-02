@@ -72,7 +72,7 @@ class Menu extends React.Component {
             }
             open={this.state.sidebarOpen}
             onSetOpen={this.onSetSidebarOpen}
-            styles={{ sidebar: { background: "white" } }}
+            styles={sidebarStyles}
           ></Sidebar>
         </React.Fragment>
       );
@@ -113,3 +113,11 @@ const ProjectMenuOpen = styled.div`
   margin: 10px;
   border-right: 1px solid black;
 `;
+
+const sidebarStyles = {
+  sidebar: {
+    margin: "auto",
+    background: "white",
+    width: 400
+  }
+};

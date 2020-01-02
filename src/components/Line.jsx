@@ -9,6 +9,7 @@ import {
   VerticalBarSeriesCanvas
 } from "react-vis";
 import styled from "styled-components";
+import { Divider } from "semantic-ui-react";
 
 export default class Line extends React.Component {
   state = {
@@ -77,24 +78,29 @@ export default class Line extends React.Component {
     const { useCanvas } = this.state;
     const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
     return (
-      <Chart>
-        <XYPlot
-          xType="ordinal"
-          width={600}
-          height={300}
-          xDistance={1000}
-          yDomain={[0, 100]}
-        >
-          <VerticalGridLines />
-          <HorizontalGridLines />
-          <XAxis />
-          <YAxis />
-          <BarSeries
-            className="vertical-bar-series-example"
-            data={this.graphMaker()}
-          />
-        </XYPlot>
-      </Chart>
+      <React.Fragment>
+        <Divider horizontal>
+          <h3>Progress Meter</h3>
+        </Divider>
+        <Chart>
+          <XYPlot
+            xType="ordinal"
+            width={600}
+            height={300}
+            xDistance={1000}
+            yDomain={[0, 100]}
+          >
+            <VerticalGridLines />
+            <HorizontalGridLines />
+            <XAxis />
+            <YAxis />
+            <BarSeries
+              className="vertical-bar-series-example"
+              data={this.graphMaker()}
+            />
+          </XYPlot>
+        </Chart>
+      </React.Fragment>
     );
   }
 }

@@ -6,6 +6,7 @@ import Menu from "./Menu";
 import Todos from "./Todos";
 import Line from "./Line";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 class Home extends Component {
   state = {
@@ -262,16 +263,18 @@ class Home extends Component {
             projectText={this.state.projectText}
             writeProject={this.writeProject}
           />
-          <h1>Hello Welcome To Progress Tracker</h1>
-          <h2>
-            This app is designed to track and measure your progress as you
-            complete assignments.
-          </h2>
-          <h2>
-            It's very easy to get started. Simply click the top left menu and
-            create your first project. From there, you will be able add
-            different tasks and track them as you complete them.{" "}
-          </h2>
+          <HomeText>
+            <h1>Hello Welcome To Progress Tracker</h1>
+            <h2>
+              This app is designed to track and measure your progress as you
+              complete assignments.
+            </h2>
+            <h2>
+              It's very easy to get started. Simply click the top left menu and
+              create your first project. From there, you will be able add
+              different tasks and track them as you complete them.{" "}
+            </h2>
+          </HomeText>
         </React.Fragment>
       );
     return (
@@ -306,3 +309,8 @@ class Home extends Component {
 }
 
 export default Home;
+
+const HomeText = styled.div`
+  margin: auto;
+  max-width: 800px;
+`;

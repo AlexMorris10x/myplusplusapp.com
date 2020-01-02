@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Button, Form, Table, Divider } from "semantic-ui-react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 class Projects extends React.Component {
   render() {
@@ -14,8 +15,7 @@ class Projects extends React.Component {
         <Divider horizontal>
           <h3>Add New Projects Here:</h3>
         </Divider>
-        <Container text>
-          {/* <Divider horizontal>Add new Project</Divider> */}
+        <Container text style={containerStyle}>
           <Form>
             <Form.Field>
               <input
@@ -73,17 +73,19 @@ class Projects extends React.Component {
                       >
                         {(provided, snapshot) => {
                           return (
-                            <div
+                            <ProjectItem
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
                               <Table.Row style={{ background: "white" }}>
-                                <Table.Cell>
-                                  <Link to={`${project._id}`}>
-                                    <h2>{project.value}</h2>
-                                  </Link>
-                                </Table.Cell>
+                                <ProjectText>
+                                  <Table.Cell>
+                                    <Link to={`${project._id}`}>
+                                      <h2>{project.value}</h2>
+                                    </Link>
+                                  </Table.Cell>
+                                </ProjectText>
                                 <Table.Cell
                                   style={{
                                     textAlign: "right"
@@ -101,7 +103,7 @@ class Projects extends React.Component {
                                   />
                                 </Table.Cell>
                               </Table.Row>
-                            </div>
+                            </ProjectItem>
                           );
                         }}
                       </Draggable>
@@ -118,12 +120,26 @@ class Projects extends React.Component {
 
 export default Projects;
 
-// style={{
-//   textAlign: "center",
-//   background: snapshot.isDraggingOver
-//     ? "lightblue"
-//     : "lightgrey",
-//   padding: 4,
-//   width: 250,
-//   minHeight: 500
-// }}
+const ProjectItem = styled.div`
+  text-align: center;
+  margin: auto;
+  display: block;
+  overflow: hidden;
+  min-width: 100px;
+  // max-width: 200px;
+  background-color: white;
+`;
+const ProjectText = styled.div`
+  text-align: left;
+  display: block;
+  margin: auto;
+  min-width: 200px;
+  // max-width: 300px;
+  background-color: white;
+`;
+
+const containerStyle = {
+  width: "100%",
+  height: "100%",
+  verticalAlign: "middle"
+};
