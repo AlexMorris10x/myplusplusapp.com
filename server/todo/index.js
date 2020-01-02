@@ -9,7 +9,6 @@ router.get("/getTodo", (req, res, next) => {
 });
 
 router.post("/addTodo", (req, res) => {
-  console.log(req.body);
   const { username, value, project, complete, completeDate } = req.body;
   const newTODO = new TODO({
     username: username,
@@ -44,17 +43,12 @@ router.put("/completeTodo/:id", (req, res, next) => {
 });
 
 router.delete("/moveTodoDelete/:project", (req, res, next) => {
-  console.log("deleteTodo");
   TODO.deleteMany({ project: req.params.project })
     .then(data => res.json(data))
     .catch(next);
-  // TODO.insertMany(todos)
-  //   .then(data => res.json(data))
-  //   .catch(next);
 });
 
 router.put("/moveTodoAdd/:project", (req, res, next) => {
-  console.log("addTodos");
   const todos = req.body;
   TODO.insertMany(todos)
     .then(data => res.json(data))

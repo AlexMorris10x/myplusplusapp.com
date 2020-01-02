@@ -20,7 +20,7 @@ class Menu extends React.Component {
       return (
         <ul className="nav">
           <li>
-            <Link to="#" className="nav-link" onClick={this.props.logout}>
+            <Link to="/login" className="nav-link" onClick={this.props.logout}>
               Logout
             </Link>
           </li>
@@ -39,7 +39,11 @@ class Menu extends React.Component {
           <ul className="nav">
             <li></li>
             <li>
-              <Link to="#" className="nav-link" onClick={this.props.logout}>
+              <Link
+                to="/login"
+                className="nav-link"
+                onClick={this.props.logout}
+              >
                 Logout
               </Link>
             </li>
@@ -60,8 +64,9 @@ class Menu extends React.Component {
                   addProject={this.props.addProject}
                   updateProject={this.props.updateProject}
                   deleteProject={this.props.deleteProject}
-                  projectHandleOpen={this.props.projectHandleOpen}
-                  projectHandleCloset={this.props.projectHandleClose}
+                  moveProject={this.props.moveProject}
+                  projectText={this.props.projectText}
+                  writeProject={this.props.writeProject}
                 />
               </b>
             }
@@ -71,11 +76,12 @@ class Menu extends React.Component {
           ></Sidebar>
         </React.Fragment>
       );
-    } else if (!this.props.loggedIn) {
+    }
+    if (!this.props.loggedIn) {
       return (
         <ul className="nav">
           <li className="nav-item">
-            <Link to="/" className="nav-link">
+            <Link to="/login" className="nav-link">
               Login
             </Link>
           </li>

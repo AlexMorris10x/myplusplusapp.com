@@ -19,7 +19,7 @@ class Login extends Component {
     e.preventDefault();
     this.props.login(this.state.username, this.state.password);
     this.setState({
-      redirectTo: "/projects"
+      redirectTo: "/"
     });
   };
 

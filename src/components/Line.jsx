@@ -39,18 +39,18 @@ export default class Line extends React.Component {
 
   dateConverter = date => {
     const months = {
-      Jan: 1,
-      Feb: 2,
-      March: 3,
-      April: 4,
-      May: 5,
-      June: 6,
-      July: 7,
-      Aug: 8,
-      Sept: 9,
-      Oct: 10,
-      Nov: 11,
-      Dec: 12
+      Jan: "01",
+      Feb: "02",
+      March: "03",
+      April: "04",
+      May: "05",
+      June: "06",
+      July: "07",
+      Aug: "08",
+      Sept: "09",
+      Oct: "10",
+      Nov: "11",
+      Dec: "12"
     };
     date = date.split(" ");
     let finalDate = [];

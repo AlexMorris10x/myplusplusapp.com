@@ -1,18 +1,20 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import Todos from "./Todos";
 import { Container } from "semantic-ui-react";
-import ProjectMenu from "./ProjectMenu";
-import Line from "./Line";
 import Menu from "./Menu";
+import Todos from "./Todos";
+import Line from "./Line";
+import { Link } from "react-router-dom";
 
 class Home extends Component {
   state = {
     username: "",
     error: null,
     projects: [],
-    todos: []
+    todos: [],
+    projectText: "",
+    todoText: ""
   };
 
   //grabs user data
@@ -28,28 +30,26 @@ class Home extends Component {
 
   //grabs all projects
   getProjects = () => {
+    const oldState = { ...this.state };
     axios
-      .get("/project")
+      .get("/project/getProject")
       .then(res => {
         if (res.data) {
-          const newState = { ...this.state };
+          let newState = { ...this.state };
           newState.projects = res.data.filter(
             project => project.username === this.state.username
           );
           this.setState(newState);
+          // console.log(this.state.projects);
         }
       })
       .catch(err => {
-        const newState = { ...this.state };
-        newState.projects = [];
-        newState.error = err;
-        this.setState(newState);
+        this.setState(oldState);
       });
   };
   //grabs all todos
   getTodos = () => {
     const oldState = { ...this.state };
-    oldState.todos = oldState.todos;
     axios
       .get("/todo/getTodo")
       .then(res => {
@@ -67,17 +67,18 @@ class Home extends Component {
       });
   };
 
-  addProject = () => {
+  addProject = projectText => {
+    console.log("project added", projectText);
     const project = {
       username: this.state.username,
-      value: "test"
+      value: projectText
     };
     if (project.value && project.value.length > 0) {
       axios
-        .post("/project", project)
+        .post("/project/addProject", project)
         .then(res => {
           if (res.data) {
-            this.value = "";
+            this.setState({ projectText: "" });
             this.getProjects();
           }
         })
@@ -85,12 +86,12 @@ class Home extends Component {
     }
   };
 
-  addTodo = writeTodo => {
+  addTodo = todoText => {
     const URL = window.location.href;
     const endURL = URL.substr(URL.lastIndexOf("/") + 1);
     const todo = {
       username: this.state.username,
-      value: writeTodo,
+      value: todoText,
       project: endURL,
       complete: false,
       completeDate: Date()
@@ -100,6 +101,7 @@ class Home extends Component {
         .post("/todo/addTodo", todo)
         .then(res => {
           if (res.data) {
+            this.setState({ todoText: "" });
             this.getTodos();
           }
         })
@@ -109,8 +111,11 @@ class Home extends Component {
 
   deleteProject = id => {
     const oldState = { ...this.state };
+    this.setState({
+      projects: this.state.projects.filter(project => project._id !== id)
+    });
     axios
-      .delete(`/project/${id}`)
+      .delete(`/project/deleteProject/${id}`)
       .then(res => {
         if (res.data) {
         }
@@ -172,8 +177,47 @@ class Home extends Component {
     this.setState({ oldState });
   };
 
+  moveProject = projectLocation => {
+    if (projectLocation.destination === null) return;
+    const oldState = { ...this.state };
+    let newState = { ...this.state };
+    const source = projectLocation.source.index;
+    const destination = projectLocation.destination.index;
+    let movedProject = newState.projects.reverse();
+    movedProject = newState.projects.splice(source, 1);
+    movedProject = movedProject[0];
+    const username = movedProject.username;
+    newState.projects.splice(destination, 0, movedProject);
+    newState.projects = newState.projects.reverse();
+    axios
+      .delete(`/project/moveProjectDelete/${username}`)
+      .then(res => {
+        if (res.data) {
+          axios.put(`/project/moveProjectAdd/${username}`, newState.projects);
+        }
+      })
+      .catch(err => console.log(err));
+    this.setState({ oldState });
+  };
+
+  writeProject = e => {
+    e.preventDefault();
+    const projectText = e.target.value;
+    this.setState({ projectText });
+  };
+
+  writeTodo = e => {
+    e.preventDefault();
+    const todoText = e.target.value;
+    this.setState({ todoText });
+  };
+
   render() {
+    let URL = window.location.href;
+    URL = URL.split("/");
+    const endURL = URL[URL.length - 1];
     const { username, error } = this.state;
+
     if (this.state.redirectTo) {
       return <Redirect to={{ pathname: this.state.redirectTo }} />;
     }
@@ -184,11 +228,17 @@ class Home extends Component {
           <h5>{error}</h5>
         </div>
       );
-    if (!username) {
+    if (
+      (!username && endURL !== "login") ||
+      (!username && endURL !== "signup")
+    ) {
       return (
         <div className="CustomForm">
           <Container text>
             <h1>Please, Log In</h1>
+            <Link to="/login">
+              <h2>Login Here</h2>
+            </Link>
           </Container>
         </div>
       );
@@ -203,8 +253,9 @@ class Home extends Component {
           addProject={this.addProject}
           updateProject={this.updateProject}
           deleteProject={this.deleteProject}
-          projectHandleOpen={this.projectHandleOpen}
-          projectHandleCloset={this.projectHandleClose}
+          moveProject={this.moveProject}
+          projectText={this.state.projectText}
+          writeProject={this.writeProject}
         />
         <Line todos={this.state.todos} />
         <Todos
@@ -215,8 +266,8 @@ class Home extends Component {
           deleteTodo={this.deleteTodo}
           completeTodo={this.completeTodo}
           moveTodo={this.moveTodo}
-          todoHandleOpen={this.todoHandleOpen}
-          todoHandleCloset={this.todoHandleClose}
+          todoText={this.state.todoText}
+          writeTodo={this.writeTodo}
         />
       </React.Fragment>
     );

@@ -37,7 +37,7 @@ class Signup extends Component {
           if (!response.data.errmsg) {
             // this.props.login(this.state.username, this.state.password);
             this.setState({
-              redirectTo: "/projects"
+              redirectTo: "/"
             });
           } else {
             console.log(response.data.errmsg);

@@ -5,7 +5,6 @@ import "./App.css";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
-import Menu from "./components/Menu";
 class App extends Component {
   state = {
     loggedIn: false,
@@ -62,7 +61,7 @@ class App extends Component {
       <div className="App">
         {/* <Menu logout={this.logout} loggedIn={this.state.loggedIn} /> */}
         <Route
-          path="/projects"
+          path="/"
           render={() => (
             <Home
               user={this.state.user}
@@ -71,7 +70,11 @@ class App extends Component {
             />
           )}
         />
-        <Route exact path="/" render={() => <Login login={this.login} />} />
+        <Route
+          exact
+          path="/login"
+          render={() => <Login login={this.login} />}
+        />
         <Route
           exact
           path="/signup"

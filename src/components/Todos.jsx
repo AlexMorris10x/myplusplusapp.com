@@ -1,18 +1,8 @@
 import React from "react";
-import { Container, Button, Form, Table, Divider } from "semantic-ui-react";
+import { Container, Button, Form, Table } from "semantic-ui-react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 class Todos extends React.Component {
-  state = {
-    writeTodo: ""
-  };
-
-  writeTodo = e => {
-    e.preventDefault();
-    const writeTodo = e.target.value;
-    this.setState({ writeTodo });
-  };
-
   render() {
     return (
       <React.Fragment>
@@ -23,14 +13,14 @@ class Todos extends React.Component {
             <Form.Field>
               <input
                 type="text"
-                value={this.state.writeTodo}
-                onChange={this.writeTodo}
+                value={this.props.todoText}
+                onChange={e => this.props.writeTodo(e)}
               />
             </Form.Field>
             <Button
               basic={true}
               color={"green"}
-              onClick={() => this.props.addTodo(this.state.writeTodo)}
+              onClick={() => this.props.addTodo(this.props.todoText)}
               content={"Add"}
               icon={"plus"}
             />
@@ -67,7 +57,7 @@ class Todos extends React.Component {
                   padding: 100,
                   minHeight:
                     this.props.todos.filter(todo => todo.complete === false)
-                      .length * 250
+                      .length * 210
                 }}
               >
                 {todos
@@ -157,7 +147,7 @@ class Todos extends React.Component {
 
   displayCompleteTodos = (todos, username) => {
     return (
-      <React.Fragment style={{}}>
+      <React.Fragment>
         <DragDropContext
           onDragEnd={todoLocation => this.props.moveTodo(todoLocation)}
         >
