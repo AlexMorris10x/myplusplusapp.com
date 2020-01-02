@@ -270,13 +270,13 @@ const TodoItem = styled.div`
   text-align: center;
   display: inline-block;
   overflow: hidden;
-  min-width: 400px;
+  min-width: 300px;
   background-color: white;
 `;
 const TodoText = styled.div`
   text-align: left;
   display: block;
   margin: auto;
-  min-width: 400px;
+  min-width: 300px;
   background-color: white;
 `;
