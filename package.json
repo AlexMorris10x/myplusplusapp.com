@@ -29,9 +29,9 @@
     "build": "cd client && yarn run build build",
     "eject": "react-scripts eject",
     "dev": "concurrently \"react-scripts start\" \"nodemon server.js\"",
-    "prod1": "cd client yarn install",
+    "heroku-postbuildOld": "yarn run build && export NODE_ENV=\"production\" && node server/server.js",
     "prod": "yarn install --prefix client && yarn run build --prefix client && export NODE_ENV=\"production\" && node server.js",
-    "heroku-postbuild": "yarn run build && export NODE_ENV=\"production\" && node server/server.js"
+    "heroku-postbuild": "yarn install --prefix client && yarn run build --prefix client && export NODE_ENV=\"production\" && node server.js"
   },
   "proxy": "http://localhost:8080",
   "browserslist": [
