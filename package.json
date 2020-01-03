@@ -26,12 +26,10 @@
   },
   "scripts": {
     "start": "cd client && yarn run start",
-    "build": "cd client && yarn run build build",
     "eject": "react-scripts eject",
     "dev": "concurrently \"react-scripts start\" \"nodemon server.js\"",
-    "heroku-postbuildOld": "yarn run build && export NODE_ENV=\"production\" && node server/server.js",
-    "prod": "yarn install --prefix client && yarn run build --prefix client && export NODE_ENV=\"production\" && node server.js",
-    "heroku-postbuild": "yarn install --prefix client && yarn run build --prefix client && export NODE_ENV=\"production\" && node server.js"
+    "prod": "cd client && yarn install && cd client && yarn run build && export NODE_ENV=\"production\" && node server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "proxy": "http://localhost:8080",
   "browserslist": [
