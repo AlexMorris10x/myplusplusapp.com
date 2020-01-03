@@ -44,7 +44,7 @@ if (process.env.NODE_ENV === "production") {
 
   //potential @todo "index.html, client"
   app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../build/"));
+    res.sendFile(path.join(__dirname, 'build', 'index.html"));
   });
 }
 
