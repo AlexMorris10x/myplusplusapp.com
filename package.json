@@ -41,7 +41,7 @@
     "prod": "npm run build && export NODE_ENV=\"production\" && node server/server.js",
     "heroku-postbuild": "npm run build && export NODE_ENV=\"production\" && node server/server.js"
   },
-  // "proxy": "http://localhost:8080",
+  "proxy": "http://localhost:8080",
   "browserslist": [
     ">0.2%",
     "not dead",
