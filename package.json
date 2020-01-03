@@ -28,8 +28,8 @@
     "start": "node server.js",
     "eject": "react-scripts eject",
     "dev": "concurrently \"react-scripts start\" \"nodemon server.js\"",
-    "prod": "cd client && yarn install && cd client && yarn run build && export NODE_ENV=\"production\" && node server.js",
-    "heroku-postbuild": "yarn install && cd client && npm install && npm run build"
+    "prod": "cd client && npm install && cd client && npm run build && export NODE_ENV=\"production\" && node server.js",
+    "heroku-postbuild": "npm install && cd client && npm install && npm run build"
   },
   "engines": {
     "node": "12.12.0"
