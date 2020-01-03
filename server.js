@@ -14,8 +14,7 @@ const dbConnection = require("./db");
 // loads our connection to the mongo database
 const passport = require("./passport");
 const app = express();
-// const PORT = process.env.PORT || 8080;
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 const path = require("path");
 
 // ===== Middleware ====
@@ -48,9 +47,12 @@ app.use("/project", require("./project"));
 if (process.env.NODE_ENV === "production") {
   const path = require("path");
   console.log("YOU ARE IN THE PRODUCTION ENV");
-  app.use("/static", express.static(path.join(__dirname, "../build/static")));
+  app.use(
+    "/static",
+    express.static(path.join(__dirname, "/client/build/static"))
+  );
   app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../build/"));
+    res.sendFile(path.join(__dirname, "/client/build/"));
   });
 }
 
