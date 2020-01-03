@@ -31,6 +31,9 @@
     "prod": "cd client && yarn install && cd client && yarn run build && export NODE_ENV=\"production\" && node server.js",
     "heroku-postbuild": "yarn install && cd client && npm install && npm run build"
   },
+  "engines": {
+    "node": "11.3.0"
+  },
   "proxy": "http://localhost:8080",
   "browserslist": [
     ">0.2%",
