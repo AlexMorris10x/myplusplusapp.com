@@ -15,28 +15,23 @@
     "dotenv": "^6.2.0",
     "express": "^4.15.3",
     "express-session": "^1.15.4",
-    "moment": "^2.24.0",
     "mongoose": "^5.4.15",
-    "morgan": "^1.8.2",
-    "nodemon": "^2.0.2",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "react": "^16.8.3",
     "react-beautiful-dnd": "^12.2.0",
     "react-dom": "^16.8.3",
     "react-router-dom": "^4.1.2",
-    "react-showcase": "^0.2.0",
     "react-sidebar": "^3.0.2",
-    "react-timestamp": "^5.1.0",
     "react-vis": "^1.11.7",
     "semantic-ui-react": "^0.85.0",
-    "showcase-components": "^0.1.0",
-    "styled-components": "^4.4.1",
-    "uuid": "^3.3.3"
+    "styled-components": "^4.4.1"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
-    "react-scripts": "2.1.5"
+    "react-scripts": "2.1.5",
+    "nodemon": "^2.0.2",
+    "morgan": "^1.8.2"
   },
   "scripts": {
     "start": "react-scripts start",

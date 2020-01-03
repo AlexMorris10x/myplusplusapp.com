@@ -6960,11 +6960,6 @@ mkdirp@0.5.1, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
   dependencies:
     minimist "0.0.8"
 
-moment@^2.24.0:
-  version "2.24.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
-  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
-
 mongodb-core@2.1.20:
   version "2.1.20"
   resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-2.1.20.tgz#fece8dd76b59ee7d7f2d313b65322c160492d8f1"
@@ -8643,7 +8638,7 @@ prompts@^0.1.9:
     kleur "^2.0.1"
     sisteransi "^0.1.1"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -9003,13 +8998,6 @@ react-scripts@2.1.5:
   optionalDependencies:
     fsevents "1.2.4"
 
-react-showcase@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/react-showcase/-/react-showcase-0.2.0.tgz#fba611797019a5fb601725f8e8bc2c2c8a18e1b1"
-  integrity sha512-azd+72hjnpCErZ/AfCvvf+vqyW92ZYaRJ0LKGFTq1I7DRlGMdTvxmZcGOAjJ5s5Q9lrArYm/PooWl1EBRniMGw==
-  dependencies:
-    prop-types "^15.6.0"
-
 react-sidebar@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/react-sidebar/-/react-sidebar-3.0.2.tgz#cf695b5a78098e70460c847fb0c6c81cfd896c37"
@@ -9017,11 +9005,6 @@ react-sidebar@^3.0.2:
   dependencies:
     "@babel/runtime" ">=7.0.0-beta.56"
     prop-types "^15.6.2"
-
-react-timestamp@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/react-timestamp/-/react-timestamp-5.1.0.tgz#fb2ee03fee3f2d2d1ea457d26b8f19e8817644f9"
-  integrity sha512-JWiHW3HJAJZvtAi1Th1sqGe1RRflEkz/63Cw6nFQfUIxHQUN3XPsEkQO1TVCLWLMRyCKmSZpGTJp9qs28Ug3FQ==
 
 react-vis@^1.11.7:
   version "1.11.7"
@@ -9799,11 +9782,6 @@ shellwords@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
-
-showcase-components@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/showcase-components/-/showcase-components-0.1.0.tgz#1b631f6a2de566aab6e50c0a8c19a01bf26a60f0"
-  integrity sha512-RkR4dFDSVTAExepNclhwWX7flyHfMajQ1XiTtLqYxYEgUgHkMViG7Pt7LS247C/mHEXj29QO31IuGMK7Tp9Tuw==
 
 sift@7.0.1:
   version "7.0.1"
@@ -10903,7 +10881,7 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
 
-uuid@^3.0.1, uuid@^3.3.2, uuid@^3.3.3:
+uuid@^3.0.1, uuid@^3.3.2:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
   integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==
