@@ -25,11 +25,11 @@
     "morgan": "^1.8.2"
   },
   "scripts": {
-    "start": "cd client && yarn run start",
+    "start": "node server.js",
     "eject": "react-scripts eject",
     "dev": "concurrently \"react-scripts start\" \"nodemon server.js\"",
     "prod": "cd client && yarn install && cd client && yarn run build && export NODE_ENV=\"production\" && node server.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "yarn install && cd client && npm install && npm run build"
   },
   "proxy": "http://localhost:8080",
   "browserslist": [
