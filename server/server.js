@@ -44,23 +44,23 @@ app.use("/todo", require("./todo"));
 app.use("/project", require("./project"));
 
 // ==== if its production environment!
-// if (process.env.NODE_ENV === "production") {
-//   const path = require("path");
-//   console.log("YOU ARE IN THE PRODUCTION ENV");
-//   app.use("/static", express.static(path.join(__dirname, "../build/static")));
-//potential @todo "index.html, client "
-// app.get("/", (req, res) => {
-//   res.sendFile(path.join(__dirname, "../build/"));
-// });
-
-// ==== if its production environment!
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "build", "index.html"));
+  const path = require("path");
+  console.log("YOU ARE IN THE PRODUCTION ENV");
+  app.use("/static", express.static(path.join(__dirname, "../build/static")));
+  app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "../build/"));
   });
 }
+
+// ==== if its production environment!
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static("/build"));
+
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "../", "build", "index.html"));
+//   });
+// }
 
 // ====== Error handler ====
 app.use(function(err, req, res, next) {
