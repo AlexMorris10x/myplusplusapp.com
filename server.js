@@ -7,7 +7,7 @@ require("dotenv").config();
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const morgan = require("morgan");
+// const morgan = require("morgan");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const dbConnection = require("./db");
