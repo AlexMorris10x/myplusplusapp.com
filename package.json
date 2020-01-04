@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.26",
+    "@fortawesome/free-solid-svg-icons": "^5.12.0",
+    "@fortawesome/react-fontawesome": "^0.1.8",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.4",
     "bcryptjs": "^2.4.3",
@@ -16,7 +19,13 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "react": "^16.8.3",
-    "react-dom": "^16.8.3"
+    "react-beautiful-dnd": "^12.2.0",
+    "react-dom": "^16.8.3",
+    "react-router-dom": "^4.1.2",
+    "react-sidebar": "^3.0.2",
+    "react-vis": "^1.11.7",
+    "semantic-ui-react": "^0.85.0",
+    "styled-components": "^4.4.1"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
@@ -27,7 +36,7 @@
     "start": "node server.js",
     "eject": "react-scripts eject",
     "dev": "concurrently \"react-scripts start\" \"nodemon server.js\"",
-    "prod": "cd client && npm install && cd client && npm run build && export NODE_ENV=\"production\" && node server.js",
+    "prod": "npm run build && export NODE_ENV=\"production\" && node server.js",
     "heroku-postbuild": "npm install && cd client && npm install && npm run build"
   },
   "engines": {
