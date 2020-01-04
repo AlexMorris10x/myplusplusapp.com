@@ -7,8 +7,8 @@ import Signup from "./components/Signup";
 import Home from "./components/Home";
 class App extends Component {
   state = {
-    loggedIn: false,
-    user: null
+    loggedIn: true,
+    user: "null"
   };
 
   componentDidMount = () => {
@@ -20,8 +20,8 @@ class App extends Component {
         });
       } else {
         this.setState({
-          loggedIn: false,
-          user: null
+          loggedIn: true,
+          user: "null"
         });
       }
     });
@@ -59,7 +59,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {/* <Menu logout={this.logout} loggedIn={this.state.loggedIn} /> */}
         <Route
           path="/"
           render={() => (

@@ -19,11 +19,11 @@ class Menu extends React.Component {
     if (this.props.loggedIn && this.state.sidebarOpen === false) {
       return (
         <ul className="nav">
-          <li>
+          {/* <li>
             <Link to="/login" className="nav-link" onClick={this.props.logout}>
               Logout
             </Link>
-          </li>
+          </li> */}
           <ProjectMenuClosed>
             <li>
               <button onClick={() => this.onSetSidebarOpen(true)}>
@@ -77,22 +77,22 @@ class Menu extends React.Component {
         </React.Fragment>
       );
     }
-    if (!this.props.loggedIn) {
-      return (
-        <ul className="nav">
-          <li className="nav-item">
-            <Link to="/login" className="nav-link">
-              Login
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/signup" className="nav-link">
-              Sign up
-            </Link>
-          </li>
-        </ul>
-      );
-    }
+    // if (!this.props.loggedIn) {
+    //   return (
+    //     <ul className="nav">
+    //       <li className="nav-item">
+    //         <Link to="/login" className="nav-link">
+    //           Login
+    //         </Link>
+    //       </li>
+    //       <li className="nav-item">
+    //         <Link to="/signup" className="nav-link">
+    //           Sign up
+    //         </Link>
+    //       </li>
+    //     </ul>
+    //   );
+    // }
   }
 }
 

@@ -68,12 +68,12 @@ class Home extends Component {
   };
 
   addProject = projectText => {
-    console.log("project added", projectText);
     const project = {
       username: this.state.username,
       value: projectText
     };
     if (project.value && project.value.length > 0) {
+      console.log(project);
       axios
         .post("/project/addProject", project)
         .then(res => {
@@ -236,18 +236,18 @@ class Home extends Component {
         </div>
       );
 
-    if (!username) {
-      return (
-        <div className="CustomForm">
-          <Container text>
-            <h1>Please, Log In</h1>
-            <Link to="/login">
-              <h2>Login Here</h2>
-            </Link>
-          </Container>
-        </div>
-      );
-    }
+    // if (!username) {
+    //   return (
+    //     <div className="CustomForm">
+    //       <Container text>
+    //         <h1>Please, Log In</h1>
+    //         <Link to="/login">
+    //           <h2>Login Here</h2>
+    //         </Link>
+    //       </Container>
+    //     </div>
+    //   );
+    // }
     if (endURL === "")
       return (
         <React.Fragment>
