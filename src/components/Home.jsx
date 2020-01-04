@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import { Container } from "semantic-ui-react";
+// import { Container } from "semantic-ui-react";
 import Menu from "./Menu";
 import Todos from "./Todos";
 import Line from "./Line";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 class Home extends Component {

@@ -26,7 +26,10 @@ class Menu extends React.Component {
           </li> */}
           <ProjectMenuClosed>
             <li>
-              <button onClick={() => this.onSetSidebarOpen(true)}>
+              <button
+                stle={{ marginTop: "1" }}
+                onClick={() => this.onSetSidebarOpen(true)}
+              >
                 <FontAwesomeIcon icon={faBars} />
               </button>
             </li>

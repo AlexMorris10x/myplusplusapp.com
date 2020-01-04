@@ -35,7 +35,7 @@ export default class Line extends React.Component {
       } else {
         count++;
         data.push({
-          x: todo,
+          x: this.dateConverterLegible(todo),
           y:
             (count /
               this.props.todos.filter(todo => todo.project === endURL).length) *
@@ -72,6 +72,29 @@ export default class Line extends React.Component {
     finalDate.push(date[1]);
     finalDate.push(date[2]);
     return finalDate.join("");
+  };
+
+  dateConverterLegible = date => {
+    const months = {
+      ["0,1"]: "Jan",
+      ["0,2"]: "Feb",
+      ["0,3"]: "March",
+      ["0,4"]: "April",
+      ["0,5"]: "May",
+      ["0,6"]: "June",
+      ["0,7"]: "July",
+      ["0,8"]: "August",
+      ["0,9"]: "Sept",
+      ["1,0"]: "Oct",
+      ["1,1"]: "Nov",
+      ["1,2"]: "Dec"
+    };
+    date = date.split("");
+    let year = date.splice(0, 4).join("");
+    let month = months[date.splice(0, 2)];
+    let day = date.splice(0, 2).join("");
+    let legibleDate = `${month} ${day}, ${year}`;
+    return legibleDate;
   };
 
   render() {
