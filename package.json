@@ -37,7 +37,7 @@
     "eject": "react-scripts eject",
     "dev": "concurrently \"react-scripts start\" \"nodemon server.js\"",
     "prod": "npm run build && export NODE_ENV=\"production\" && node server.js",
-    "heroku-postbuild": "npm install && cd client && npm install && npm run build"
+    "heroku-postbuild": "npm install && npm run build"
   },
   "engines": {
     "node": "12.12.0"
