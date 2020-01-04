@@ -10,9 +10,9 @@ const bodyParser = require("body-parser");
 // const morgan = require("morgan");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
-const dbConnection = require("./server/db");
+const dbConnection = require("./db");
 // loads our connection to the mongo database
-const passport = require("./server/passport");
+const passport = require("./passport");
 const app = express();
 const PORT = process.env.PORT || 8080;
 // const path = require("path");
@@ -39,9 +39,9 @@ app.use(passport.initialize());
 app.use(passport.session()); // will call the deserializeUser
 
 /* Express app ROUTING */
-app.use("/auth", require("./server/auth"));
-app.use("/todo", require("./server/todo"));
-app.use("/project", require("./server/project"));
+app.use("/auth", require("./auth"));
+app.use("/todo", require("./todo"));
+app.use("/project", require("./project"));
 
 // // ==== if its production environment!
 // if (process.env.NODE_ENV === "production") {

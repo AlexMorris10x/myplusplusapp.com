@@ -33,10 +33,10 @@
     "nodemon": "^2.0.2"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "node server/server.js",
     "eject": "react-scripts eject",
-    "dev": "concurrently \"react-scripts start\" \"nodemon server.js\"",
-    "prod": "npm run build && export NODE_ENV=\"production\" && node server.js",
+    "dev": "concurrently \"react-scripts start\" \"nodemon server/server.js\"",
+    "prod": "npm run build && export NODE_ENV=\"production\" && node server/server.js",
     "heroku-postbuild": "npm install && npm run build"
   },
   "engines": {
