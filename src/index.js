@@ -12,16 +12,4 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-// const body = styled.div`
-//   text-align: center;
-//   justify-todo: center;
-//   height: 100%;
-// `;
-
-// body {
-//   margin: 0;
-//   padding: 0;
-//   font-family: sans-serif;
-// }
-
 if (module.hot) module.hot.accept();

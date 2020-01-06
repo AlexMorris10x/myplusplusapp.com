@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 // import { Container } from "semantic-ui-react";
 import Menu from "./Menu";
 import Todos from "./Todos";
-import Line from "./Line";
+import BarGraph from "./BarGraph";
 // import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -273,7 +273,8 @@ class Home extends Component {
               It's very easy to get started. Simply click the top left menu and
               create your first project. From there, you will be able add
               different tasks and they will be tracked, per each day, as you
-              complete them.
+              complete them. (PLEASE NOTE: This app is currently not mobile
+              ready. That update will be coming soon!)
             </h2>
           </HomeText>
         </React.Fragment>
@@ -292,7 +293,7 @@ class Home extends Component {
           projectText={this.state.projectText}
           writeProject={this.writeProject}
         />
-        <Line todos={this.state.todos} />
+        <BarGraph todos={this.state.todos} />
         <Todos
           todos={this.state.todos}
           username={this.state.username}

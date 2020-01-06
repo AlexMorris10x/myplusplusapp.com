@@ -11,7 +11,7 @@ import {
 import styled from "styled-components";
 import { Divider } from "semantic-ui-react";
 
-export default class Line extends React.Component {
+export default class BarGraph extends React.Component {
   state = {
     useCanvas: false
   };
