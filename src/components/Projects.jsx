@@ -19,6 +19,7 @@ class Projects extends React.Component {
           <Form>
             <Form.Field>
               <input
+                placeholder="Add new project"
                 type="text"
                 value={this.props.projectText}
                 onChange={e => this.props.writeProject(e)}

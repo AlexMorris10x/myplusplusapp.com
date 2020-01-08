@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-// import { Container } from "semantic-ui-react";
 import Menu from "./Menu";
 import Todos from "./Todos";
 import BarGraph from "./BarGraph";
-// import { Link } from "react-router-dom";
 import styled from "styled-components";
+// import { Link } from "react-router-dom";
+// import { Container } from "semantic-ui-react";
 
 class Home extends Component {
   state = {
@@ -73,7 +73,6 @@ class Home extends Component {
       value: projectText
     };
     if (project.value && project.value.length > 0) {
-      console.log(project);
       axios
         .post("/project/addProject", project)
         .then(res => {
@@ -298,6 +297,7 @@ class Home extends Component {
         />
         <BarGraph todos={this.state.todos} />
         <Todos
+          projects={this.state.projects}
           todos={this.state.todos}
           username={this.state.username}
           addTodo={this.addTodo}

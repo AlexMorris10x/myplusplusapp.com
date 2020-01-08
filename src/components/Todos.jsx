@@ -5,25 +5,40 @@ import styled from "styled-components";
 
 class Todos extends React.Component {
   render() {
+    let URL = window.location.href;
+    URL = URL.split("/");
+    const endURL = URL[URL.length - 1];
+    let projectName = this.props.projects.filter(
+      project => project._id === endURL
+    );
     return (
       <React.Fragment>
-        <h1>Todos</h1>
+        <div class="ui segment">
+          <div class="ui two column very relaxed grid">
+            <div class="column">
+          </div>
+          <div class="ui vertical divider"></div>
+        </div>
+        <h1>{projectName[0] === undefined ? "" : projectName[0].value}</h1>
         <Container text>
           <Form>
-            <Form.Field>
-              <input
-                type="text"
-                value={this.props.todoText}
-                onChange={e => this.props.writeTodo(e)}
+            <div class="eight wide column">
+              <Form.Field style={MyForm}>
+                <input
+                  placeholder="Add new todo"
+                  type="text"
+                  value={this.props.todoText}
+                  onChange={e => this.props.writeTodo(e)}
+                />
+              </Form.Field>
+              <Button
+                basic={true}
+                color={"green"}
+                onClick={() => this.props.addTodo(this.props.todoText)}
+                content={"Add"}
+                icon={"plus"}
               />
-            </Form.Field>
-            <Button
-              basic={true}
-              color={"green"}
-              onClick={() => this.props.addTodo(this.props.todoText)}
-              content={"Add"}
-              icon={"plus"}
-            />
+            </div>
           </Form>
           <Table celled>
             <Table.Body>
@@ -282,3 +297,9 @@ const TodoText = styled.div`
   background-color: white;
   margin: 0px;
 `;
+
+const MyForm = {
+  width: "100%",
+  height: "100%",
+  verticalAlign: "middle"
+};
