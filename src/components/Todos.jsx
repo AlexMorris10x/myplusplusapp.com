@@ -13,12 +13,6 @@ class Todos extends React.Component {
     );
     return (
       <React.Fragment>
-        <div class="ui segment">
-          <div class="ui two column very relaxed grid">
-            <div class="column">
-          </div>
-          <div class="ui vertical divider"></div>
-        </div>
         <h1>{projectName[0] === undefined ? "" : projectName[0].value}</h1>
         <Container text>
           <Form>

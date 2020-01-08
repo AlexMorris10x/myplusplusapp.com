@@ -40,8 +40,7 @@ class Menu extends React.Component {
       return (
         <React.Fragment>
           <ul className="nav">
-            <li></li>
-            <li>
+            {/* <li>
               <Link
                 to="/login"
                 className="nav-link"
@@ -49,7 +48,7 @@ class Menu extends React.Component {
               >
                 Logout
               </Link>
-            </li>
+            </li> */}
           </ul>
           <Sidebar
             sidebar={
