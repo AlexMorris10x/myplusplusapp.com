@@ -1,5 +1,12 @@
 import React from "react";
-import { Container, Button, Form, Table, Divider } from "semantic-ui-react";
+import {
+  Container,
+  Button,
+  Form,
+  Table,
+  Divider,
+  Input
+} from "semantic-ui-react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
@@ -15,24 +22,18 @@ class Todos extends React.Component {
       <React.Fragment>
         <h1>{projectName[0] === undefined ? "" : projectName[0].value}</h1>
         <Container text>
-          <Form>
-            <div class="eight wide column">
-              <Form.Field style={MyForm}>
-                <input
-                  placeholder="Add new todo"
-                  type="text"
-                  value={this.props.todoText}
-                  onChange={e => this.props.writeTodo(e)}
-                />
-              </Form.Field>
-              <Button
-                basic={true}
-                color={"green"}
-                onClick={() => this.props.addTodo(this.props.todoText)}
-                content={"Add"}
-                icon={"plus"}
+          <Form onSubmit={() => this.props.addTodo(this.props.todoText)}>
+            <Form.Field style={MyForm}>
+              <Input
+                action={{ color: "green", content: "Add" }}
+                icon="add"
+                iconPosition="left"
+                placeholder="Add new todo"
+                type="text"
+                value={this.props.todoText}
+                onChange={e => this.props.writeTodo(e)}
               />
-            </div>
+            </Form.Field>
           </Form>
           <Table celled>
             <Table.Body>

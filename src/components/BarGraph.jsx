@@ -102,10 +102,10 @@ export default class BarGraph extends React.Component {
     const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
     return (
       <React.Fragment>
-        <Divider horizontal>
-          <h3>Progress Meter</h3>
-        </Divider>
-        <Chart>
+        <Chart style={chartStyle}>
+          {/* <Divider horizontal> */}
+          <h3>PROGRESS METER</h3>
+          {/* </Divider> */}
           <XYPlot
             xType="ordinal"
             width={700}
@@ -127,6 +127,10 @@ export default class BarGraph extends React.Component {
     );
   }
 }
+
+const chartStyle = {
+  marginTop: 20
+};
 
 const Chart = styled.div`
   text-align: center;

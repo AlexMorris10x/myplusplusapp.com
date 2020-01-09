@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Button, Form, Table, Divider } from "semantic-ui-react";
+import { Container, Button, Form, Table, Input } from "semantic-ui-react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -12,26 +12,19 @@ class Projects extends React.Component {
           <h1>HOME</h1>
         </Link>
         <h1>Projects</h1>
-        <Divider horizontal>
-          <h3>Add New Projects Here:</h3>
-        </Divider>
         <Container text style={containerStyle}>
-          <Form>
+          <Form onSubmit={() => this.props.addProject(this.props.projectText)}>
             <Form.Field>
-              <input
+              <Input
+                action={{ color: "green", content: "Add" }}
+                icon="add"
+                iconPosition="left"
                 placeholder="Add new project"
                 type="text"
                 value={this.props.projectText}
                 onChange={e => this.props.writeProject(e)}
               />
             </Form.Field>
-            <Button
-              basic={true}
-              color={"green"}
-              onClick={() => this.props.addProject(this.props.projectText)}
-              content={"Add"}
-              icon={"plus"}
-            />
           </Form>
           <Table celled>
             <Table.Body>
