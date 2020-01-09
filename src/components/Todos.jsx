@@ -26,7 +26,7 @@ class Todos extends React.Component {
             <Form.Field style={MyForm}>
               <Input
                 action={{ color: "green", content: "Add" }}
-                icon="add"
+                icon="checkmark"
                 iconPosition="left"
                 placeholder="Add new todo"
                 type="text"
@@ -241,7 +241,6 @@ class Todos extends React.Component {
                                     ) : (
                                       <h2>{todo.value}</h2>
                                     )}
-                                    {/* </Table.Cell> */}
                                   </TodoText>
                                   <Table.Cell
                                     style={{

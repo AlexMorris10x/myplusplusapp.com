@@ -40,15 +40,16 @@ class Menu extends React.Component {
       return (
         <React.Fragment>
           <ul className="nav">
-            {/* <li>
+            <li>
               <Link
                 to="/login"
                 className="nav-link"
                 onClick={this.props.logout}
+                style={{ color: "#333333" }}
               >
                 Logout
               </Link>
-            </li> */}
+            </li>
           </ul>
           <Sidebar
             sidebar={

@@ -27,9 +27,9 @@ class Projects extends React.Component {
             </Form.Field>
           </Form>
           <Table celled>
-            <Table.Body>
-              {this.displayProjects(this.props.projects, this.props.username)}
-            </Table.Body>
+            {/* <Table.Body> */}
+            {this.displayProjects(this.props.projects, this.props.username)}
+            {/* </Table.Body> */}
           </Table>
         </Container>
       </React.Fragment>
