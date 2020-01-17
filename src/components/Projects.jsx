@@ -37,7 +37,7 @@ class Projects extends React.Component {
             }}
           >
             <Input
-              action={{ color: "green", content: "Add" }}
+              action={{ color: "green", content: "+ +" }}
               icon="add"
               iconPosition="left"
               placeholder="Add new project"
@@ -113,7 +113,7 @@ class Projects extends React.Component {
                             >
                               <div style={{ width: "30vw" }}>
                                 <Link to={`${project._id}`}>
-                                  <h2>{project.value}</h2>
+                                  <h5>{project.value}</h5>
                                 </Link>
                               </div>
                               <div>

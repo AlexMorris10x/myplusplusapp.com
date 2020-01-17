@@ -18,25 +18,38 @@ class Menu extends React.Component {
     if (this.props.loggedIn && this.state.sidebarOpen === false) {
       return (
         <ul style={styleUl}>
-          <li style={styleLi}>
-            {/* <Link to="/login" onClick={this.props.logout}>
+          <span style={styleSideBar}>
+            <button onClick={() => this.onSetSidebarOpen(true)}>
+              <FontAwesomeIcon icon={faBars} />
+            </button>
+          </span>
+          <span style={styleLogo}>
+            <h1>PlusPlus++</h1>
+          </span>
+          <span>
+            <Link
+              to="/login"
+              onClick={this.props.logout}
+              style={{ color: "#333333" }}
+            >
               Logout
-            </Link> */}
-          </li>
-          <div style={styleProjectMenuClosed}>
-            <li style={styleLi}>
-              <button onClick={() => this.onSetSidebarOpen(true)}>
-                <FontAwesomeIcon icon={faBars} />
-              </button>
-            </li>
-          </div>
+            </Link>
+          </span>
         </ul>
       );
     } else if (this.props.loggedIn && this.state.sidebarOpen === true) {
       return (
         <React.Fragment>
           <ul style={styleUl}>
-            <li style={styleLi}>
+            <span style={styleSideBar}>
+              <button onClick={() => this.onSetSidebarOpen(true)}>
+                <FontAwesomeIcon icon={faBars} />
+              </button>
+            </span>
+            <span style={styleLogo}>
+              <h1>PlusPlus++</h1>
+            </span>
+            <span>
               <Link
                 to="/login"
                 onClick={this.props.logout}
@@ -44,13 +57,13 @@ class Menu extends React.Component {
               >
                 Logout
               </Link>
-            </li>
+            </span>
           </ul>
           <Sidebar
             sidebar={
-              <b>
+              <React.Fragment>
                 <ul style={styleUl}>
-                  <div style={styleProjectMenuOpen}>
+                  <div style={{ padding: 5 }}>
                     <button onClick={() => this.onSetSidebarOpen(false)}>
                       <FontAwesomeIcon icon={faBars} />
                     </button>
@@ -66,7 +79,7 @@ class Menu extends React.Component {
                   projectText={this.props.projectText}
                   writeProject={this.props.writeProject}
                 />
-              </b>
+              </React.Fragment>
             }
             open={this.state.sidebarOpen}
             onSetOpen={this.onSetSidebarOpen}
@@ -104,33 +117,17 @@ class Menu extends React.Component {
 export default windowSize(Menu);
 
 const styleUl = {
-  listStyleType: "none",
-  margin: 0,
-  padding: 0,
-  overflow: "hidden",
-  backgroundColor: "#333"
+  display: "flex",
+  backgroundColor: "#333",
+  alignItems: "center",
+  justifyContent: "space-between",
+  margin: "auto"
 };
 
-const styleLi = {
-  float: "right",
-  display: "block",
-  color: "white",
-  textAlign: "center",
-  padding: "14px",
-  textDecoration: "none"
+const styleLogo = {
+  color: "white"
 };
 
-const styleProjectMenuClosed = {
-  float: "left",
-  width: 100,
-  height: "100%",
-  margin: 10,
-  borderRight: 1
-};
-
-const styleProjectMenuOpen = {
-  float: "left",
-  height: "100%",
-  margin: 10,
-  borderRight: 1
+const styleSideBar = {
+  alignItems: "left"
 };

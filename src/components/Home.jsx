@@ -264,8 +264,8 @@ class Home extends Component {
             writeProject={this.writeProject}
           />
           <div style={styleHome}>
-            <FrontPageLineGraph todos={this.state.todos} />
-            {/* <h1>Hello Welcome To Progress Tracker</h1>
+            {/* <FrontPageLineGraph todos={this.state.todos} /> */}
+            <h1>Hello Welcome To Progress Tracker</h1>
             <h2>
               This app is designed to track and measure your progress as you
               complete assignments.
@@ -275,7 +275,7 @@ class Home extends Component {
               create your first project. From there, you will be able add
               different tasks and they will be tracked, per each day, as you
               complete them.
-            </h2> */}
+            </h2>
           </div>
         </React.Fragment>
       );

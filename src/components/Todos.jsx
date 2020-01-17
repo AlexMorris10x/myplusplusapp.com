@@ -27,13 +27,14 @@ class Todos extends React.Component {
           }}
         >
           <Input
-            action={{ color: "green", content: "Add" }}
+            action={{ color: "green", content: "+ +" }}
             icon="checkmark"
             iconPosition="left"
             placeholder="Add new todo"
             type="text"
             value={this.props.todoText}
             onChange={e => this.props.writeTodo(e)}
+            style={{ fontSize: "16px" }}
           />
         </Form>
         <div>{this.displayTodos(this.props.todos, this.props.username)}</div>
@@ -130,15 +131,15 @@ class Todos extends React.Component {
                                     }}
                                   >
                                     {todo.complete === true ? (
-                                      <h2
+                                      <h5
                                         style={{
                                           textDecoration: "line-through"
                                         }}
                                       >
                                         {todo.value}
-                                      </h2>
+                                      </h5>
                                     ) : (
-                                      <h2>{todo.value}</h2>
+                                      <h5>{todo.value}</h5>
                                     )}
                                   </div>
                                   <div
@@ -266,15 +267,15 @@ class Todos extends React.Component {
                                     }}
                                   >
                                     {todo.complete === true ? (
-                                      <h2
+                                      <h5
                                         style={{
                                           textDecoration: "line-through"
                                         }}
                                       >
                                         {todo.value}
-                                      </h2>
+                                      </h5>
                                     ) : (
-                                      <h2>{todo.value}</h2>
+                                      <h5>{todo.value}</h5>
                                     )}
                                   </div>
                                   <div
