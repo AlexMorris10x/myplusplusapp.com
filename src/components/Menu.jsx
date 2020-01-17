@@ -19,9 +19,9 @@ class Menu extends React.Component {
       return (
         <ul style={styleUl}>
           <li style={styleLi}>
-            <Link to="/login" onClick={this.props.logout}>
+            {/* <Link to="/login" onClick={this.props.logout}>
               Logout
-            </Link>
+            </Link> */}
           </li>
           <div style={styleProjectMenuClosed}>
             <li style={styleLi}>
@@ -86,18 +86,18 @@ class Menu extends React.Component {
         </React.Fragment>
       );
     }
-    if (!this.props.loggedIn) {
-      return (
-        <ul style={styleUl}>
-          <li style={styleLi}>
-            <Link to="/login">Login</Link>
-          </li>
-          <li style={styleLi}>
-            <Link to="/signup">Sign up</Link>
-          </li>
-        </ul>
-      );
-    }
+    // if (!this.props.loggedIn) {
+    //   return (
+    //     <ul style={styleUl}>
+    //       <li style={styleLi}>
+    //         <Link to="/login">Login</Link>
+    //       </li>
+    //       <li style={styleLi}>
+    //         <Link to="/signup">Sign up</Link>
+    //       </li>
+    //     </ul>
+    // );
+    // }
   }
 }
 
@@ -119,18 +119,6 @@ const styleLi = {
   padding: "14px",
   textDecoration: "none"
 };
-
-// const styleSideBar = {
-//   sidebar: {
-//     position: "fixed",
-//     margin: "auto",
-//     background: "white",
-//     height: "100%",
-//     // width: `${this.props.windowWidth * 0.8}`,
-//     top: 0,
-//     bottom: 0
-//   }
-// };
 
 const styleProjectMenuClosed = {
   float: "left",

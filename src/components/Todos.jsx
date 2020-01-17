@@ -16,11 +16,14 @@ class Todos extends React.Component {
       <React.Fragment>
         <h1>{projectName[0] === undefined ? "" : projectName[0].value}</h1>
         <Form
-          onSubmit={() => this.props.addTodo(this.props.todoText)}
+          onSubmit={() =>
+            this.props.addTodo(this.props.todoText, projectName[0])
+          }
           style={{
             display: "flex",
             justifyContent: "center",
-            marginRight: 50
+            marginRight: 50,
+            marginBottom: 50
           }}
         >
           <Input
@@ -63,7 +66,7 @@ class Todos extends React.Component {
                     padding: 20
                   }}
                 >
-                  <h1>TO DO</h1>
+                  <h1>TODOs</h1>
                   <div
                     {...provieded.droppableProps}
                     ref={provieded.innerRef}
@@ -98,8 +101,8 @@ class Todos extends React.Component {
                                   style={{
                                     display: "flex",
                                     justifyContent: "center",
-                                    margin: 1,
-                                    border: "1px solid black"
+                                    margin: 5,
+                                    border: "1.5px solid black"
                                   }}
                                 >
                                   <div
@@ -187,8 +190,16 @@ class Todos extends React.Component {
                     background: "lightgrey",
                     width: "80vw",
                     margin: "auto",
+                    marginBottom: 20,
+                    padding: 20,
                     maxWidth: 800,
-                    padding: 20
+                    display:
+                      todos.filter(
+                        todo =>
+                          todo.complete === true && todo.project === endURL
+                      ).length === 0
+                        ? "none"
+                        : "block"
                   }}
                 >
                   <h1>COMPLETED</h1>
@@ -226,8 +237,8 @@ class Todos extends React.Component {
                                   style={{
                                     display: "flex",
                                     justifyContent: "center",
-                                    margin: 1,
-                                    border: "1px solid black"
+                                    margin: 5,
+                                    border: "1.5px solid black"
                                   }}
                                 >
                                   <div

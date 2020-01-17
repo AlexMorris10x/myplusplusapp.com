@@ -4,6 +4,7 @@ import { Redirect, Link } from "react-router-dom";
 import Menu from "./Menu";
 import Todos from "./Todos";
 import BarGraph from "./BarGraph";
+import FrontPageLineGraph from "./FrontPageLineGraph";
 // import { connect } from "react-redux";
 
 class Home extends Component {
@@ -84,13 +85,15 @@ class Home extends Component {
     }
   };
 
-  addTodo = todoText => {
+  addTodo = (todoText, projectName) => {
     const URL = window.location.href;
     const endURL = URL.substr(URL.lastIndexOf("/") + 1);
+    projectName = projectName.value;
     const todo = {
       username: this.state.username,
       value: todoText,
       project: endURL,
+      projectName: projectName,
       complete: false,
       completeDate: Date()
     };
@@ -233,18 +236,18 @@ class Home extends Component {
           <h5>{error}</h5>
         </div>
       );
-    if (!username) {
-      return (
-        <div className="CustomForm">
-          <div text>
-            <h1>Please, Log In</h1>
-            <Link to="/login">
-              <h2>Login Here</h2>
-            </Link>
-          </div>
-        </div>
-      );
-    }
+    // if (!username) {
+    //   return (
+    //     <div className="CustomForm">
+    //       <div text>
+    //         <h1>Please, Log In</h1>
+    //         <Link to="/login">
+    //           <h2>Login Here</h2>
+    //         </Link>
+    //       </div>
+    //     </div>
+    //   );
+    // }
     if (endURL === "")
       return (
         <React.Fragment>
@@ -261,7 +264,8 @@ class Home extends Component {
             writeProject={this.writeProject}
           />
           <div style={styleHome}>
-            <h1>Hello Welcome To Progress Tracker</h1>
+            <FrontPageLineGraph todos={this.state.todos} />
+            {/* <h1>Hello Welcome To Progress Tracker</h1>
             <h2>
               This app is designed to track and measure your progress as you
               complete assignments.
@@ -271,7 +275,7 @@ class Home extends Component {
               create your first project. From there, you will be able add
               different tasks and they will be tracked, per each day, as you
               complete them.
-            </h2>
+            </h2> */}
           </div>
         </React.Fragment>
       );
@@ -291,7 +295,6 @@ class Home extends Component {
         />
         <BarGraph todos={this.state.todos} />
         <Todos
-          style={{ margin: "auto" }}
           projects={this.state.projects}
           todos={this.state.todos}
           username={this.state.username}

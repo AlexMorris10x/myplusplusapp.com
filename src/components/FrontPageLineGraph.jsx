@@ -3,51 +3,97 @@ import {
   XYPlot,
   XAxis,
   YAxis,
-  VerticalGridLines,
   HorizontalGridLines,
-  VerticalBarSeries,
-  VerticalBarSeriesCanvas
+  VerticalGridLines,
+  LineSeries,
+  DiscreteColorLegend
 } from "react-vis";
 import windowSize from "react-window-size";
 
 class FrontPageLineGraph extends React.Component {
-  state = {
-    useCanvas: false
-  };
-
   graphMaker = () => {
+    let data = [];
+    let count = 0;
+    let cumulitiveCount = 0;
     let URL = window.location.href;
     URL = URL.split("/");
     const endURL = URL[URL.length - 1];
-
-    let data = [];
-    let count = 0;
-    let todos = this.props.todos
-      .filter(todo => todo.complete === true && todo.project === endURL)
-      .map(todo => {
-        return this.dateConverter(todo.completeDate);
-      })
-      .sort((a, b) => a - b);
-    todos.map((todo, index) => {
-      if (todo === todos[index + 1]) {
-        count++;
-      } else {
-        count++;
-        data.push({
-          x: this.dateConverterLegible(todo),
-          y:
-            (count /
-              this.props.todos.filter(todo => todo.project === endURL).length) *
-            100
-        });
-        count = 0;
-      }
-      return data;
+    let todos = this.props.todos.filter(todo => todo.complete === true);
+    todos = this.props.todos.map(todo => {
+      return this.dateConverter(
+        todo.completeDate,
+        todo.project,
+        todo.projectName
+      );
     });
-    return data;
+    todos.sort((a, b) => a.completeDate - b.completeDate);
+    todos.sort((a, b) => {
+      const project1 = a.project.toLowerCase();
+      const project2 = b.project.toLowerCase();
+      if (project1 < project2) {
+        return -1;
+      }
+      if (project1 > project2) {
+        return 1;
+      }
+      return 0;
+    });
+    console.log(todos);
+
+    // @ TODO [[{}],[{}],[{}]]
+    // return an array of objects to go through
+
+    // todos.map((todo, index) => {
+    //   todos[index + 1] === undefined
+    //     ? (todos[index + 1] = "")
+    //     : (todos[index + 1] = todos[index + 1]);
+    //   if (todo.projectName === todos[index + 1].projectName) {
+    //     if (todo.completeDate === todos[index + 1].completeDate) {
+    //       count++;
+    //       cumulitiveCount++;
+    //     } else {
+    //       data.push({
+    //         x: todo.projectDate,
+    //         y: cumulitiveCount / this.projectLength(todo.project)
+    //       });
+    //       count = 0;
+    //     }
+    //   } else {
+    //     // console.log("new item");
+    //   }
+    //   <LineSeries
+    //   data={[
+    //     { x: 16, y: 2 },
+    //     { x: 17, y: 3 },
+    //     { x: 18, y: 5 },
+    //     { x: 19, y: 50 }
+    //   ]}
+    //   style={{ fill: "none" }}
+    // />
+
+    // console.log(todo.projectName);
+    // this.projectLength();
+    // console.log(todo);
+    //   if (todo === todos[index + 1]) {
+    //     count++;
+    //   } else {
+    //     count++;
+    //     data.push({
+    //       x: this.dateConverterLegible(todo),
+    //       y:
+    //         (count /
+    //           this.props.todos.filter(todo => todo.project === endURL).length) *
+    //         100
+    //     });
+    //     count = 0;
+    //   }
+    //   return data;
+    // });
+    // return data;
+    // });
   };
 
-  dateConverter = date => {
+  dateConverter = (completeDate, project, projectName) => {
     const months = {
       Jan: "01",
       Feb: "02",
@@ -62,67 +108,101 @@ class FrontPageLineGraph extends React.Component {
       Nov: "11",
       Dec: "12"
     };
-    date = date.split(" ");
-    let finalDate = [];
-    finalDate.push(date[3]);
-    if (date[1] in months) {
-      date[1] = months[date[1]];
+    completeDate = completeDate.split(" ");
+    let finalCompleteDate = [];
+    if (completeDate[1] in months) {
+      completeDate[1] = months[completeDate[1]];
     }
-    finalDate.push(date[1]);
-    finalDate.push(date[2]);
-    return finalDate.join("");
-  };
-
-  dateConverterLegible = date => {
-    const months = {
-      ["0,1"]: "Jan",
-      ["0,2"]: "Feb",
-      ["0,3"]: "March",
-      ["0,4"]: "April",
-      ["0,5"]: "May",
-      ["0,6"]: "June",
-      ["0,7"]: "July",
-      ["0,8"]: "August",
-      ["0,9"]: "Sept",
-      ["1,0"]: "Oct",
-      ["1,1"]: "Nov",
-      ["1,2"]: "Dec"
+    finalCompleteDate.push(completeDate[1]);
+    finalCompleteDate.push(completeDate[2]);
+    finalCompleteDate =
+      Number(finalCompleteDate[0] - 1) * 10 + Number(finalCompleteDate[1]);
+    return {
+      completeDate: finalCompleteDate,
+      project: project,
+      projectName: projectName
     };
-    date = date.split("");
-    let year = date.splice(0, 4).join("");
-    let month = months[date.splice(0, 2)];
-    let day = date.splice(0, 2).join("");
-    let legibleDate = `${month} ${day}, ${year}`;
-    return legibleDate;
   };
 
+  projectLength = project => {
+    let todoLength = this.todos.filter(todo => todo.project === project);
+    return todoLength.length;
+  };
+
+  // dateConverterLegible = date => {
+  //   const months = {
+  //     ["0,1"]: "Jan",
+  //     ["0,2"]: "Feb",
+  //     ["0,3"]: "March",
+  //     ["0,4"]: "April",
+  //     ["0,5"]: "May",
+  //     ["0,6"]: "June",
+  //     ["0,7"]: "July",
+  //     ["0,8"]: "August",
+  //     ["0,9"]: "Sept",
+  //     ["1,0"]: "Oct",
+  //     ["1,1"]: "Nov",
+  //     ["1,2"]: "Dec"
+  //   };
+  //   date = date.split("");
+  //   let year = date.splice(0, 4).join("");
+  //   let month = months[date.splice(0, 2)];
+  //   let day = date.splice(0, 2).join("");
+  //   let legibleDate = `${month} ${day}, ${year}`;
+  //   return legibleDate;
+  // };
   render() {
-    const { useCanvas } = this.state;
-    const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
     return (
-      <React.Fragment>
-        <div style={styleChart}>
-          <h3>PROGRESS METER</h3>
+      <div style={styleChart}>
+        {this.graphMaker()}
+        <div>
+          <h3>PROJECTS OVERVIEW</h3>
           <XYPlot
-            xType="ordinal"
             width={
               this.props.windowWidth < 850 ? this.props.windowWidth * 0.8 : 800
             }
             height={300}
-            xDistance={1000}
-            yDomain={[0, 100]}
           >
-            <VerticalGridLines />
             <HorizontalGridLines />
-            <XAxis />
-            <YAxis />
-            <BarSeries
-              className="vertical-bar-series-example"
-              data={this.graphMaker()}
+            <VerticalGridLines />
+            <XAxis orientation="bottom" title="X Axis" />
+            <YAxis orientation="left" title="Y Axis" />
+            {/* {graphMaker} */}
+            <LineSeries
+              data={[
+                { x: 16, y: 2 },
+                { x: 17, y: 3 },
+                { x: 18, y: 5 },
+                { x: 19, y: 50 }
+              ]}
+              style={{ fill: "none" }}
+            />
+            <LineSeries
+              data={[
+                { x: 17, y: 1 },
+                { x: 17, y: 2 },
+                { x: 18, y: 3 },
+                { x: 19, y: 4 }
+              ]}
+              style={{ fill: "none" }}
+            />
+            <LineSeries
+              data={[
+                { x: 16, y: 20 },
+                { x: 17, y: 30 },
+                { x: 18, y: 40 },
+                { x: 19, y: 50 }
+              ]}
+              style={{ fill: "none" }}
             />
           </XYPlot>
+          <DiscreteColorLegend
+            orientation="horizontal"
+            items={[{ title: "123" }, { title: "hihi" }, { title: "marco" }]}
+            style={{ display: "inline-flex", margin: 10 }}
+          />
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

@@ -4,9 +4,9 @@
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 let MONGO_URL;
-const MONGO_LOCAL_URL =
-  "mongodb://plusplus_user:Free4all!@ds259518.mlab.com:59518/heroku_fdhlskkw";
-// const MONGO_LOCAL_URL = "mongodb://localhost/productivity-app";
+// const MONGO_LOCAL_URL =
+// "mongodb://plusplus_user:Free4all!@ds259518.mlab.com:59518/heroku_fdhlskkw";
+const MONGO_LOCAL_URL = "mongodb://localhost/productivity-app";
 
 if (process.env.MONGODB_URI) {
   mongoose.connect(process.env.MONGODB_URI);

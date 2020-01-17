@@ -9,11 +9,20 @@ router.get("/getTodo", (req, res, next) => {
 });
 
 router.post("/addTodo", (req, res) => {
-  const { username, value, project, complete, completeDate } = req.body;
+  const {
+    username,
+    value,
+    project,
+    projectName,
+    complete,
+    completeDate
+  } = req.body;
+
   const newTODO = new TODO({
     username: username,
     value: value,
     project: project,
+    projectName: projectName,
     complete: complete,
     completeDate: completeDate
   });

@@ -14,12 +14,10 @@ class BarGraph extends React.Component {
   state = {
     useCanvas: false
   };
-
   graphMaker = () => {
     let URL = window.location.href;
     URL = URL.split("/");
     const endURL = URL[URL.length - 1];
-
     let data = [];
     let count = 0;
     let todos = this.props.todos
@@ -106,7 +104,7 @@ class BarGraph extends React.Component {
           <XYPlot
             xType="ordinal"
             width={
-              this.props.windowWidth < 850 ? this.props.windowWidth * 0.8 : 800
+              this.props.windowWidth < 900 ? this.props.windowWidth * 0.8 : 750
             }
             height={300}
             xDistance={1000}
@@ -116,10 +114,7 @@ class BarGraph extends React.Component {
             <HorizontalGridLines />
             <XAxis />
             <YAxis />
-            <BarSeries
-              className="vertical-bar-series-example"
-              data={this.graphMaker()}
-            />
+            <BarSeries data={this.graphMaker()} />
           </XYPlot>
         </div>
       </React.Fragment>
