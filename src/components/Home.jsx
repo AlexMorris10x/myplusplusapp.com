@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import Menu from "./Menu";
 import Todos from "./Todos";
 import BarGraph from "./BarGraph";
-import styled from "styled-components";
-// import { Link } from "react-router-dom";
-// import { Container } from "semantic-ui-react";
+// import { connect } from "react-redux";
 
 class Home extends Component {
   state = {
@@ -41,13 +39,13 @@ class Home extends Component {
             project => project.username === this.state.username
           );
           this.setState(newState);
-          // console.log(this.state.projects);
         }
       })
       .catch(err => {
         this.setState(oldState);
       });
   };
+
   //grabs all todos
   getTodos = () => {
     const oldState = { ...this.state };
@@ -68,6 +66,7 @@ class Home extends Component {
   };
 
   addProject = projectText => {
+    // projectText.preventDefault();
     const project = {
       username: this.state.username,
       value: projectText
@@ -234,19 +233,18 @@ class Home extends Component {
           <h5>{error}</h5>
         </div>
       );
-
-    // if (!username) {
-    //   return (
-    //     <div className="CustomForm">
-    //       <Container text>
-    //         <h1>Please, Log In</h1>
-    //         <Link to="/login">
-    //           <h2>Login Here</h2>
-    //         </Link>
-    //       </Container>
-    //     </div>
-    //   );
-    // }
+    if (!username) {
+      return (
+        <div className="CustomForm">
+          <div text>
+            <h1>Please, Log In</h1>
+            <Link to="/login">
+              <h2>Login Here</h2>
+            </Link>
+          </div>
+        </div>
+      );
+    }
     if (endURL === "")
       return (
         <React.Fragment>
@@ -262,7 +260,7 @@ class Home extends Component {
             projectText={this.state.projectText}
             writeProject={this.writeProject}
           />
-          <HomeText>
+          <div style={styleHome}>
             <h1>Hello Welcome To Progress Tracker</h1>
             <h2>
               This app is designed to track and measure your progress as you
@@ -274,11 +272,7 @@ class Home extends Component {
               different tasks and they will be tracked, per each day, as you
               complete them.
             </h2>
-            <h2>
-              (Please note: This app is currently not mobile ready. That update
-              will be coming soon!)
-            </h2>
-          </HomeText>
+          </div>
         </React.Fragment>
       );
     return (
@@ -297,6 +291,7 @@ class Home extends Component {
         />
         <BarGraph todos={this.state.todos} />
         <Todos
+          style={{ margin: "auto" }}
           projects={this.state.projects}
           todos={this.state.todos}
           username={this.state.username}
@@ -314,8 +309,13 @@ class Home extends Component {
 }
 
 export default Home;
+// export default connect(mapStateToProps)(Home);
 
-const HomeText = styled.div`
-  margin: auto;
-  max-width: 800px;
-`;
+// const mapStateToProps = state => {
+//   console.log(state);
+// };
+
+const styleHome = {
+  margin: "auto",
+  maxWidth: 800
+};

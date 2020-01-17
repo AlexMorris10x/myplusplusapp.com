@@ -1,37 +1,45 @@
 import React from "react";
-import { Container, Button, Form, Table, Input } from "semantic-ui-react";
+import { Form, Input } from "semantic-ui-react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 class Projects extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <div style={{
+          padding: 20
+        }}>
         <Link to="/" className="nav-link">
           <h1>HOME</h1>
         </Link>
+        </div>
+        <div style={{margin:20}}></div>
+        <div style={{
+          background: "lightgrey",
+          padding: 20
+        }}
+        >
         <h1>Projects</h1>
-        <Container text style={containerStyle}>
-          <Form onSubmit={() => this.props.addProject(this.props.projectText)}>
-            <Form.Field>
-              <Input
-                action={{ color: "green", content: "Add" }}
-                icon="add"
-                iconPosition="left"
-                placeholder="Add new project"
-                type="text"
-                value={this.props.projectText}
-                onChange={e => this.props.writeProject(e)}
-              />
-            </Form.Field>
-          </Form>
-          <Table celled>
-            {/* <Table.Body> */}
-            {this.displayProjects(this.props.projects, this.props.username)}
-            {/* </Table.Body> */}
-          </Table>
-        </Container>
+        <Form onSubmit={() => this.props.addProject(this.props.projectText)} style={{ 
+          display: "flex", 
+          justifyContent: "center", 
+          marginRight: 50
+          }}>
+          <Input
+            action={{ color: "green", content: "Add" }}
+            icon="add"
+            iconPosition="left"
+            placeholder="Add new project"
+            type="text"
+            value={this.props.projectText}
+            onChange={e => this.props.writeProject(e)}
+          />
+        </Form>
+        {this.displayProjects(this.props.projects, this.props.username)}
+        </div>
       </React.Fragment>
     );
   }
@@ -48,11 +56,9 @@ class Projects extends React.Component {
                 {...provieded.droppableProps}
                 ref={provieded.innerRef}
                 style={{
-                  textAlign: "center",
                   background: snapshot.isDraggingOver ? "lightblue" : "white",
-                  padding: 100,
-                  minHeight: this.props.projects.length * 210,
-                  minWidth: 400
+                  width: "80%",
+                  margin: "auto",
                 }}
               >
                 {projects
@@ -64,40 +70,33 @@ class Projects extends React.Component {
                         key={project._id}
                         draggableId={project._id}
                         index={index}
+                        style={{color: "grey"}}
                       >
                         {(provided, snapshot) => {
                           return (
-                            <ProjectItem
+                            <div
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
+                              style={{ display: "flex", justifyContent: "center",                                   margin: 1,
+                              border: "1px solid black"}}
                             >
-                              <Table.Row style={{ background: "white" }}>
-                                <ProjectText>
-                                  <Table.Cell>
-                                    <Link to={`${project._id}`}>
-                                      <h2>{project.value}</h2>
-                                    </Link>
-                                  </Table.Cell>
-                                </ProjectText>
-                                <Table.Cell
-                                  style={{
-                                    textAlign: "right"
-                                  }}
-                                  collapsing
+                              <div style={{width: "30vw"}}>
+                                <Link to={`${project._id}`}>
+                                  <h2>{project.value}</h2>
+                                </Link>
+                              </div>
+                              <div>
+                                <button
+                                  onClick={() =>
+                                    this.props.deleteProject(project._id)
+                                  }
+                                  style={{ width:"5vw", color: "red" }}
                                 >
-                                  <Button
-                                    basic={true}
-                                    color={"red"}
-                                    icon={"trash"}
-                                    onClick={() =>
-                                      this.props.deleteProject(project._id)
-                                    }
-                                    disabled={username !== project.username}
-                                  />
-                                </Table.Cell>
-                              </Table.Row>
-                            </ProjectItem>
+                                  <FontAwesomeIcon icon={faTrashAlt}                                />
+                                </button>
+                              </div>
+                            </div>
                           );
                         }}
                       </Draggable>
@@ -113,25 +112,3 @@ class Projects extends React.Component {
 }
 
 export default Projects;
-
-const ProjectItem = styled.div`
-  text-align: center;
-  margin: auto;
-  display: block;
-  overflow: hidden;
-  background-color: white;
-`;
-
-const ProjectText = styled.div`
-  text-align: center;
-  display: block;
-  margin: auto;
-  min-width: 200px
-  background-color: white;
-`;
-
-const containerStyle = {
-  width: "100%",
-  height: "100%",
-  verticalAlign: "middle"
-};

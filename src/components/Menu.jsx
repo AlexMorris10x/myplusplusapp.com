@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
 import React from "react";
-import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import Projects from "./Projects";
 import Sidebar from "react-sidebar";
-
+import windowSize from "react-window-size";
 class Menu extends React.Component {
   state = {
     sidebarOpen: false
@@ -18,32 +17,28 @@ class Menu extends React.Component {
   render() {
     if (this.props.loggedIn && this.state.sidebarOpen === false) {
       return (
-        <ul className="nav">
-          {/* <li>
-            <Link to="/login" className="nav-link" onClick={this.props.logout}>
+        <ul style={styleUl}>
+          <li style={styleLi}>
+            <Link to="/login" onClick={this.props.logout}>
               Logout
             </Link>
-          </li> */}
-          <ProjectMenuClosed>
-            <li>
-              <button
-                stle={{ marginTop: "1" }}
-                onClick={() => this.onSetSidebarOpen(true)}
-              >
+          </li>
+          <div style={styleProjectMenuClosed}>
+            <li style={styleLi}>
+              <button onClick={() => this.onSetSidebarOpen(true)}>
                 <FontAwesomeIcon icon={faBars} />
               </button>
             </li>
-          </ProjectMenuClosed>
+          </div>
         </ul>
       );
     } else if (this.props.loggedIn && this.state.sidebarOpen === true) {
       return (
         <React.Fragment>
-          <ul className="nav">
-            <li>
+          <ul style={styleUl}>
+            <li style={styleLi}>
               <Link
                 to="/login"
-                className="nav-link"
                 onClick={this.props.logout}
                 style={{ color: "#333333" }}
               >
@@ -54,12 +49,12 @@ class Menu extends React.Component {
           <Sidebar
             sidebar={
               <b>
-                <ul className="nav">
-                  <ProjectMenuOpen>
+                <ul style={styleUl}>
+                  <div style={styleProjectMenuOpen}>
                     <button onClick={() => this.onSetSidebarOpen(false)}>
                       <FontAwesomeIcon icon={faBars} />
                     </button>
-                  </ProjectMenuOpen>
+                  </div>
                 </ul>
                 <Projects
                   projects={this.props.projects}
@@ -75,54 +70,79 @@ class Menu extends React.Component {
             }
             open={this.state.sidebarOpen}
             onSetOpen={this.onSetSidebarOpen}
-            styles={sidebarStyles}
+            styles={{
+              sidebar: {
+                position: "fixed",
+                margin: "auto",
+                background: "white",
+                height: "100%",
+                width: this.props.windowWidth > 400 ? "40vw" : "80vw",
+                maxWidth: 400,
+                top: 0,
+                bottom: 0
+              }
+            }}
           ></Sidebar>
         </React.Fragment>
       );
     }
-    // if (!this.props.loggedIn) {
-    //   return (
-    //     <ul className="nav">
-    //       <li className="nav-item">
-    //         <Link to="/login" className="nav-link">
-    //           Login
-    //         </Link>
-    //       </li>
-    //       <li className="nav-item">
-    //         <Link to="/signup" className="nav-link">
-    //           Sign up
-    //         </Link>
-    //       </li>
-    //     </ul>
-    //   );
-    // }
+    if (!this.props.loggedIn) {
+      return (
+        <ul style={styleUl}>
+          <li style={styleLi}>
+            <Link to="/login">Login</Link>
+          </li>
+          <li style={styleLi}>
+            <Link to="/signup">Sign up</Link>
+          </li>
+        </ul>
+      );
+    }
   }
 }
 
-export default Menu;
+export default windowSize(Menu);
 
-const ProjectMenuClosed = styled.div`
-  float: left;
-  width: 100px;
-  height: 100%;
-  margin: 10px;
-  border-right: 1px solid black;
-`;
+const styleUl = {
+  listStyleType: "none",
+  margin: 0,
+  padding: 0,
+  overflow: "hidden",
+  backgroundColor: "#333"
+};
 
-const ProjectMenuOpen = styled.div`
-  float: left;
-  width: 157px;
-  height: 100%;
-  margin: 10px;
-  border-right: 1px solid black;
-`;
+const styleLi = {
+  float: "right",
+  display: "block",
+  color: "white",
+  textAlign: "center",
+  padding: "14px",
+  textDecoration: "none"
+};
 
-const sidebarStyles = {
-  sidebar: {
-    margin: "auto",
-    background: "white",
-    width: 400,
-    top: 0,
-    bottom: 0
-  }
+// const styleSideBar = {
+//   sidebar: {
+//     position: "fixed",
+//     margin: "auto",
+//     background: "white",
+//     height: "100%",
+//     // width: `${this.props.windowWidth * 0.8}`,
+//     top: 0,
+//     bottom: 0
+//   }
+// };
+
+const styleProjectMenuClosed = {
+  float: "left",
+  width: 100,
+  height: "100%",
+  margin: 10,
+  borderRight: 1
+};
+
+const styleProjectMenuOpen = {
+  float: "left",
+  height: "100%",
+  margin: 10,
+  borderRight: 1
 };

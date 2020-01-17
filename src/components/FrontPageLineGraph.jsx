@@ -10,7 +10,7 @@ import {
 } from "react-vis";
 import windowSize from "react-window-size";
 
-class BarGraph extends React.Component {
+class FrontPageLineGraph extends React.Component {
   state = {
     useCanvas: false
   };
@@ -126,7 +126,7 @@ class BarGraph extends React.Component {
     );
   }
 }
-export default windowSize(BarGraph);
+export default windowSize(FrontPageLineGraph);
 
 const styleChart = {
   textAlign: "center",
