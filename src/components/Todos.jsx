@@ -19,10 +19,8 @@ class Todos extends React.Component {
           style={{
             display: "flex",
             justifyContent: "center",
-            margin: "50px auto 50px auto",
+            margin: "50px auto 20px auto",
             width: 280
-            // marginRight: 50,
-            // marginBottom: 50
           }}
           onSubmit={() =>
             this.props.addTodo(this.props.todoText, projectName[0])
