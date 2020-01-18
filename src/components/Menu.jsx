@@ -16,27 +16,51 @@ class Menu extends React.Component {
 
   render() {
     if (this.props.loggedIn && this.state.sidebarOpen === false) {
-      return (
-        <ul style={styleUl}>
-          <span style={styleSideBar}>
-            <button onClick={() => this.onSetSidebarOpen(true)}>
-              <FontAwesomeIcon icon={faBars} />
-            </button>
-          </span>
-          <span style={styleLogo}>
-            <h1>PlusPlus++</h1>
-          </span>
-          <span>
-            <Link
-              to="/login"
-              onClick={this.props.logout}
-              style={{ color: "#333333" }}
-            >
-              Logout
-            </Link>
-          </span>
-        </ul>
-      );
+      if (this.props.windowWidth > 1200) {
+        return (
+          <ul style={styleUl}>
+            <span style={styleSideBar}>
+              {/* <button onClick={() => this.onSetSidebarOpen(true)}>
+                <FontAwesomeIcon icon={faBars} />
+              </button> */}
+            </span>
+            <span style={styleLogo}>
+              <h1>PlusPlus++</h1>
+            </span>
+            <span>
+              <Link
+                to="/login"
+                onClick={this.props.logout}
+                style={{ color: "#333333" }}
+              >
+                Logout
+              </Link>
+            </span>
+          </ul>
+        );
+      } else {
+        return (
+          <ul style={styleUl}>
+            <span style={styleSideBar}>
+              <button onClick={() => this.onSetSidebarOpen(true)}>
+                <FontAwesomeIcon icon={faBars} />
+              </button>
+            </span>
+            <span style={styleLogo}>
+              <h1>PlusPlus++</h1>
+            </span>
+            <span>
+              <Link
+                to="/login"
+                onClick={this.props.logout}
+                style={{ color: "#333333" }}
+              >
+                Logout
+              </Link>
+            </span>
+          </ul>
+        );
+      }
     } else if (this.props.loggedIn && this.state.sidebarOpen === true) {
       return (
         <React.Fragment>
@@ -121,7 +145,8 @@ const styleUl = {
   backgroundColor: "#333",
   alignItems: "center",
   justifyContent: "space-between",
-  margin: "auto"
+  margin: "auto",
+  padding: 20
 };
 
 const styleLogo = {

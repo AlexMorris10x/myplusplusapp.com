@@ -5,6 +5,8 @@ import Menu from "./Menu";
 import Todos from "./Todos";
 import BarGraph from "./BarGraph";
 import FrontPageLineGraph from "./FrontPageLineGraph";
+import Projects from "./Projects";
+import windowSize from "react-window-size";
 // import { connect } from "react-redux";
 
 class Home extends Component {
@@ -248,7 +250,69 @@ class Home extends Component {
     //     </div>
     //   );
     // }
-    if (endURL === "")
+    if (endURL === "" && this.props.windowWidth > 1200)
+      return (
+        <React.Fragment>
+          <Menu
+            logout={this.props.logout}
+            loggedIn={this.props.loggedIn}
+            projects={this.state.projects}
+            username={this.state.username}
+            addProject={this.addProject}
+            updateProject={this.updateProject}
+            deleteProject={this.deleteProject}
+            moveProject={this.moveProject}
+            projectText={this.state.projectText}
+            writeProject={this.writeProject}
+          />
+          <div style={{ display: "flex" }}>
+            <div
+              style={{
+                margin: 30,
+                border: "1.5px solid black",
+                backgroundColor: "lightgrey",
+                height: "93vh",
+                width: 300,
+                margin: "auto"
+              }}
+            >
+              <Projects
+                logout={this.props.logout}
+                loggedIn={this.props.loggedIn}
+                projects={this.state.projects}
+                username={this.state.username}
+                addProject={this.addProject}
+                updateProject={this.updateProject}
+                deleteProject={this.deleteProject}
+                moveProject={this.moveProject}
+                projectText={this.state.projectText}
+                writeProject={this.writeProject}
+              />
+            </div>
+            <div
+              className="test"
+              style={{
+                margin: "0 auto 0 auto",
+                padding: "0 150px 0 150px"
+              }}
+            >
+              {/* <FrontPageLineGraph todos={this.state.todos} /> */}
+              <h1>Hello Welcome To Progress Tracker</h1>
+              <h2>
+                This app is designed to track and measure your progress as you
+                complete assignments.
+              </h2>
+              <h2>
+                It's very easy to get started. Simply click the top left menu
+                and create your first project. From there, you will be able add
+                different tasks and they will be tracked, per each day, as you
+                complete them.
+              </h2>
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    if (endURL === "" && this.props.windowWidth < 1200)
       return (
         <React.Fragment>
           <Menu
@@ -279,39 +343,100 @@ class Home extends Component {
           </div>
         </React.Fragment>
       );
-    return (
-      <React.Fragment>
-        <Menu
-          logout={this.props.logout}
-          loggedIn={this.props.loggedIn}
-          projects={this.state.projects}
-          username={this.state.username}
-          addProject={this.addProject}
-          updateProject={this.updateProject}
-          deleteProject={this.deleteProject}
-          moveProject={this.moveProject}
-          projectText={this.state.projectText}
-          writeProject={this.writeProject}
-        />
-        <BarGraph todos={this.state.todos} />
-        <Todos
-          projects={this.state.projects}
-          todos={this.state.todos}
-          username={this.state.username}
-          addTodo={this.addTodo}
-          updateTodo={this.updateTodo}
-          deleteTodo={this.deleteTodo}
-          completeTodo={this.completeTodo}
-          moveTodo={this.moveTodo}
-          todoText={this.state.todoText}
-          writeTodo={this.writeTodo}
-        />
-      </React.Fragment>
-    );
+    if (endURL !== "" && this.props.windowWidth > 1200)
+      return (
+        <React.Fragment>
+          <Menu
+            logout={this.props.logout}
+            loggedIn={this.props.loggedIn}
+            projects={this.state.projects}
+            username={this.state.username}
+            addProject={this.addProject}
+            updateProject={this.updateProject}
+            deleteProject={this.deleteProject}
+            moveProject={this.moveProject}
+            projectText={this.state.projectText}
+            writeProject={this.writeProject}
+          />
+          <div style={{ display: "flex", margin: "auto" }}>
+            <div
+              style={{
+                border: "1.5px solid black",
+                backgroundColor: "lightgrey",
+                height: "93vh",
+                width: 300
+              }}
+            >
+              <Projects
+                logout={this.props.logout}
+                loggedIn={this.props.loggedIn}
+                projects={this.state.projects}
+                username={this.state.username}
+                addProject={this.addProject}
+                updateProject={this.updateProject}
+                deleteProject={this.deleteProject}
+                moveProject={this.moveProject}
+                projectText={this.state.projectText}
+                writeProject={this.writeProject}
+              />
+            </div>
+            <div
+              style={{
+                margin: "0 auto 0 auto",
+                padding: "0 150px 0 150px"
+              }}
+            >
+              <BarGraph todos={this.state.todos} />
+              <Todos
+                projects={this.state.projects}
+                todos={this.state.todos}
+                username={this.state.username}
+                addTodo={this.addTodo}
+                updateTodo={this.updateTodo}
+                deleteTodo={this.deleteTodo}
+                completeTodo={this.completeTodo}
+                moveTodo={this.moveTodo}
+                todoText={this.state.todoText}
+                writeTodo={this.writeTodo}
+              />
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    if (endURL !== "" && this.props.windowWidth < 1200)
+      return (
+        <React.Fragment>
+          <Menu
+            logout={this.props.logout}
+            loggedIn={this.props.loggedIn}
+            projects={this.state.projects}
+            username={this.state.username}
+            addProject={this.addProject}
+            updateProject={this.updateProject}
+            deleteProject={this.deleteProject}
+            moveProject={this.moveProject}
+            projectText={this.state.projectText}
+            writeProject={this.writeProject}
+          />
+          <BarGraph todos={this.state.todos} />
+          <Todos
+            projects={this.state.projects}
+            todos={this.state.todos}
+            username={this.state.username}
+            addTodo={this.addTodo}
+            updateTodo={this.updateTodo}
+            deleteTodo={this.deleteTodo}
+            completeTodo={this.completeTodo}
+            moveTodo={this.moveTodo}
+            todoText={this.state.todoText}
+            writeTodo={this.writeTodo}
+          />
+        </React.Fragment>
+      );
   }
 }
 
-export default Home;
+export default windowSize(Home);
 // export default connect(mapStateToProps)(Home);
 
 // const mapStateToProps = state => {
@@ -319,6 +444,12 @@ export default Home;
 // };
 
 const styleHome = {
+  margin: "auto",
+  maxWidth: 800,
+  padding: 50
+};
+
+const styleMenu = {
   margin: "auto",
   maxWidth: 800
 };
