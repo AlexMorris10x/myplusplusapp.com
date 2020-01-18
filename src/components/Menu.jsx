@@ -42,7 +42,10 @@ class Menu extends React.Component {
         return (
           <ul style={styleUl}>
             <span style={styleSideBar}>
-              <button onClick={() => this.onSetSidebarOpen(true)}>
+              <button
+                style={{ padding: "8px 10px 8px 10px", borderRadius: 10 }}
+                onClick={() => this.onSetSidebarOpen(true)}
+              >
                 <FontAwesomeIcon icon={faBars} />
               </button>
             </span>
@@ -87,8 +90,11 @@ class Menu extends React.Component {
             sidebar={
               <React.Fragment>
                 <ul style={styleUl}>
-                  <div style={{ padding: 5 }}>
-                    <button onClick={() => this.onSetSidebarOpen(false)}>
+                  <div style={{}}>
+                    <button
+                      style={{ padding: "8px 10px 8px 10px", borderRadius: 10 }}
+                      onClick={() => this.onSetSidebarOpen(false)}
+                    >
                       <FontAwesomeIcon icon={faBars} />
                     </button>
                   </div>

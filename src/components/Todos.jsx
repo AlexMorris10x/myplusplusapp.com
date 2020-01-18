@@ -16,15 +16,17 @@ class Todos extends React.Component {
       <React.Fragment>
         <h1>{projectName[0] === undefined ? "" : projectName[0].value}</h1>
         <Form
-          onSubmit={() =>
-            this.props.addTodo(this.props.todoText, projectName[0])
-          }
           style={{
             display: "flex",
             justifyContent: "center",
-            marginRight: 50,
-            marginBottom: 50
+            margin: "50px auto 50px auto",
+            width: 280
+            // marginRight: 50,
+            // marginBottom: 50
           }}
+          onSubmit={() =>
+            this.props.addTodo(this.props.todoText, projectName[0])
+          }
         >
           <Input
             action={{ color: "green", content: "+ +" }}
@@ -34,7 +36,7 @@ class Todos extends React.Component {
             type="text"
             value={this.props.todoText}
             onChange={e => this.props.writeTodo(e)}
-            style={{ fontSize: "16px" }}
+            style={{ fontSize: "16px", margin: "0 50px 0 0" }}
           />
         </Form>
         <div>{this.displayTodos(this.props.todos, this.props.username)}</div>
