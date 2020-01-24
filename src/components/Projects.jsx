@@ -48,7 +48,7 @@ class Projects extends React.Component {
           </Form>
           {this.displayProjects(this.props.projects, this.props.username)}
         </div>
-        <div
+        {/* <div
           style={{
             display: "inline-flex",
             justifyContent: "center",
@@ -66,7 +66,7 @@ class Projects extends React.Component {
               }}
             />
           </Link>
-        </div>
+        </div> */}
       </React.Fragment>
     );
   }

@@ -69,9 +69,10 @@ class Menu extends React.Component {
         <React.Fragment>
           <ul style={styleUl}>
             <span style={styleSideBar}>
-              <button onClick={() => this.onSetSidebarOpen(true)}>
+              <div style={{ margin: "18px" }}></div>
+              {/* <button onClick={() => this.onSetSidebarOpen(true)}>
                 <FontAwesomeIcon icon={faBars} />
-              </button>
+              </button> */}
             </span>
             <span style={styleLogo}>
               <h1>PlusPlus++</h1>

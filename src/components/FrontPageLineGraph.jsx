@@ -12,86 +12,135 @@ import windowSize from "react-window-size";
 
 class FrontPageLineGraph extends React.Component {
   graphMaker = () => {
-    let data = [];
     let count = 0;
-    let cumulitiveCount = 0;
+    let smallArr = [];
+    let bigArr = [];
+    // let data = [];
+    // let cumulitiveCount = 0;
     let URL = window.location.href;
     URL = URL.split("/");
     const endURL = URL[URL.length - 1];
-    let todos = this.props.todos.filter(todo => todo.complete === true);
-    todos = this.props.todos.map(todo => {
-      return this.dateConverter(
-        todo.completeDate,
-        todo.project,
-        todo.projectName
-      );
-    });
-    todos.sort((a, b) => a.completeDate - b.completeDate);
-    todos.sort((a, b) => {
-      const project1 = a.project.toLowerCase();
-      const project2 = b.project.toLowerCase();
-      if (project1 < project2) {
-        return -1;
-      }
-      if (project1 > project2) {
-        return 1;
-      }
-      return 0;
-    });
-    console.log(todos);
-
-    // @ TODO [[{}],[{}],[{}]]
-    // return an array of objects to go through
-
-    // todos.map((todo, index) => {
-    //   todos[index + 1] === undefined
-    //     ? (todos[index + 1] = "")
-    //     : (todos[index + 1] = todos[index + 1]);
-    //   if (todo.projectName === todos[index + 1].projectName) {
-    //     if (todo.completeDate === todos[index + 1].completeDate) {
-    //       count++;
-    //       cumulitiveCount++;
-    //     } else {
-    //       data.push({
-    //         x: todo.projectDate,
-    //         y: cumulitiveCount / this.projectLength(todo.project)
-    //       });
-    //       count = 0;
-    //     }
-    //   } else {
-    //     // console.log("new item");
+    // if (todos === undefined) todos = "";
+    let todos = this.props.todos
+      .filter(todo => todo.complete === true)
+      .map(todo => {
+        return this.dateConverter(
+          todo.completeDate,
+          todo.project,
+          todo.projectName
+        );
+      })
+      .sort((a, b) => a.completeDate - b.completeDate)
+      .sort((a, b) => {
+        const project1 = a.project.toLowerCase();
+        const project2 = b.project.toLowerCase();
+        if (project1 < project2) {
+          return -1;
+        }
+        if (project1 > project2) {
+          return 1;
+        }
+        return 0;
+      });
+    // .map((todo, index) => {
+    //   if (todos[index + 1] === undefined) {
+    //     todos[index + 1] = todos[index];
+    //     count++;
+    //     smallArr.push({
+    //       x: todo.completeDate,
+    //       y: count,
+    //       z: todo.projectName
+    //     });
+    //     bigArr.push(smallArr);
+    //     smallArr = [];
     //   }
-    //   <LineSeries
-    //   data={[
-    //     { x: 16, y: 2 },
-    //     { x: 17, y: 3 },
-    //     { x: 18, y: 5 },
-    //     { x: 19, y: 50 }
-    //   ]}
-    //   style={{ fill: "none" }}
-    // />
-
-    // console.log(todo.projectName);
-    // this.projectLength();
-    // console.log(todo);
-    //   if (todo === todos[index + 1]) {
+    //   if (
+    //     todo.project === todos[index + 1].project &&
+    //     todo.completeDate === todos[index + 1].completeDate
+    //   ) {
     //     count++;
-    //   } else {
+    //   } else if (
+    //     todo.project === todos[index + 1].project &&
+    //     todo.completeDate !== todos[index + 1].completeDate
+    //   ) {
     //     count++;
-    //     data.push({
-    //       x: this.dateConverterLegible(todo),
-    //       y:
-    //         (count /
-    //           this.props.todos.filter(todo => todo.project === endURL).length) *
-    //         100
+    //     smallArr.push({
+    //       x: todo.completeDate,
+    //       y: count,
+    //       z: todo.projectName
     //     });
     //     count = 0;
+    //   } else if (todo.project !== todos[index + 1].project) {
+    //     count++;
+    //     smallArr.push({
+    //       x: todo.completeDate,
+    //       y: count,
+    //       z: todo.projectName
+    //     });
+    //     bigArr.push(smallArr);
+    //     smallArr = [];
+    //     count = 0;
     //   }
-    //   return data;
-    // });
-    // return data;
+    //   return bigArr;
+    // })
+    // .map((todo, index) => {
+    //   return <LineSeries data={[todo[index]]} style={{ fill: "none" }} />;
     // });
   };
+
+  // console.log(todos);
+
+  // @ TODO [[{}],[{}],[{}]]
+  // return an array of objects to go through
+
+  // todos.map((todo, index) => {
+  //   todos[index + 1] === undefined
+  //     ? (todos[index + 1] = "")
+  //     : (todos[index + 1] = todos[index + 1]);
+  //   if (todo.projectName === todos[index + 1].projectName) {
+  //     if (todo.completeDate === todos[index + 1].completeDate) {
+  //       count++;
+  //       cumulitiveCount++;
+  //     } else {
+  //       data.push({
+  //         x: todo.projectDate,
+  //         y: cumulitiveCount / this.projectLength(todo.project)
+  //       });
+  //       count = 0;
+  //     }
+  //   } else {
+  //     // console.log("new item");
+  //   }
+  //   <LineSeries
+  //   data={[
+  //     { x: 16, y: 2 },
+  //     { x: 17, y: 3 },
+  //     { x: 18, y: 5 },
+  //     { x: 19, y: 50 }
+  //   ]}
+  //   style={{ fill: "none" }}
+  // />
+
+  // console.log(todo.projectName);
+  // this.projectLength();
+  // console.log(todo);
+  //   if (todo === todos[index + 1]) {
+  //     count++;
+  //   } else {
+  //     count++;
+  //     data.push({
+  //       x: this.dateConverterLegible(todo),
+  //       y:
+  //         (count /
+  //           this.props.todos.filter(todo => todo.project === endURL).length) *
+  //         100
+  //     });
+  //     count = 0;
+  //   }
+  //   return data;
+  // });
+  // return data;
+  // });
 
   dateConverter = (completeDate, project, projectName) => {
     const months = {
@@ -154,7 +203,8 @@ class FrontPageLineGraph extends React.Component {
   render() {
     return (
       <div style={styleChart}>
-        {this.graphMaker()}
+        <h1>{this.graphMaker()}</h1>
+        {/* <h1>{this.graphMaker()}</h1> */}
         <div>
           <h3>PROJECTS OVERVIEW</h3>
           <XYPlot
@@ -167,8 +217,7 @@ class FrontPageLineGraph extends React.Component {
             <VerticalGridLines />
             <XAxis orientation="bottom" title="X Axis" />
             <YAxis orientation="left" title="Y Axis" />
-            {/* {graphMaker} */}
-            <LineSeries
+            {/* <LineSeries
               data={[
                 { x: 16, y: 2 },
                 { x: 17, y: 3 },
@@ -194,7 +243,7 @@ class FrontPageLineGraph extends React.Component {
                 { x: 19, y: 50 }
               ]}
               style={{ fill: "none" }}
-            />
+            /> */}
           </XYPlot>
           <DiscreteColorLegend
             orientation="horizontal"
