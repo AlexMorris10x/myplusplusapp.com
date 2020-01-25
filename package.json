@@ -40,8 +40,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "dev": "concurrently \"react-scripts start\" \"node && cd server && server.js\"",
-    "prodArch": "npm install && npm run build && export NODE_ENV=\"production\" && npm start",
-    "prod": "npm install && npm run build && npm start",
+    "prod": "npm install && npm run build && export NODE_ENV=\"production\" && npm start",
     "heroku-postbuild": "npm install && npm run build"
   },
   "engines": {
