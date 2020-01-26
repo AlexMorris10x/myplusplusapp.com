@@ -34,7 +34,7 @@ class App extends Component {
         this.setState({
           loggedIn: false,
           user: null,
-          redirectTo: "/"
+          redirectTo: "/login"
         });
       }
     });

@@ -297,7 +297,7 @@ class Home extends Component {
               className="test"
               style={{
                 margin: "0 auto 0 auto",
-                padding: "0 150px 0 150px"
+                padding: "0 550px 0 550px"
               }}
             >
               {/* <FrontPageLineGraph todos={this.state.todos} /> */}
