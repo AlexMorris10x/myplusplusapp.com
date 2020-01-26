@@ -28,19 +28,6 @@ router.delete("/deleteProject/:id", (req, res, next) => {
     .catch(next);
 });
 
-// router.put("/completeProject/:id", (req, res, next) => {
-//   const complete = req.body.complete;
-//   const completeDate = req.body.completeDate;
-//   project
-//     .findOneAndUpdate(
-//       { _id: req.params.id },
-//       { $set: { complete: complete } },
-//       { $set: { completeDate: completeDate } }
-//     )
-//     .then(data => res.json(data))
-//     .catch(next);
-// });
-
 router.delete("/moveProjectDelete/:username", (req, res, next) => {
   // console.log("deleted projects", req.params.username);
   PROJECT.deleteMany({ username: req.params.username })

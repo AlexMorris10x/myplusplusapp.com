@@ -31,11 +31,12 @@ class Signup extends Component {
       axios
         .post("/auth/signup", {
           username: this.state.username,
-          password: this.state.password
+          password: this.state.password,
+          redirectTo: "/signup"
         })
         .then(response => {
           if (!response.data.errmsg) {
-            // this.props.login(this.state.username, this.state.password);
+            this.props.login(this.state.username, this.state.password);
             this.setState({
               redirectTo: "/"
             });
@@ -52,7 +53,7 @@ class Signup extends Component {
     return (
       <div className="CustomForm">
         <Container text>
-          <h1>Signup form</h1>
+          <h1>Signup</h1>
           <Form>
             <Form.Field>
               <label htmlFor="username">Username: </label>

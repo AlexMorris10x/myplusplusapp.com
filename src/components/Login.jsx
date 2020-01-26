@@ -5,8 +5,7 @@ import { Button, Form, Container } from "semantic-ui-react";
 class Login extends Component {
   state = {
     username: "",
-    password: "",
-    redirectTo: null
+    password: ""
   };
 
   writeText = e => {
@@ -18,9 +17,6 @@ class Login extends Component {
   logIn = e => {
     e.preventDefault();
     this.props.login(this.state.username, this.state.password);
-    this.setState({
-      redirectTo: "/"
-    });
   };
 
   render() {
@@ -30,7 +26,7 @@ class Login extends Component {
       return (
         <div className="CustomForm">
           <Container text>
-            <h1>Login form</h1>
+            <h1>Login</h1>
             <Form>
               <Form.Field>
                 <label htmlFor="username">Username: </label>

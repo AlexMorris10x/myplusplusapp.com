@@ -5,8 +5,10 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import Projects from "./Projects";
 import Sidebar from "react-sidebar";
 import windowSize from "react-window-size";
+
 class Menu extends React.Component {
   state = {
+    redirectTo: null,
     sidebarOpen: false
   };
 
@@ -15,26 +17,28 @@ class Menu extends React.Component {
   };
 
   render() {
+    if (!this.props.loggedIn) {
+      return (
+        <ul style={styleUlLoggedout}>
+          <div>
+            <Link to="/signup">Sign Up</Link>
+          </div>
+          <div>
+            <Link to="/login">Login</Link>
+          </div>
+        </ul>
+      );
+    }
     if (this.props.loggedIn && this.state.sidebarOpen === false) {
       if (this.props.windowWidth > 1200) {
         return (
           <ul style={styleUl}>
-            <span style={styleSideBar}>
-              {/* <button onClick={() => this.onSetSidebarOpen(true)}>
-                <FontAwesomeIcon icon={faBars} />
-              </button> */}
-            </span>
+            <span style={styleSideBar}></span>
             <span style={styleLogo}>
               <h1>PlusPlus++</h1>
             </span>
             <span>
-              <Link
-                to="/login"
-                onClick={this.props.logout}
-                style={{ color: "#333333" }}
-              >
-                Logout
-              </Link>
+              <Link to="/login">Logout</Link>
             </span>
           </ul>
         );
@@ -53,11 +57,7 @@ class Menu extends React.Component {
               <h1>PlusPlus++</h1>
             </span>
             <span>
-              <Link
-                to="/login"
-                onClick={this.props.logout}
-                style={{ color: "#333333" }}
-              >
+              <Link to="/login" onClick={this.props.logout}>
                 Logout
               </Link>
             </span>
@@ -70,19 +70,12 @@ class Menu extends React.Component {
           <ul style={styleUl}>
             <span style={styleSideBar}>
               <div style={{ margin: "18px" }}></div>
-              {/* <button onClick={() => this.onSetSidebarOpen(true)}>
-                <FontAwesomeIcon icon={faBars} />
-              </button> */}
             </span>
             <span style={styleLogo}>
               <h1>PlusPlus++</h1>
             </span>
             <span>
-              <Link
-                to="/login"
-                onClick={this.props.logout}
-                style={{ color: "#333333" }}
-              >
+              <Link to="/login" onClick={this.props.logout}>
                 Logout
               </Link>
             </span>
@@ -130,23 +123,8 @@ class Menu extends React.Component {
         </React.Fragment>
       );
     }
-    // if (!this.props.loggedIn) {
-    //   return (
-    //     <ul style={styleUl}>
-    //       <li style={styleLi}>
-    //         <Link to="/login">Login</Link>
-    //       </li>
-    //       <li style={styleLi}>
-    //         <Link to="/signup">Sign up</Link>
-    //       </li>
-    //     </ul>
-    // );
-    // }
   }
 }
-
-export default windowSize(Menu);
-
 const styleUl = {
   display: "flex",
   backgroundColor: "#333",
@@ -154,6 +132,15 @@ const styleUl = {
   justifyContent: "space-between",
   margin: "auto",
   padding: 20
+};
+const styleUlLoggedout = {
+  display: "flex",
+  backgroundColor: "#333",
+  alignItems: "flex-end",
+  justifyContent: "space-between",
+  margin: "auto",
+  padding: 20,
+  flexDirection: "column"
 };
 
 const styleLogo = {
@@ -163,3 +150,5 @@ const styleLogo = {
 const styleSideBar = {
   alignItems: "left"
 };
+
+export default windowSize(Menu);

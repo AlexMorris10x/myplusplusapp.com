@@ -19,7 +19,6 @@ class Home extends Component {
     todoText: ""
   };
 
-  //grabs user data
   componentWillReceiveProps(nextProps) {
     if (nextProps.user) {
       const newState = { ...this.state };
@@ -30,7 +29,6 @@ class Home extends Component {
     }
   }
 
-  //grabs all projects
   getProjects = () => {
     const oldState = { ...this.state };
     axios
@@ -49,7 +47,6 @@ class Home extends Component {
       });
   };
 
-  //grabs all todos
   getTodos = () => {
     const oldState = { ...this.state };
     axios
@@ -69,7 +66,6 @@ class Home extends Component {
   };
 
   addProject = projectText => {
-    // projectText.preventDefault();
     const project = {
       username: this.state.username,
       value: projectText
@@ -226,11 +222,6 @@ class Home extends Component {
     URL = URL.split("/");
     const endURL = URL[URL.length - 1];
     const { username, error } = this.state;
-
-    if (this.state.redirectTo) {
-      return <Redirect to={{ pathname: this.state.redirectTo }} />;
-    }
-
     if (error)
       return (
         <div>
@@ -238,18 +229,24 @@ class Home extends Component {
           <h5>{error}</h5>
         </div>
       );
-    // if (!username) {
-    //   return (
-    //     <div className="CustomForm">
-    //       <div text>
-    //         <h1>Please, Log In</h1>
-    //         <Link to="/login">
-    //           <h2>Login Here</h2>
-    //         </Link>
-    //       </div>
-    //     </div>
-    //   );
-    // }
+    if (!username) {
+      return (
+        <React.Fragment>
+          <Menu
+            logout={this.props.logout}
+            loggedIn={this.props.loggedIn}
+            projects={this.state.projects}
+            username={this.state.username}
+            addProject={this.addProject}
+            updateProject={this.updateProject}
+            deleteProject={this.deleteProject}
+            moveProject={this.moveProject}
+            projectText={this.state.projectText}
+            writeProject={this.writeProject}
+          />
+        </React.Fragment>
+      );
+    }
     if (endURL === "" && this.props.windowWidth > 1200)
       return (
         <React.Fragment>
