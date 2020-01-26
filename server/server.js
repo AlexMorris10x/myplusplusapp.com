@@ -11,11 +11,11 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const dbConnection = require("./db");
 // const morgan = require("morgan");
-// loads our connection to the mongo database
 const passport = require("./passport");
 const app = express();
 const PORT = process.env.PORT || 3001;
 // const path = require("path");
+const helmet = require("helmet");
 
 // ===== Middleware ====
 // app.use(morgan("dev"));
@@ -33,6 +33,7 @@ app.use(
     saveUninitialized: false
   })
 );
+app.use(helmet());
 
 // ===== Passport ====
 app.use(passport.initialize());
