@@ -244,6 +244,13 @@ class Home extends Component {
             projectText={this.state.projectText}
             writeProject={this.writeProject}
           />
+          <h1>Welcome To PlusPlus!</h1>
+          <h1>
+            Your path to incremental improvement. It's easy to get started:
+          </h1>
+          <h1>1. Create your account</h1>
+          <h1>2. Craete your projects and todos</h1>
+          <h1>3. Complete your todos and watch your progress increase</h1>
         </React.Fragment>
       );
     }
@@ -294,17 +301,8 @@ class Home extends Component {
               }}
             >
               {/* <FrontPageLineGraph todos={this.state.todos} /> */}
-              <h1>Hello Welcome To Progress Tracker</h1>
-              <h2>
-                This app is designed to track and measure your progress as you
-                complete assignments.
-              </h2>
-              <h2>
-                It's very easy to get started. Simply click the top left menu
-                and create your first project. From there, you will be able add
-                different tasks and they will be tracked, per each day, as you
-                complete them.
-              </h2>
+              <h1>Welcome to your home screen</h1>
+              <h1>Add a project in the top left menu to get started.</h1>
             </div>
           </div>
         </React.Fragment>
@@ -326,17 +324,8 @@ class Home extends Component {
           />
           <div style={styleHome}>
             {/* <FrontPageLineGraph todos={this.state.todos} /> */}
-            <h1>Hello Welcome To Progress Tracker</h1>
-            <h2>
-              This app is designed to track and measure your progress as you
-              complete assignments.
-            </h2>
-            <h2>
-              It's very easy to get started. Simply click the top left menu and
-              create your first project. From there, you will be able add
-              different tasks and they will be tracked, per each day, as you
-              complete them.
-            </h2>
+            <h1>Welcome to your home screen</h1>
+            <h1>Add a project in the top left menu to get started.</h1>
           </div>
         </React.Fragment>
       );

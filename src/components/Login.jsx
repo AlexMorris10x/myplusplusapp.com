@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { Button, Form, Container } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 class Login extends Component {
   state = {
@@ -25,6 +26,14 @@ class Login extends Component {
     } else {
       return (
         <div className="CustomForm">
+          <ul style={styleUlLoggedout}>
+            <div>
+              <Link to="/signup">Sign Up</Link>
+            </div>
+            <div>
+              <Link to="/login">Login</Link>
+            </div>
+          </ul>
           <Container text>
             <h1>Login</h1>
             <Form>
@@ -63,5 +72,15 @@ class Login extends Component {
     }
   }
 }
+
+const styleUlLoggedout = {
+  display: "flex",
+  backgroundColor: "#333",
+  alignItems: "flex-end",
+  justifyContent: "space-between",
+  margin: "auto",
+  padding: 20,
+  flexDirection: "column"
+};
 
 export default Login;
