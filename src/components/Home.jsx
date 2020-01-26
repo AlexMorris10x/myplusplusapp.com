@@ -249,7 +249,7 @@ class Home extends Component {
             Your path to incremental improvement. It's easy to get started:
           </h1>
           <h1>1. Create your account</h1>
-          <h1>2. Craete your projects and todos</h1>
+          <h1>2. Create your projects and todos</h1>
           <h1>3. Complete your todos and watch your progress increase</h1>
         </React.Fragment>
       );
@@ -297,7 +297,7 @@ class Home extends Component {
               className="test"
               style={{
                 margin: "0 auto 0 auto",
-                padding: "0 550px 0 550px"
+                padding: "0 450px 0 450px"
               }}
             >
               {/* <FrontPageLineGraph todos={this.state.todos} /> */}
