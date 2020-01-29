@@ -170,7 +170,7 @@ class FrontPageLineGraph extends React.Component {
     startAndEnd === undefined || startAndEnd.length === 0
       ? (startAndEnd = "")
       : (startAndEnd = [
-          Number(startAndEnd[0].completeDate.split(" ")[2]) - 5,
+          Number(startAndEnd[0].completeDate.split(" ")[2]),
           Number(
             startAndEnd[startAndEnd.length - 1].completeDate.split(" ")[2]
           ) + 5
