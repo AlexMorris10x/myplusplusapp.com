@@ -212,7 +212,7 @@ class FrontPageLineGraph extends React.Component {
           <XYPlot
             xDomain={this.graphConstraints()}
             width={
-              this.props.windowWidth < 850 ? this.props.windowWidth * 0.8 : 800
+              this.props.windowWidth > 700 ? 650 : this.props.windowWidth * 0.8
             }
             height={300}
           >
