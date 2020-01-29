@@ -73,6 +73,26 @@ class FrontPageLineGraph extends React.Component {
         todo.completeDate !== todos[index + 1].completeDate
       ) {
         count++;
+        // let total = this.props.todos.filter(
+        //     allTodos =>
+        //       allTodos.project === todo.project && allTodos.complete === true
+        //   ).length
+        smallArr.push({
+          x: todo.completeDate,
+          y: count - 1
+          // this.props.todos.filter(
+          //   allTodos =>
+          //     allTodos.project === todo.project && allTodos.complete === true
+          // ).length,
+        });
+        smallArr.push({
+          x: todo.completeDate,
+          y: count
+          // this.props.todos.filter(
+          //   allTodos =>
+          //     allTodos.project === todo.project && allTodos.complete === true
+          // ).length,
+        });
         count = 0;
       } else if (
         todo.project !== todos[index + 1].project &&
