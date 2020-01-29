@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Redirect, Link } from "react-router-dom";
 import Menu from "./Menu";
 import Todos from "./Todos";
 import BarGraph from "./BarGraph";
 import FrontPageLineGraph from "./FrontPageLineGraph";
 import Projects from "./Projects";
 import windowSize from "react-window-size";
+// import { Redirect, Link } from "react-router-dom";
 // import { connect } from "react-redux";
 
 class Home extends Component {
@@ -153,57 +153,57 @@ class Home extends Component {
       .catch(err => console.log(err));
   };
 
-  moveTodo = todoLocation => {
-    if (todoLocation.destination === null) return;
-    const oldState = { ...this.state };
-    let newState = { ...this.state };
-    const source = todoLocation.source.index;
-    const destination = todoLocation.destination.index;
-    let movedTodo = newState.todos.reverse();
-    movedTodo = newState.todos.splice(source, 1);
-    movedTodo = movedTodo[0];
-    const project = movedTodo.project;
-    newState.todos.splice(destination, 0, movedTodo);
-    newState.todos = newState.todos.reverse();
-    axios
-      .delete(`/todo/moveTodoDelete/${project}`)
-      .then(res => {
-        if (res.data) {
-          axios
-            .put(`/todo/moveTodoAdd/${project}`, newState.todos)
-            .catch(err => console.log(err));
-          this.setState({ oldState });
-        }
-      })
-      .catch(err => console.log(err));
-    this.setState({ oldState });
-  };
+  // moveTodo = todoLocation => {
+  //   if (todoLocation.destination === null) return;
+  //   const oldState = { ...this.state };
+  //   let newState = { ...this.state };
+  //   const source = todoLocation.source.index;
+  //   const destination = todoLocation.destination.index;
+  //   let movedTodo = newState.todos.reverse();
+  //   movedTodo = newState.todos.splice(source, 1);
+  //   movedTodo = movedTodo[0];
+  //   const project = movedTodo.project;
+  //   newState.todos.splice(destination, 0, movedTodo);
+  //   newState.todos = newState.todos.reverse();
+  //   axios
+  //     .delete(`/todo/moveTodoDelete/${project}`)
+  //     .then(res => {
+  //       if (res.data) {
+  //         axios
+  //           .put(`/todo/moveTodoAdd/${project}`, newState.todos)
+  //           .catch(err => console.log(err));
+  //         this.setState({ oldState });
+  //       }
+  //     })
+  //     .catch(err => console.log(err));
+  //   this.setState({ oldState });
+  // };
 
-  moveProject = projectLocation => {
-    if (projectLocation.destination === null) return;
-    const oldState = { ...this.state };
-    let newState = { ...this.state };
-    const source = projectLocation.source.index;
-    const destination = projectLocation.destination.index;
-    let movedProject = newState.projects.reverse();
-    movedProject = newState.projects.splice(source, 1);
-    movedProject = movedProject[0];
-    const username = movedProject.username;
-    newState.projects.splice(destination, 0, movedProject);
-    newState.projects = newState.projects.reverse();
-    axios
-      .delete(`/project/moveProjectDelete/${username}`)
-      .then(res => {
-        if (res.data) {
-          axios
-            .put(`/project/moveProjectAdd/${username}`, newState.projects)
-            .catch(err => console.log(err));
-          this.setState({ oldState });
-        }
-      })
-      .catch(err => console.log(err));
-    this.setState({ oldState });
-  };
+  // moveProject = projectLocation => {
+  //   if (projectLocation.destination === null) return;
+  //   const oldState = { ...this.state };
+  //   let newState = { ...this.state };
+  //   const source = projectLocation.source.index;
+  //   const destination = projectLocation.destination.index;
+  //   let movedProject = newState.projects.reverse();
+  //   movedProject = newState.projects.splice(source, 1);
+  //   movedProject = movedProject[0];
+  //   const username = movedProject.username;
+  //   newState.projects.splice(destination, 0, movedProject);
+  //   newState.projects = newState.projects.reverse();
+  //   axios
+  //     .delete(`/project/moveProjectDelete/${username}`)
+  //     .then(res => {
+  //       if (res.data) {
+  //         axios
+  //           .put(`/project/moveProjectAdd/${username}`, newState.projects)
+  //           .catch(err => console.log(err));
+  //         this.setState({ oldState });
+  //       }
+  //     })
+  //     .catch(err => console.log(err));
+  //   this.setState({ oldState });
+  // };
 
   writeProject = e => {
     e.preventDefault();
@@ -277,7 +277,8 @@ class Home extends Component {
                 backgroundColor: "lightgrey",
                 height: "93vh",
                 width: 300,
-                margin: "auto"
+                margin: "auto",
+                position: "fixed"
               }}
             >
               <Projects
@@ -294,15 +295,15 @@ class Home extends Component {
               />
             </div>
             <div
-              className="test"
               style={{
-                margin: "0 auto 0 auto",
-                padding: "0 500px 0 500px"
+                margin: "auto",
+                marginLeft: 400
               }}
             >
-              {/* <FrontPageLineGraph todos={this.state.todos} /> */}
-              <h1>Welcome to your home screen</h1>
-              <h1>Add a project in the top left menu to get started.</h1>
+              <FrontPageLineGraph
+                todos={this.state.todos}
+                projects={this.state.projects}
+              />
             </div>
           </div>
         </React.Fragment>
@@ -322,10 +323,13 @@ class Home extends Component {
             projectText={this.state.projectText}
             writeProject={this.writeProject}
           />
-          <div style={styleHome}>
-            {/* <FrontPageLineGraph todos={this.state.todos} /> */}
-            <h1>Welcome to your home screen</h1>
-            <h1>Add a project in the top left menu to get started.</h1>
+          <div style={{ margin: "auto" }}>
+            <FrontPageLineGraph
+              todos={this.state.todos}
+              projects={this.state.projects}
+            />
+            {/* <h1>Welcome to your home screen</h1>
+            <h1>Add a project in the top left menu to get started.</h1> */}
           </div>
         </React.Fragment>
       );

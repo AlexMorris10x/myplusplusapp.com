@@ -95,28 +95,39 @@ class BarGraph extends React.Component {
   };
 
   render() {
+    let URL = window.location.href;
+    URL = URL.split("/");
+    const endURL = URL[URL.length - 1];
     const { useCanvas } = this.state;
     const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
     return (
       <React.Fragment>
-        <div style={styleChart}>
-          <h3>PROGRESS METER</h3>
-          <XYPlot
-            xType="ordinal"
-            width={
-              this.props.windowWidth < 900 ? this.props.windowWidth * 0.8 : 750
-            }
-            height={300}
-            xDistance={1000}
-            yDomain={[0, 100]}
-          >
-            <VerticalGridLines />
-            <HorizontalGridLines />
-            <XAxis />
-            <YAxis />
-            <BarSeries data={this.graphMaker()} />
-          </XYPlot>
-        </div>
+        {this.props.todos.filter(
+          todo => todo.project === endURL && todo.complete === true
+        ).length === 0 ? (
+          ""
+        ) : (
+          <div style={styleChart}>
+            <h3>PROGRESS METER</h3>
+            <XYPlot
+              xType="ordinal"
+              width={
+                this.props.windowWidth < 900
+                  ? this.props.windowWidth * 0.8
+                  : 750
+              }
+              height={300}
+              xDistance={1000}
+              yDomain={[0, 100]}
+            >
+              <VerticalGridLines />
+              <HorizontalGridLines />
+              <XAxis />
+              <YAxis />
+              <BarSeries data={this.graphMaker()} />
+            </XYPlot>
+          </div>
+        )}
       </React.Fragment>
     );
   }
