@@ -114,9 +114,9 @@ class BarGraph extends React.Component {
               width={
                 this.props.windowWidth < 900
                   ? this.props.windowWidth * 0.8
-                  : 750
+                  : 780
               }
-              height={300}
+              height={200}
               xDistance={1000}
               yDomain={[0, 100]}
             >
