@@ -14,7 +14,9 @@ class Todos extends React.Component {
     );
     return (
       <React.Fragment>
-        <h1>{projectName[0] === undefined ? "" : projectName[0].value}</h1>
+        <h1 style={{ padding: 10 }}>
+          {projectName[0] === undefined ? "" : projectName[0].value}
+        </h1>
         <Form
           style={{
             display: "flex",

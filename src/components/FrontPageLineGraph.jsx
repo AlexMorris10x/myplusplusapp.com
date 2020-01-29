@@ -150,14 +150,16 @@ class FrontPageLineGraph extends React.Component {
     startAndEnd === undefined || startAndEnd.length === 0
       ? (startAndEnd = "")
       : (startAndEnd = [
-          Number(startAndEnd[0].completeDate.split(" ")[2]) - 10,
-          Number(startAndEnd[startAndEnd.length - 1].completeDate.split(" ")[2]) + 10
+          Number(startAndEnd[0].completeDate.split(" ")[2]) - 5,
+          Number(
+            startAndEnd[startAndEnd.length - 1].completeDate.split(" ")[2]
+          ) + 5
         ]);
     return startAndEnd;
   };
 
   graphLabels = () => {
-    let arr = []
+    let arr = [];
     if (this.props.projects === undefined) this.props.projects = "";
     // let labels = this.props.projects.sort(
     //   (a, b) => {
@@ -170,14 +172,17 @@ class FrontPageLineGraph extends React.Component {
     //     return 0;
     //   }
     // )
-    let labels = this.props.projects
-    labels.length === 0 ? labels = "" :
-    labels = labels.map((project, index) => {
-      arr.push ({ title: project.value })
-      return arr
-    })
-    return labels === undefined || labels.length === 0 ? labels = [] : labels = labels[labels.length -1 ]
-  }
+    let labels = this.props.projects;
+    labels.length === 0
+      ? (labels = "")
+      : (labels = labels.map((project, index) => {
+          arr.push({ title: project.value });
+          return arr;
+        }));
+    return labels === undefined || labels.length === 0
+      ? (labels = [])
+      : (labels = labels[labels.length - 1]);
+  };
 
   render() {
     return (
@@ -199,8 +204,8 @@ class FrontPageLineGraph extends React.Component {
           </XYPlot>
           <DiscreteColorLegend
             orientation="horizontal"
-            items={ this.graphLabels()}
-            style={{ display: "inline-flex", margin: 10 }}
+            items={this.graphLabels()}
+            style={{ display: "inline-flex", margin: 30 }}
           />
         </div>
       </div>

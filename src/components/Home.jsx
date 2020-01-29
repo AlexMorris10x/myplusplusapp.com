@@ -244,13 +244,15 @@ class Home extends Component {
             projectText={this.state.projectText}
             writeProject={this.writeProject}
           />
-          <h1>Welcome To PlusPlus!</h1>
-          <h1>
-            Your path to incremental improvement. It's easy to get started:
-          </h1>
-          <h1>1. Create your account</h1>
-          <h1>2. Create your projects and todos</h1>
-          <h1>3. Complete your todos and watch your progress increase</h1>
+          <div style={{ padding: 80 }}>
+            <h1>Welcome To PlusPlus!</h1>
+            <h1>
+              Your path to incremental improvement. It's easy to get started:
+            </h1>
+            <h1>1. Create your account</h1>
+            <h1>2. Create your projects and todos</h1>
+            <h1>3. Complete your todos and watch your progress increase</h1>
+          </div>
         </React.Fragment>
       );
     }
@@ -300,10 +302,14 @@ class Home extends Component {
                 marginLeft: 400
               }}
             >
-              <FrontPageLineGraph
-                todos={this.state.todos}
-                projects={this.state.projects}
-              />
+              {this.state.projects.length === 0 ? (
+                <h1>Please add projects...</h1>
+              ) : (
+                <FrontPageLineGraph
+                  todos={this.state.todos}
+                  projects={this.state.projects}
+                />
+              )}
             </div>
           </div>
         </React.Fragment>
@@ -324,12 +330,14 @@ class Home extends Component {
             writeProject={this.writeProject}
           />
           <div style={{ margin: "auto" }}>
-            <FrontPageLineGraph
-              todos={this.state.todos}
-              projects={this.state.projects}
-            />
-            {/* <h1>Welcome to your home screen</h1>
-            <h1>Add a project in the top left menu to get started.</h1> */}
+            {this.state.projects.length === 0 ? (
+              <h1>Please add projects...</h1>
+            ) : (
+              <FrontPageLineGraph
+                todos={this.state.todos}
+                projects={this.state.projects}
+              />
+            )}
           </div>
         </React.Fragment>
       );
@@ -433,13 +441,13 @@ export default windowSize(Home);
 //   console.log(state);
 // };
 
-const styleHome = {
-  margin: "auto",
-  maxWidth: 800,
-  padding: 50
-};
+// const styleHome = {
+//   margin: "auto",
+//   maxWidth: 800,
+//   padding: 50
+// };
 
-const styleMenu = {
-  margin: "auto",
-  maxWidth: 800
-};
+// const styleMenu = {
+//   margin: "auto",
+//   maxWidth: 800
+// };
