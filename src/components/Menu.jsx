@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -35,7 +35,11 @@ class Menu extends React.Component {
           <ul style={styleUl}>
             <span style={styleSideBar}></span>
             <span style={styleLogo}>
-              <h1>PlusPlus++</h1>
+              <h1>
+                <Link to="/" style={{ color: "white" }}>
+                  PlusPlus++
+                </Link>
+              </h1>
             </span>
             <span>
               <Link to="/login">Logout</Link>
@@ -54,7 +58,11 @@ class Menu extends React.Component {
               </button>
             </span>
             <span style={styleLogo}>
-              <h1>PlusPlus++</h1>
+              <h1>
+                <Link to="/" style={{ color: "white" }}>
+                  PlusPlus++
+                </Link>
+              </h1>
             </span>
             <span>
               <Link to="/login" onClick={this.props.logout}>
