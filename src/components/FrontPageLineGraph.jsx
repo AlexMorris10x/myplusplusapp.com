@@ -227,7 +227,9 @@ class FrontPageLineGraph extends React.Component {
             items={this.graphLabels().reverse()}
             style={{
               // display: "inline-flex",
-              margin: "auto"
+              margin: "auto",
+              textAlign: "left",
+              background: "white"
             }}
           />
         </div>
