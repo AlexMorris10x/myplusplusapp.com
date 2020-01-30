@@ -46,20 +46,20 @@ class FrontPageLineGraph extends React.Component {
         // ).length
         smallArr.push({
           x: todo.completeDate,
-          y: count - 1
+          y: count - 0.1
           // this.props.todos.filter(
           //   allTodos =>
           //     allTodos.project === todo.project && allTodos.complete === true
           // ).length,
         });
-        smallArr.push({
-          x: todo.completeDate,
-          y: count
-          // this.props.todos.filter(
-          //   allTodos =>
-          //     allTodos.project === todo.project && allTodos.complete === true
-          // ).length,
-        });
+        // smallArr.push({
+        //   x: todo.completeDate,
+        //   y: count
+        //   // this.props.todos.filter(
+        //   //   allTodos =>
+        //   //     allTodos.project === todo.project && allTodos.complete === true
+        //   // ).length,
+        // });
         bigArr.push(smallArr);
         return bigArr;
       }
@@ -79,20 +79,20 @@ class FrontPageLineGraph extends React.Component {
         //   ).length
         smallArr.push({
           x: todo.completeDate,
-          y: count - 1
+          y: count - 0.1
           // this.props.todos.filter(
           //   allTodos =>
           //     allTodos.project === todo.project && allTodos.complete === true
           // ).length,
         });
-        smallArr.push({
-          x: todo.completeDate,
-          y: count
-          // this.props.todos.filter(
-          //   allTodos =>
-          //     allTodos.project === todo.project && allTodos.complete === true
-          // ).length,
-        });
+        // smallArr.push({
+        //   x: todo.completeDate,
+        //   y: count
+        //   // this.props.todos.filter(
+        //   //   allTodos =>
+        //   //     allTodos.project === todo.project && allTodos.complete === true
+        //   // ).length,
+        // });
         count = 0;
       } else if (
         todo.project !== todos[index + 1].project &&
@@ -105,20 +105,20 @@ class FrontPageLineGraph extends React.Component {
         //   ).length
         smallArr.push({
           x: todo.completeDate,
-          y: count - 1
+          y: count - 0.1
           // this.props.todos.filter(
           //   allTodos =>
           //     allTodos.project === todo.project && allTodos.complete === true
           // ).length,
         });
-        smallArr.push({
-          x: todo.completeDate,
-          y: count
-          // this.props.todos.filter(
-          //   allTodos =>
-          //     allTodos.project === todo.project && allTodos.complete === true
-          // ).length,
-        });
+        // smallArr.push({
+        //   x: todo.completeDate,
+        //   y: count
+        //   // this.props.todos.filter(
+        //   //   allTodos =>
+        //   //     allTodos.project === todo.project && allTodos.complete === true
+        //   // ).length,
+        // });
         bigArr.push(smallArr);
         smallArr = [];
         count = 0;
@@ -170,7 +170,7 @@ class FrontPageLineGraph extends React.Component {
     startAndEnd === undefined || startAndEnd.length === 0
       ? (startAndEnd = "")
       : (startAndEnd = [
-          Number(startAndEnd[0].completeDate.split(" ")[2]),
+          Number(startAndEnd[0].completeDate.split(" ")[2]) - 1,
           Number(
             startAndEnd[startAndEnd.length - 1].completeDate.split(" ")[2]
           ) + 5

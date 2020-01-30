@@ -33,10 +33,10 @@ class Projects extends React.Component {
             }}
           >
             <Input
-              action={{ color: "green", content: "+ +" }}
-              icon="add"
+              action={{ color: "green", content: "Post" }}
+              // icon="add"
               iconPosition="left"
-              placeholder="Add new project"
+              placeholder="New project"
               type="text"
               value={this.props.projectText}
               onChange={e => this.props.writeProject(e)}
@@ -114,15 +114,10 @@ class Projects extends React.Component {
                               </div>
                               <div>
                                 <button
+                                  style={styleProjectButton}
                                   onClick={() =>
                                     this.props.deleteProject(project._id)
                                   }
-                                  style={{
-                                    width: "5vw",
-                                    maxWidth: 10,
-                                    color: "red",
-                                    width: "10vw"
-                                  }}
                                 >
                                   <FontAwesomeIcon icon={faTrashAlt} />
                                 </button>
@@ -143,3 +138,12 @@ class Projects extends React.Component {
 }
 
 export default Projects;
+
+const styleProjectButton = {
+  marginRight: 10,
+  width: "5vw",
+  maxWidth: 10,
+  color: "red",
+  background: "transparent",
+  border: "none"
+};

@@ -3,6 +3,7 @@ import { Form, Input } from "semantic-ui-react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faCheckSquare } from "@fortawesome/free-solid-svg-icons";
+import { faSquare } from "@fortawesome/free-regular-svg-icons";
 
 class Todos extends React.Component {
   render() {
@@ -29,8 +30,8 @@ class Todos extends React.Component {
           }
         >
           <Input
-            action={{ color: "green", content: "+ +" }}
-            icon="checkmark"
+            action={{ color: "green", content: "Post" }}
+            // icon="checkmark"
             iconPosition="left"
             placeholder="Add new todo"
             type="text"
@@ -114,6 +115,7 @@ class Todos extends React.Component {
                                     }}
                                   >
                                     <button
+                                      style={styleTodoButton}
                                       onClick={() =>
                                         this.props.completeTodo(
                                           todo._id,
@@ -122,8 +124,10 @@ class Todos extends React.Component {
                                       }
                                     >
                                       <FontAwesomeIcon
-                                        icon={faCheckSquare}
-                                        style={{ color: "green" }}
+                                        icon={faSquare}
+                                        style={{
+                                          color: "black"
+                                        }}
                                       />
                                     </button>
                                   </div>
@@ -150,6 +154,7 @@ class Todos extends React.Component {
                                     }}
                                   >
                                     <button
+                                      style={styleTodoButton}
                                       onClick={() =>
                                         this.props.deleteTodo(todo._id)
                                       }
@@ -250,6 +255,7 @@ class Todos extends React.Component {
                                     }}
                                   >
                                     <button
+                                      style={styleTodoButton}
                                       onClick={() =>
                                         this.props.completeTodo(
                                           todo._id,
@@ -286,6 +292,7 @@ class Todos extends React.Component {
                                     }}
                                   >
                                     <button
+                                      style={styleTodoButton}
                                       onClick={() =>
                                         this.props.deleteTodo(todo._id)
                                       }
@@ -314,3 +321,8 @@ class Todos extends React.Component {
 }
 
 export default Todos;
+
+const styleTodoButton = {
+  background: "transparent",
+  border: "none"
+};
