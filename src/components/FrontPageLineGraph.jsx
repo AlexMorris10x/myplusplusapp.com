@@ -212,7 +212,7 @@ class FrontPageLineGraph extends React.Component {
           <XYPlot
             xDomain={this.graphConstraints()}
             width={
-              this.props.windowWidth > 700 ? 650 : this.props.windowWidth * 0.8
+              this.props.windowWidth > 700 ? 680 : this.props.windowWidth * 0.8
             }
             height={300}
           >
@@ -224,7 +224,7 @@ class FrontPageLineGraph extends React.Component {
           </XYPlot>
           <DiscreteColorLegend
             orientation="horizontal"
-            items={this.graphLabels()}
+            items={this.graphLabels().reverse()}
             style={{ display: "inline-flex", margin: 30 }}
           />
         </div>
