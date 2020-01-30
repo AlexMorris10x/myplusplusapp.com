@@ -225,7 +225,10 @@ class FrontPageLineGraph extends React.Component {
           <DiscreteColorLegend
             orientation="horizontal"
             items={this.graphLabels().reverse()}
-            style={{ display: "inline-flex", margin: 30 }}
+            style={{
+              // display: "inline-flex",
+              margin: "auto"
+            }}
           />
         </div>
       </div>
@@ -236,8 +239,7 @@ export default windowSize(FrontPageLineGraph);
 
 const styleChart = {
   textAlign: "center",
-  display: "inline-block",
-  marginRight: 6,
+  // display: "inline-block",
   backgroundColor: "#eee",
-  marginTop: 20
+  margin: 16
 };
