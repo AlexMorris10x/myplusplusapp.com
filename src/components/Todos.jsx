@@ -33,7 +33,7 @@ class Todos extends React.Component {
             action={{ color: "green", content: "Post" }}
             // icon="checkmark"
             iconPosition="left"
-            placeholder="Add new todo"
+            placeholder="Add new todo..."
             type="text"
             value={this.props.todoText}
             onChange={e => this.props.writeTodo(e)}

@@ -33,10 +33,10 @@ class Projects extends React.Component {
             }}
           >
             <Input
-              action={{ color: "green", content: "Post" }}
+              action={{ color: "blue", content: "Post" }}
               // icon="add"
               iconPosition="left"
-              placeholder="New project"
+              placeholder="New project..."
               type="text"
               value={this.props.projectText}
               onChange={e => this.props.writeProject(e)}

@@ -44,22 +44,22 @@ class FrontPageLineGraph extends React.Component {
         //   allTodos =>
         //     allTodos.project === todo.project && allTodos.complete === true
         // ).length
-        smallArr.push({
-          x: todo.completeDate,
-          y: count - 0.1
-          // this.props.todos.filter(
-          //   allTodos =>
-          //     allTodos.project === todo.project && allTodos.complete === true
-          // ).length,
-        });
         // smallArr.push({
         //   x: todo.completeDate,
-        //   y: count
+        //   y: count - 0.1
         //   // this.props.todos.filter(
         //   //   allTodos =>
         //   //     allTodos.project === todo.project && allTodos.complete === true
         //   // ).length,
         // });
+        smallArr.push({
+          x: todo.completeDate,
+          y: count
+          // this.props.todos.filter(
+          //   allTodos =>
+          //     allTodos.project === todo.project && allTodos.complete === true
+          // ).length,
+        });
         bigArr.push(smallArr);
         return bigArr;
       }
@@ -77,22 +77,22 @@ class FrontPageLineGraph extends React.Component {
         //     allTodos =>
         //       allTodos.project === todo.project && allTodos.complete === true
         //   ).length
-        smallArr.push({
-          x: todo.completeDate,
-          y: count - 0.1
-          // this.props.todos.filter(
-          //   allTodos =>
-          //     allTodos.project === todo.project && allTodos.complete === true
-          // ).length,
-        });
         // smallArr.push({
         //   x: todo.completeDate,
-        //   y: count
+        //   y: count - 0.1
         //   // this.props.todos.filter(
         //   //   allTodos =>
         //   //     allTodos.project === todo.project && allTodos.complete === true
         //   // ).length,
         // });
+        smallArr.push({
+          x: todo.completeDate,
+          y: count
+          // this.props.todos.filter(
+          //   allTodos =>
+          //     allTodos.project === todo.project && allTodos.complete === true
+          // ).length,
+        });
         count = 0;
       } else if (
         todo.project !== todos[index + 1].project &&
@@ -103,22 +103,22 @@ class FrontPageLineGraph extends React.Component {
         //     allTodos =>
         //       allTodos.project === todo.project && allTodos.complete === true
         //   ).length
-        smallArr.push({
-          x: todo.completeDate,
-          y: count - 0.1
-          // this.props.todos.filter(
-          //   allTodos =>
-          //     allTodos.project === todo.project && allTodos.complete === true
-          // ).length,
-        });
         // smallArr.push({
         //   x: todo.completeDate,
-        //   y: count
+        //   y: count - 0.1
         //   // this.props.todos.filter(
         //   //   allTodos =>
         //   //     allTodos.project === todo.project && allTodos.complete === true
         //   // ).length,
         // });
+        smallArr.push({
+          x: todo.completeDate,
+          y: count
+          // this.props.todos.filter(
+          //   allTodos =>
+          //     allTodos.project === todo.project && allTodos.complete === true
+          // ).length,
+        });
         bigArr.push(smallArr);
         smallArr = [];
         count = 0;
