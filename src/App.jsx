@@ -7,7 +7,7 @@ import Home from "./components/Home";
 class App extends Component {
   state = {
     user: "",
-    loggedIn: false,
+    loggedIn: true,
     redirectTo: ""
   };
 
@@ -20,7 +20,7 @@ class App extends Component {
         });
       } else {
         this.setState({
-          loggedIn: false,
+          loggedIn: true,
           user: "null"
         });
       }

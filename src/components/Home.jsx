@@ -229,33 +229,33 @@ class Home extends Component {
           <h5>{error}</h5>
         </div>
       );
-    if (!username) {
-      return (
-        <React.Fragment>
-          <Menu
-            logout={this.props.logout}
-            loggedIn={this.props.loggedIn}
-            projects={this.state.projects}
-            username={this.state.username}
-            addProject={this.addProject}
-            updateProject={this.updateProject}
-            deleteProject={this.deleteProject}
-            moveProject={this.moveProject}
-            projectText={this.state.projectText}
-            writeProject={this.writeProject}
-          />
-          <div style={{ padding: 80 }}>
-            <h1>Welcome To PlusPlus!</h1>
-            <h1>
-              Your path to incremental improvement. It's easy to get started:
-            </h1>
-            <h1>1. Create your account</h1>
-            <h1>2. Create your projects and todos</h1>
-            <h1>3. Complete your todos and watch your progress increase</h1>
-          </div>
-        </React.Fragment>
-      );
-    }
+    // if (!username) {
+    //   return (
+    //     <React.Fragment>
+    //       <Menu
+    //         logout={this.props.logout}
+    //         loggedIn={this.props.loggedIn}
+    //         projects={this.state.projects}
+    //         username={this.state.username}
+    //         addProject={this.addProject}
+    //         updateProject={this.updateProject}
+    //         deleteProject={this.deleteProject}
+    //         moveProject={this.moveProject}
+    //         projectText={this.state.projectText}
+    //         writeProject={this.writeProject}
+    //       />
+    //       <div style={{ padding: 80 }}>
+    //         <h1>Welcome To PlusPlus!</h1>
+    //         <h1>
+    //           Your path to incremental improvement. It's easy to get started:
+    //         </h1>
+    //         <h1>1. Create your account</h1>
+    //         <h1>2. Create your projects and todos</h1>
+    //         <h1>3. Complete your todos and watch your progress increase</h1>
+    //       </div>
+    //     </React.Fragment>
+    //   );
+    // }
     if (endURL === "" && this.props.windowWidth > 1200)
       return (
         <React.Fragment>

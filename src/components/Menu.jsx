@@ -41,9 +41,7 @@ class Menu extends React.Component {
                 </Link>
               </h1>
             </span>
-            <span>
-              <Link to="/login">Logout</Link>
-            </span>
+            <span>{/* <Link to="/login">Logout</Link> */}</span>
           </ul>
         );
       } else {
@@ -65,9 +63,9 @@ class Menu extends React.Component {
               </h1>
             </span>
             <span>
-              <Link to="/login" onClick={this.props.logout}>
+              {/* <Link to="/login" onClick={this.props.logout}>
                 Logout
-              </Link>
+              </Link> */}
             </span>
           </ul>
         );

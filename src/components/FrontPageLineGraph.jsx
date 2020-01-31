@@ -240,8 +240,8 @@ class FrontPageLineGraph extends React.Component {
 export default windowSize(FrontPageLineGraph);
 
 const styleChart = {
-  textAlign: "center",
   // display: "inline-block",
+  textAlign: "center",
   backgroundColor: "#eee",
   margin: 16
 };
