@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { Route, Redirect, Switch } from "react-router-dom";
+import axios from "axios";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
@@ -20,7 +20,7 @@ class App extends Component {
         });
       } else {
         this.setState({
-          loggedIn: true,
+          loggedIn: false,
           user: "null"
         });
       }

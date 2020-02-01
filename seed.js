@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 // const config = require("config");
-const { PROJECT } = require("./server/db/models/project");
+const { PROJECT } = require("./server/db/project");
 
 const data = [
   {

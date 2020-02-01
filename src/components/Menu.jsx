@@ -19,29 +19,44 @@ class Menu extends React.Component {
   render() {
     if (!this.props.loggedIn) {
       return (
-        <ul style={styleUlLoggedout}>
-          <div>
-            <Link to="/signup">Sign Up</Link>
-          </div>
-          <div>
-            <Link to="/login">Login</Link>
-          </div>
-        </ul>
+        <React.Fragment>
+          <ul style={styleUlLoggedout}>
+            <div>{/*Empty Div For Flex*/}</div>
+            <div>
+              <h1>
+                <Link to="/" style={{ color: "white", textAlign: "center" }}>
+                  PlusPlus++
+                </Link>
+              </h1>
+            </div>
+            <div>
+              <div>
+                <Link to="/signup">Sign Up</Link>
+              </div>
+              <div>
+                <Link to="/login">Login</Link>
+              </div>
+            </div>
+          </ul>
+        </React.Fragment>
       );
     }
     if (this.props.loggedIn && this.state.sidebarOpen === false) {
       if (this.props.windowWidth > 1200) {
         return (
           <ul style={styleUl}>
-            <span style={styleSideBar}></span>
-            <span style={styleLogo}>
-              <h1>
-                <Link to="/" style={{ color: "white" }}>
-                  PlusPlus++
-                </Link>
-              </h1>
+            <span style={styleSideBar}>
+              <span style={styleLogo}>
+                <h1>
+                  <Link to="/" style={{ color: "white" }}>
+                    PlusPlus++
+                  </Link>
+                </h1>
+              </span>
             </span>
-            <span>{/* <Link to="/login">Logout</Link> */}</span>
+            <span>
+              <Link to="/login">Logout</Link>
+            </span>
           </ul>
         );
       } else {
@@ -63,9 +78,9 @@ class Menu extends React.Component {
               </h1>
             </span>
             <span>
-              {/* <Link to="/login" onClick={this.props.logout}>
+              <Link to="/login" onClick={this.props.logout}>
                 Logout
-              </Link> */}
+              </Link>
             </span>
           </ul>
         );
@@ -142,11 +157,9 @@ const styleUl = {
 const styleUlLoggedout = {
   display: "flex",
   backgroundColor: "#333",
-  alignItems: "flex-end",
   justifyContent: "space-between",
   margin: "auto",
-  padding: 20,
-  flexDirection: "column"
+  padding: 20
 };
 
 const styleLogo = {

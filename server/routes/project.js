@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const PROJECT = require("../db/models/project");
+const PROJECT = require("../db/project");
 
 router.get("/getProject", (req, res, next) => {
   PROJECT.find()
@@ -29,14 +29,12 @@ router.delete("/deleteProject/:id", (req, res, next) => {
 });
 
 router.delete("/moveProjectDelete/:username", (req, res, next) => {
-  // console.log("deleted projects", req.params.username);
   PROJECT.deleteMany({ username: req.params.username })
     .then(data => res.json(data))
     .catch(next);
 });
 
 router.put("/moveProjectAdd/:username", (req, res, next) => {
-  // console.log("added projects", username);
   const username = req.body;
   PROJECT.insertMany(username)
     .then(data => res.json(data))

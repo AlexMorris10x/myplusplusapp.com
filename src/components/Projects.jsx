@@ -13,7 +13,11 @@ class Projects extends React.Component {
           style={{
             padding: 20
           }}
-        ></div>
+        >
+          <Link to="/" className="nav-link">
+            <h1>HOME</h1>
+          </Link>
+        </div>
         <div style={{ margin: 20 }}></div>
         <div
           style={{

@@ -40,27 +40,17 @@ class FrontPageLineGraph extends React.Component {
     todos = todos.map((todo, index) => {
       if (index === todos.length - 1) {
         count++;
-        // let total = this.props.todos.filter(
-        //   allTodos =>
-        //     allTodos.project === todo.project && allTodos.complete === true
-        // ).length
-        // smallArr.push({
-        //   x: todo.completeDate,
-        //   y: count - 0.1
-        //   // this.props.todos.filter(
-        //   //   allTodos =>
-        //   //     allTodos.project === todo.project && allTodos.complete === true
-        //   // ).length,
-        // });
         smallArr.push({
           x: todo.completeDate,
-          y: count
+          y: count,
+          z: todo.projectName
           // this.props.todos.filter(
           //   allTodos =>
           //     allTodos.project === todo.project && allTodos.complete === true
           // ).length,
         });
         bigArr.push(smallArr);
+        // console.log(bigArr);
         return bigArr;
       }
       if (
@@ -77,17 +67,10 @@ class FrontPageLineGraph extends React.Component {
         //     allTodos =>
         //       allTodos.project === todo.project && allTodos.complete === true
         //   ).length
-        // smallArr.push({
-        //   x: todo.completeDate,
-        //   y: count - 0.1
-        //   // this.props.todos.filter(
-        //   //   allTodos =>
-        //   //     allTodos.project === todo.project && allTodos.complete === true
-        //   // ).length,
-        // });
         smallArr.push({
           x: todo.completeDate,
-          y: count
+          y: count,
+          z: todo.projectName
           // this.props.todos.filter(
           //   allTodos =>
           //     allTodos.project === todo.project && allTodos.complete === true
@@ -103,23 +86,17 @@ class FrontPageLineGraph extends React.Component {
         //     allTodos =>
         //       allTodos.project === todo.project && allTodos.complete === true
         //   ).length
-        // smallArr.push({
-        //   x: todo.completeDate,
-        //   y: count - 0.1
-        //   // this.props.todos.filter(
-        //   //   allTodos =>
-        //   //     allTodos.project === todo.project && allTodos.complete === true
-        //   // ).length,
-        // });
         smallArr.push({
           x: todo.completeDate,
-          y: count
+          y: count,
+          z: todo.projectName
           // this.props.todos.filter(
           //   allTodos =>
           //     allTodos.project === todo.project && allTodos.complete === true
           // ).length,
         });
         bigArr.push(smallArr);
+        // console.log(bigArr);
         smallArr = [];
         count = 0;
       }

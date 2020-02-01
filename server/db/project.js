@@ -6,6 +6,5 @@ const PROJECTSchema = new Schema({
   username: { type: String, unique: false }
 });
 
-// Create reference to User & export
 const PROJECT = mongoose.model("PROJECT", PROJECTSchema);
 module.exports = PROJECT;

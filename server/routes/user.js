@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../db/models/user");
+const User = require("../db/user");
 const passport = require("../passport");
 
-// this route is just used to get the user basic info
 router.get("/user", (req, res, next) => {
   if (req.user) {
     return res.json({ user: req.user });
@@ -19,7 +18,7 @@ router.post(
   },
   passport.authenticate("local"),
   (req, res) => {
-    const user = JSON.parse(JSON.stringify(req.user)); // hack
+    const user = JSON.parse(JSON.stringify(req.user));
     const cleanUser = Object.assign({}, user);
     if (cleanUser) {
       delete cleanUser.password;
@@ -31,7 +30,7 @@ router.post(
 router.post("/logout", (req, res) => {
   if (req.user) {
     req.session.destroy();
-    res.clearCookie("connect.sid"); // clean up!
+    res.clearCookie("connect.sid");
     return res.json({ msg: "logging you out" });
   } else {
     return res.json({ msg: "no user to log out!" });
@@ -39,8 +38,6 @@ router.post("/logout", (req, res) => {
 });
 
 router.post("/signup", (req, res) => {
-  //   console.log({ username, password });
-  //   console.log("received");
   const { username, password } = req.body;
   User.findOne({ username: username }, (err, userMatch) => {
     if (userMatch) {

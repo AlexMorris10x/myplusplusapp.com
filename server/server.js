@@ -1,4 +1,3 @@
-// Loading evnironmental variables here
 if (process.env.NODE_ENV !== "production") {
   console.log("loading dev environments");
   require("dotenv").config();
@@ -10,14 +9,14 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const dbConnection = require("./db");
-// const morgan = require("morgan");
 const passport = require("./passport");
 const app = express();
 const PORT = process.env.PORT || 3001;
-// const path = require("path");
 const helmet = require("helmet");
+// const morgan = require("morgan");
+// const path = require("path");
 
-// ===== Middleware ====
+// MIDDLEWARE
 // app.use(morgan("dev"));
 app.use(
   bodyParser.urlencoded({
@@ -35,16 +34,25 @@ app.use(
 );
 app.use(helmet());
 
-// ===== Passport ====
+// PASSPORT
 app.use(passport.initialize());
-app.use(passport.session()); // will call the deserializeUser
+app.use(passport.session());
 
-/* Express app ROUTING */
-app.use("/auth", require("./auth"));
-app.use("/todo", require("./todo"));
-app.use("/project", require("./project"));
+// EXPRESS APP ROUTING
+app.use("/auth", require("./routes/user"));
+app.use("/todo", require("./routes/todo"));
+app.use("/project", require("./routes/project"));
 
-// // ==== if its production environment!
+// PRODUCTION ENVIRONMENT
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("../build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+    // relative path
+  });
+}
+
 // if (process.env.NODE_ENV === "production") {
 //   const path = require("path");
 //   console.log("YOU ARE IN THE PRODUCTION ENV");
@@ -57,16 +65,7 @@ app.use("/project", require("./project"));
 //   });
 // }
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("../build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"));
-    // relative path
-  });
-}
-
-// ==== if its production environment!
+// PRODUCTION ENVIRONMENT
 // if (process.env.NODE_ENV === "production") {
 //   app.use(express.static("/build"));
 
@@ -75,13 +74,12 @@ if (process.env.NODE_ENV === "production") {
 //   });
 // }
 
-// ====== Error handler ====
 app.use(function(err, req, res, next) {
   console.log("====== ERROR =======");
   console.error(err.stack);
   res.status(500);
 });
-// ==== Starting Server =====
+
 app.listen(PORT, () => {
   console.log(`App listening on PORT: ${PORT}`);
 });

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
+import windowSize from "react-window-size";
+import styled from "styled-components";
 import Menu from "./Menu";
-import Todos from "./Todos";
-import BarGraph from "./BarGraph";
 import FrontPageLineGraph from "./FrontPageLineGraph";
 import Projects from "./Projects";
-import windowSize from "react-window-size";
+import Todos from "./Todos";
+import BarGraph from "./BarGraph";
 // import { Redirect, Link } from "react-router-dom";
 // import { connect } from "react-redux";
 
@@ -441,13 +442,8 @@ export default windowSize(Home);
 //   console.log(state);
 // };
 
-// const styleHome = {
-//   margin: "auto",
-//   maxWidth: 800,
-//   padding: 50
-// };
-
-// const styleMenu = {
-//   margin: "auto",
-//   maxWidth: 800
-// };
+const Title = styled.component`
+  font-size: 1.5em;
+  text-align: center;
+  color: palevioletred;
+`;

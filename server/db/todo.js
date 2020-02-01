@@ -10,6 +10,5 @@ const TODOSchema = new Schema({
   completeDate: { type: String, unique: false }
 });
 
-// Create reference to User & export
 const TODO = mongoose.model("TODO", TODOSchema);
 module.exports = TODO;
