@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   XYPlot,
   XAxis,
@@ -9,21 +9,23 @@ import {
   VerticalBarSeriesCanvas
 } from "react-vis";
 import windowSize from "react-window-size";
+import styled from "styled-components";
 
-class BarGraph extends React.Component {
-  state = {
+function BarGraph(props) {
+  const [state, setState] = useState({
     useCanvas: false
-  };
-  graphMaker = () => {
+  });
+
+  const graphMaker = () => {
     let URL = window.location.href;
     URL = URL.split("/");
     const endURL = URL[URL.length - 1];
     let data = [];
     let count = 0;
-    let todos = this.props.todos
+    let todos = props.todos
       .filter(todo => todo.complete === true && todo.project === endURL)
       .map(todo => {
-        return this.dateConverter(todo.completeDate);
+        return dateConverter(todo.completeDate);
       })
       .sort((a, b) => a - b);
     todos.map((todo, index) => {
@@ -32,10 +34,10 @@ class BarGraph extends React.Component {
       } else {
         count++;
         data.push({
-          x: this.dateConverterLegible(todo),
+          x: dateConverterLegible(todo),
           y:
             (count /
-              this.props.todos.filter(todo => todo.project === endURL).length) *
+              props.todos.filter(todo => todo.project === endURL).length) *
             100
         });
         count = 0;
@@ -45,7 +47,7 @@ class BarGraph extends React.Component {
     return data;
   };
 
-  dateConverter = date => {
+  const dateConverter = date => {
     const months = {
       Jan: "01",
       Feb: "02",
@@ -71,7 +73,7 @@ class BarGraph extends React.Component {
     return finalDate.join("");
   };
 
-  dateConverterLegible = date => {
+  const dateConverterLegible = date => {
     const months = {
       ["0,1"]: "Jan",
       ["0,2"]: "Feb",
@@ -94,43 +96,37 @@ class BarGraph extends React.Component {
     return legibleDate;
   };
 
-  render() {
-    let URL = window.location.href;
-    URL = URL.split("/");
-    const endURL = URL[URL.length - 1];
-    const { useCanvas } = this.state;
-    const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
-    return (
-      <React.Fragment>
-        {this.props.todos.filter(
-          todo => todo.project === endURL && todo.complete === true
-        ).length === 0 ? (
-          ""
-        ) : (
-          <div style={styleChart}>
-            <h3>PROGRESS METER</h3>
-            <XYPlot
-              xType="ordinal"
-              width={
-                this.props.windowWidth < 900
-                  ? this.props.windowWidth * 0.8
-                  : 800
-              }
-              height={200}
-              xDistance={1000}
-              yDomain={[0, 100]}
-            >
-              <VerticalGridLines />
-              <HorizontalGridLines />
-              <XAxis />
-              <YAxis />
-              <BarSeries data={this.graphMaker()} />
-            </XYPlot>
-          </div>
-        )}
-      </React.Fragment>
-    );
-  }
+  let URL = window.location.href;
+  URL = URL.split("/");
+  const endURL = URL[URL.length - 1];
+  const { useCanvas } = state;
+  const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
+  return (
+    <React.Fragment>
+      {props.todos.filter(
+        todo => todo.project === endURL && todo.complete === true
+      ).length === 0 ? (
+        ""
+      ) : (
+        <div style={styleChart}>
+          <h3>PROGRESS METER</h3>
+          <XYPlot
+            xType="ordinal"
+            width={props.windowWidth < 900 ? props.windowWidth * 0.8 : 800}
+            height={200}
+            xDistance={1000}
+            yDomain={[0, 100]}
+          >
+            <VerticalGridLines />
+            <HorizontalGridLines />
+            <XAxis />
+            <YAxis />
+            <BarSeries data={graphMaker()} />
+          </XYPlot>
+        </div>
+      )}
+    </React.Fragment>
+  );
 }
 export default windowSize(BarGraph);
 

@@ -1,86 +1,84 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useState } from "react";
 import { Button, Form, Container } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
-class Login extends Component {
-  state = {
+function Login(props) {
+  const [state, setState] = useState({
     username: "",
     password: ""
-  };
+  });
 
-  writeText = e => {
-    this.setState({
+  const writeText = e => {
+    e.preventDefault();
+    setState({
+      ...state,
       [e.target.name]: e.target.value
     });
   };
 
-  logIn = e => {
+  const logIn = e => {
     e.preventDefault();
-    this.props.login(this.state.username, this.state.password);
+    props.login(state.username, state.password);
+    setState({
+      ...state
+    });
   };
 
-  render() {
-    if (this.state.redirectTo) {
-      return <Redirect to={{ pathname: this.state.redirectTo }} />;
-    } else {
-      return (
-        <div className="CustomForm">
-          <ul style={styleUlLoggedout}>
-            <div>
-              <Link to="/signup">Sign Up</Link>
-            </div>
-            <div>
-              <Link to="/login">Login</Link>
-            </div>
-          </ul>
-          <Container text>
-            <h1>Login</h1>
-            <Form>
-              <Form.Field>
-                <label htmlFor="username">Username: </label>
-                <input
-                  type="text"
-                  name="username"
-                  value={this.state.username}
-                  onChange={this.writeText}
-                />
-              </Form.Field>
-              <Form.Field>
-                <label htmlFor="password">Password: </label>
-                <input
-                  type="password"
-                  name="password"
-                  value={this.state.password}
-                  onChange={this.writeText}
-                />
-              </Form.Field>
-              <Button
-                basic={true}
-                color={"blue"}
-                onClick={this.logIn}
-                content={"Login"}
-                disabled={
-                  this.state.username.length === 0 ||
-                  this.state.password.length === 0
-                }
-              />
-            </Form>
-          </Container>
+  return (
+    <div className="CustomForm">
+      <styleUlLoggedout>
+        <div>
+          <Link to="/signup">Sign Up</Link>
         </div>
-      );
-    }
-  }
+        <div>
+          <Link to="/login">Login</Link>
+        </div>
+      </styleUlLoggedout>
+      <Container text>
+        <h1>Login</h1>
+        <Form>
+          <Form.Field>
+            <label htmlFor="username">Username: </label>
+            <input
+              type="text"
+              name="username"
+              value={state.username}
+              onChange={writeText}
+            />
+          </Form.Field>
+          <Form.Field>
+            <label htmlFor="password">Password: </label>
+            <input
+              type="password"
+              name="password"
+              value={state.password}
+              onChange={writeText}
+            />
+          </Form.Field>
+          <Button
+            basic={true}
+            color={"blue"}
+            onClick={logIn}
+            content={"Login"}
+            disabled={
+              state.username.length === 0 || state.password.length === 0
+            }
+          />
+        </Form>
+      </Container>
+    </div>
+  );
 }
 
-const styleUlLoggedout = {
-  display: "flex",
-  backgroundColor: "#333",
-  alignItems: "flex-end",
-  justifyContent: "space-between",
-  margin: "auto",
-  padding: 20,
-  flexDirection: "column"
-};
-
 export default Login;
+
+const styleUlLoggedout = styled.div`
+  display: flex;
+  background-color: #333;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin: auto;
+  padding: 20px;
+  flex-direction: column;
+`;

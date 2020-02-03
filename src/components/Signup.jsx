@@ -1,25 +1,28 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { Button, Form, Container } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+// import styled from "styled-components";
 
-class Signup extends Component {
-  state = {
+function Signup(props) {
+  const [state, setState] = useState({
     username: "",
     password: "",
     confirmPassword: "",
     redirectTo: null
-  };
+  });
 
-  writeText = event => {
-    this.setState({
-      [event.target.name]: event.target.value
+  const writeText = e => {
+    e.preventDefault();
+    setState({
+      ...state,
+      [e.target.name]: e.target.value
     });
   };
 
-  signUp = event => {
-    const { username, password, confirmPassword } = this.state;
+  const signUp = event => {
+    const { username, password, confirmPassword } = state;
     event.preventDefault();
     if (
       username &&
@@ -31,14 +34,14 @@ class Signup extends Component {
     ) {
       axios
         .post("/auth/signup", {
-          username: this.state.username,
-          password: this.state.password,
+          username: state.username,
+          password: state.password,
           redirectTo: "/signup"
         })
         .then(response => {
           if (!response.data.errmsg) {
-            this.props.login(this.state.username, this.state.password);
-            this.setState({
+            props.login(state.username, state.password);
+            setState({
               redirectTo: "/"
             });
           } else {
@@ -47,67 +50,68 @@ class Signup extends Component {
         });
     }
   };
-  render() {
-    if (this.state.redirectTo) {
-      return <Redirect to={{ pathname: this.state.redirectTo }} />;
-    }
-    return (
-      <div className="CustomForm">
-        <ul style={styleUlLoggedout}>
-          <div>
-            <Link to="/signup">Sign Up</Link>
-          </div>
-          <div>
-            <Link to="/login">Login</Link>
-          </div>
-        </ul>
-        <Container text>
-          <h1>Signup</h1>
-          <Form>
-            <Form.Field>
-              <label htmlFor="username">Username: </label>
-              <input
-                type="text"
-                name="username"
-                value={this.state.username}
-                onChange={this.writeText}
-              />
-            </Form.Field>
-            <Form.Field>
-              <label htmlFor="password">Password: </label>
-              <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={this.writeText}
-              />
-            </Form.Field>
-            <Form.Field>
-              <label htmlFor="confirmPassword">Confirm Password: </label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={this.state.confirmPassword}
-                onChange={this.writeText}
-              />
-            </Form.Field>
-            <Button
-              basic={true}
-              color={"blue"}
-              onClick={this.signUp}
-              content={"Sign Up"}
-              disabled={
-                this.state.username.length === 0 ||
-                this.state.password.length === 0 ||
-                this.state.confirmPassword.length === 0
-              }
-            />
-          </Form>
-        </Container>
-      </div>
-    );
+
+  if (state.redirectTo) {
+    return <Redirect to={{ pathname: state.redirectTo }} />;
   }
+  return (
+    <div className="CustomForm">
+      <ul style={styleUlLoggedout}>
+        <div>
+          <Link to="/signup">Sign Up</Link>
+        </div>
+        <div>
+          <Link to="/login">Login</Link>
+        </div>
+      </ul>
+      <Container text>
+        <h1>Signup</h1>
+        <Form>
+          <Form.Field>
+            <label htmlFor="username">Username: </label>
+            <input
+              type="text"
+              name="username"
+              value={state.username}
+              onChange={writeText}
+            />
+          </Form.Field>
+          <Form.Field>
+            <label htmlFor="password">Password: </label>
+            <input
+              type="password"
+              name="password"
+              value={state.password}
+              onChange={writeText}
+            />
+          </Form.Field>
+          <Form.Field>
+            <label htmlFor="confirmPassword">Confirm Password: </label>
+            <input
+              type="password"
+              name="confirmPassword"
+              value={state.confirmPassword}
+              onChange={writeText}
+            />
+          </Form.Field>
+          <Button
+            basic={true}
+            color={"blue"}
+            onClick={signUp}
+            content={"Sign Up"}
+            disabled={
+              state.username.length === 0 ||
+              state.password.length === 0 ||
+              state.confirmPassword.length === 0
+            }
+          />
+        </Form>
+      </Container>
+    </div>
+  );
 }
+
+export default Signup;
 
 const styleUlLoggedout = {
   display: "flex",
@@ -118,5 +122,3 @@ const styleUlLoggedout = {
   padding: 20,
   flexDirection: "column"
 };
-
-export default Signup;

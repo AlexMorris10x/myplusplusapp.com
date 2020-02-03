@@ -3,52 +3,52 @@ import { Form, Input } from "semantic-ui-react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt, faCog } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
 
-class Projects extends React.Component {
-  render() {
-    return (
-      <React.Fragment>
-        <div
+function Projects(props) {
+  return (
+    <React.Fragment>
+      <div
+        style={{
+          padding: 20
+        }}
+      >
+        <Link to="/" className="nav-link">
+          <h1>HOME</h1>
+        </Link>
+      </div>
+      <div style={{ margin: 20 }}></div>
+      <div
+        style={{
+          background: "lightgrey",
+          margin: 20,
+          padding: 20
+        }}
+      >
+        <h1>Projects</h1>
+        <Form
+          onSubmit={() => props.addProject(props.projectText)}
           style={{
-            padding: 20
+            display: "flex",
+            justifyContent: "center",
+            marginRight: 60,
+            marginBottom: 50
           }}
         >
-          <Link to="/" className="nav-link">
-            <h1>HOME</h1>
-          </Link>
-        </div>
-        <div style={{ margin: 20 }}></div>
-        <div
-          style={{
-            background: "lightgrey",
-            margin: 20,
-            padding: 20
-          }}
-        >
-          <h1>Projects</h1>
-          <Form
-            onSubmit={() => this.props.addProject(this.props.projectText)}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginRight: 60,
-              marginBottom: 50
-            }}
-          >
-            <Input
-              action={{ color: "blue", content: "Post" }}
-              // icon="add"
-              iconPosition="left"
-              placeholder="New project..."
-              type="text"
-              value={this.props.projectText}
-              onChange={e => this.props.writeProject(e)}
-            />
-          </Form>
-          {this.displayProjects(this.props.projects, this.props.username)}
-        </div>
-        {/* <div
+          <Input
+            action={{ color: "blue", content: "Post" }}
+            // icon="add"
+            iconPosition="left"
+            placeholder="New project..."
+            type="text"
+            value={props.projectText}
+            onChange={e => props.writeProject(e)}
+          />
+        </Form>
+        {displayProjects(props.projects, props.username, props)}
+      </div>
+      {/* <div
           style={{
             display: "inline-flex",
             justifyContent: "center",
@@ -67,79 +67,76 @@ class Projects extends React.Component {
             />
           </Link>
         </div> */}
-      </React.Fragment>
-    );
-  }
-
-  displayProjects = (projects, username) => {
-    return (
-      <DragDropContext
-        onDragEnd={projectLocation => this.props.moveProject(projectLocation)}
-      >
-        <Droppable droppableId={"projectBoard"} key={"projectBoard"}>
-          {(provieded, snapshot) => {
-            return (
-              <div
-                {...provieded.droppableProps}
-                ref={provieded.innerRef}
-                style={{
-                  background: snapshot.isDraggingOver ? "lightblue" : "white",
-                  width: "100%",
-                  margin: "auto"
-                }}
-              >
-                {projects
-                  .filter(project => project.username === this.props.username)
-                  .reverse()
-                  .map((project, index) => {
-                    return (
-                      <Draggable
-                        key={project._id}
-                        draggableId={project._id}
-                        index={index}
-                      >
-                        {(provided, snapshot) => {
-                          return (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                margin: 5,
-                                border: "1.5px solid black"
-                              }}
-                            >
-                              <div style={{ width: "30vw" }}>
-                                <Link to={`${project._id}`}>
-                                  <h5>{project.value}</h5>
-                                </Link>
-                              </div>
-                              <div>
-                                <button
-                                  style={styleProjectButton}
-                                  onClick={() =>
-                                    this.props.deleteProject(project._id)
-                                  }
-                                >
-                                  <FontAwesomeIcon icon={faTrashAlt} />
-                                </button>
-                              </div>
-                            </div>
-                          );
-                        }}
-                      </Draggable>
-                    );
-                  })}
-              </div>
-            );
-          }}
-        </Droppable>
-      </DragDropContext>
-    );
-  };
+    </React.Fragment>
+  );
 }
+
+const displayProjects = (projects, username, props) => {
+  return (
+    <DragDropContext
+      onDragEnd={projectLocation => props.moveProject(projectLocation)}
+    >
+      <Droppable droppableId={"projectBoard"} key={"projectBoard"}>
+        {(provieded, snapshot) => {
+          return (
+            <div
+              {...provieded.droppableProps}
+              ref={provieded.innerRef}
+              style={{
+                background: snapshot.isDraggingOver ? "lightblue" : "white",
+                width: "100%",
+                margin: "auto"
+              }}
+            >
+              {projects
+                .filter(project => project.username === props.username)
+                .reverse()
+                .map((project, index) => {
+                  return (
+                    <Draggable
+                      key={project._id}
+                      draggableId={project._id}
+                      index={index}
+                    >
+                      {(provided, snapshot) => {
+                        return (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              margin: 5,
+                              border: "1.5px solid black"
+                            }}
+                          >
+                            <div style={{ width: "30vw" }}>
+                              <Link to={`${project._id}`}>
+                                <h5>{project.value}</h5>
+                              </Link>
+                            </div>
+                            <div>
+                              <button
+                                style={styleProjectButton}
+                                onClick={() => props.deleteProject(project._id)}
+                              >
+                                <FontAwesomeIcon icon={faTrashAlt} />
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      }}
+                    </Draggable>
+                  );
+                })}
+            </div>
+          );
+        }}
+      </Droppable>
+    </DragDropContext>
+  );
+};
 
 export default Projects;
 

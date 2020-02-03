@@ -9,7 +9,6 @@ router.get("/getProject", (req, res, next) => {
 });
 
 router.post("/addProject", (req, res) => {
-  console.log("added received");
   const { username, value } = req.body;
   const newProject = new PROJECT({
     username: username,

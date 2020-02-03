@@ -8,22 +8,19 @@ import {
   LineSeries,
   DiscreteColorLegend
 } from "react-vis";
+import styled from "styled-components";
 import windowSize from "react-window-size";
 
-class FrontPageLineGraph extends React.Component {
-  graphMaker = () => {
+function FrontPageLineGraph(props) {
+  const graphMaker = () => {
     let count = 0;
     let smallArr = [];
     let bigArr = [];
     if (todos === undefined) todos = "";
-    let todos = this.props.todos
+    let todos = props.todos
       .filter(todo => todo.complete === true)
       .map(todo => {
-        return this.dateConverter(
-          todo.completeDate,
-          todo.project,
-          todo.projectName
-        );
+        return dateConverter(todo.completeDate, todo.project, todo.projectName);
       })
       .sort((a, b) => a.completeDate - b.completeDate)
       .sort((a, b) => {
@@ -44,7 +41,7 @@ class FrontPageLineGraph extends React.Component {
           x: todo.completeDate,
           y: count,
           z: todo.projectName
-          // this.props.todos.filter(
+          // props.todos.filter(
           //   allTodos =>
           //     allTodos.project === todo.project && allTodos.complete === true
           // ).length,
@@ -63,7 +60,7 @@ class FrontPageLineGraph extends React.Component {
         todo.completeDate !== todos[index + 1].completeDate
       ) {
         count++;
-        // let total = this.props.todos.filter(
+        // let total = props.todos.filter(
         //     allTodos =>
         //       allTodos.project === todo.project && allTodos.complete === true
         //   ).length
@@ -71,7 +68,7 @@ class FrontPageLineGraph extends React.Component {
           x: todo.completeDate,
           y: count,
           z: todo.projectName
-          // this.props.todos.filter(
+          // props.todos.filter(
           //   allTodos =>
           //     allTodos.project === todo.project && allTodos.complete === true
           // ).length,
@@ -82,7 +79,7 @@ class FrontPageLineGraph extends React.Component {
         todo.completeDate === todos[index + 1].completeDate
       ) {
         count++;
-        // let total = this.props.todos.filter(
+        // let total = props.todos.filter(
         //     allTodos =>
         //       allTodos.project === todo.project && allTodos.complete === true
         //   ).length
@@ -90,7 +87,7 @@ class FrontPageLineGraph extends React.Component {
           x: todo.completeDate,
           y: count,
           z: todo.projectName
-          // this.props.todos.filter(
+          // props.todos.filter(
           //   allTodos =>
           //     allTodos.project === todo.project && allTodos.complete === true
           // ).length,
@@ -109,7 +106,7 @@ class FrontPageLineGraph extends React.Component {
         });
   };
 
-  dateConverter = (completeDate, project, projectName) => {
+  const dateConverter = (completeDate, project, projectName) => {
     const months = {
       Jan: "01",
       Feb: "02",
@@ -140,8 +137,8 @@ class FrontPageLineGraph extends React.Component {
     };
   };
 
-  graphConstraints = () => {
-    let startAndEnd = this.props.todos.sort(
+  const graphConstraints = () => {
+    let startAndEnd = props.todos.sort(
       (a, b) => a.completeDate - b.completeDate
     );
     startAndEnd === undefined || startAndEnd.length === 0
@@ -155,10 +152,10 @@ class FrontPageLineGraph extends React.Component {
     return startAndEnd;
   };
 
-  graphLabels = () => {
+  const graphLabels = () => {
     let arr = [];
-    if (this.props.projects === undefined) this.props.projects = "";
-    // let labels = this.props.projects.sort(
+    if (props.projects === undefined) props.projects = "";
+    // let labels = props.projects.sort(
     //   (a, b) => {
     //     if (a.value > b.value) {
     //         return -1;
@@ -169,7 +166,7 @@ class FrontPageLineGraph extends React.Component {
     //     return 0;
     //   }
     // )
-    let labels = this.props.projects;
+    let labels = props.projects;
     labels.length === 0
       ? (labels = "")
       : (labels = labels.map((project, index) => {
@@ -181,44 +178,40 @@ class FrontPageLineGraph extends React.Component {
       : (labels = labels[labels.length - 1]);
   };
 
-  render() {
-    return (
-      <div style={styleChart}>
-        <div>
-          <h3>PROJECTS OVERVIEW</h3>
-          <XYPlot
-            xDomain={this.graphConstraints()}
-            width={
-              this.props.windowWidth > 700 ? 680 : this.props.windowWidth * 0.8
-            }
-            height={300}
-          >
-            <HorizontalGridLines />
-            <VerticalGridLines />
-            <XAxis orientation="bottom" title="X Axis" />
-            <YAxis orientation="left" title="Y Axis" />
-            {this.graphMaker()}
-          </XYPlot>
-          <DiscreteColorLegend
-            orientation="horizontal"
-            items={this.graphLabels().reverse()}
-            style={{
-              // display: "inline-flex",
-              margin: "auto",
-              textAlign: "left",
-              background: "white"
-            }}
-          />
-        </div>
-      </div>
-    );
-  }
+  return (
+    <React.Fragment>
+      <StyleChart>
+        <h3>PROJECTS OVERVIEW</h3>
+        <XYPlot
+          xDomain={graphConstraints()}
+          width={props.windowWidth > 700 ? 680 : props.windowWidth * 0.8}
+          height={300}
+        >
+          <HorizontalGridLines />
+          <VerticalGridLines />
+          <XAxis orientation="bottom" title="X Axis" />
+          <YAxis orientation="left" title="Y Axis" />
+          {graphMaker()}
+          <Legend>
+            <DiscreteColorLegend
+              orientation="horizontal"
+              items={graphLabels().reverse()}
+            />
+          </Legend>
+        </XYPlot>
+      </StyleChart>
+    </React.Fragment>
+  );
 }
 export default windowSize(FrontPageLineGraph);
 
-const styleChart = {
-  // display: "inline-block",
-  textAlign: "center",
-  backgroundColor: "#eee",
-  margin: 16
-};
+const StyleChart = styled.div`
+text-align: "center",
+background-color: "#eee",
+margin: auto;
+`;
+
+const Legend = styled.div`
+  margin: auto;
+  background: white;
+`;
