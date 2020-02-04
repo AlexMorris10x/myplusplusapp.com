@@ -9,7 +9,6 @@ import {
   DiscreteColorLegend
 } from "react-vis";
 import styled from "styled-components";
-import windowSize from "react-window-size";
 
 function FrontPageLineGraph(props) {
   const graphMaker = () => {
@@ -179,31 +178,25 @@ function FrontPageLineGraph(props) {
   };
 
   return (
-    <React.Fragment>
-      <StyleChart>
-        <h3>PROJECTS OVERVIEW</h3>
-        <XYPlot
-          xDomain={graphConstraints()}
-          width={props.windowWidth > 700 ? 680 : props.windowWidth * 0.8}
-          height={300}
-        >
-          <HorizontalGridLines />
-          <VerticalGridLines />
-          <XAxis orientation="bottom" title="X Axis" />
-          <YAxis orientation="left" title="Y Axis" />
-          {graphMaker()}
-          <Legend>
-            <DiscreteColorLegend
-              orientation="horizontal"
-              items={graphLabels().reverse()}
-            />
-          </Legend>
-        </XYPlot>
-      </StyleChart>
-    </React.Fragment>
+    <StyleChart>
+      <h3>PROJECTS OVERVIEW</h3>
+      <XYPlot xDomain={graphConstraints()} width={300} height={300}>
+        <HorizontalGridLines />
+        <VerticalGridLines />
+        <XAxis orientation="bottom" title="X Axis" />
+        <YAxis orientation="left" title="Y Axis" />
+        {graphMaker()}
+        <Legend>
+          <DiscreteColorLegend
+            orientation="horizontal"
+            items={graphLabels().reverse()}
+          />
+        </Legend>
+      </XYPlot>
+    </StyleChart>
   );
 }
-export default windowSize(FrontPageLineGraph);
+export default FrontPageLineGraph;
 
 const StyleChart = styled.div`
 text-align: "center",

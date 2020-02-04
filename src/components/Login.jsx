@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Button, Form, Container } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -27,35 +26,31 @@ function Login(props) {
 
   return (
     <div className="CustomForm">
-      <styleUlLoggedout>
+      <UlLoggedOut>
         <div>
           <Link to="/signup">Sign Up</Link>
         </div>
         <div>
           <Link to="/login">Login</Link>
         </div>
-      </styleUlLoggedout>
-      <Container text>
+      </UlLoggedOut>
+      <div>
         <h1>Login</h1>
-        <Form>
-          <Form.Field>
-            <label htmlFor="username">Username: </label>
-            <input
-              type="text"
-              name="username"
-              value={state.username}
-              onChange={writeText}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label htmlFor="password">Password: </label>
-            <input
-              type="password"
-              name="password"
-              value={state.password}
-              onChange={writeText}
-            />
-          </Form.Field>
+        <form>
+          <label htmlFor="username">Username: </label>
+          <input
+            type="text"
+            name="username"
+            value={state.username}
+            onChange={writeText}
+          />
+          <label htmlFor="password">Password: </label>
+          <input
+            type="password"
+            name="password"
+            value={state.password}
+            onChange={writeText}
+          />
           <Button
             basic={true}
             color={"blue"}
@@ -65,15 +60,15 @@ function Login(props) {
               state.username.length === 0 || state.password.length === 0
             }
           />
-        </Form>
-      </Container>
+        </form>
+      </div>
     </div>
   );
 }
 
 export default Login;
 
-const styleUlLoggedout = styled.div`
+const UlLoggedOut = styled.div`
   display: flex;
   background-color: #333;
   align-items: flex-end;
@@ -81,4 +76,15 @@ const styleUlLoggedout = styled.div`
   margin: auto;
   padding: 20px;
   flex-direction: column;
+`;
+
+const Button = styled.button`
+  // background: ${props => (props.primary ? "palevioletred" : "white")};
+  // color: ${props => (props.primary ? "white" : "palevioletred")};
+
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
 `;

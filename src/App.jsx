@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
+
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
+// import { connect } from "react-redux";
 
 function App() {
   const [state, setState] = useState({
@@ -169,7 +171,6 @@ function App() {
     const oldState = { ...state };
     const todos = state.todos.filter(todo => todo._id !== id);
     setState({ ...state, todos });
-    console.log();
     axios
       .delete(`/todo/deleteTodo/${id}`)
       .then(res => {
@@ -314,3 +315,8 @@ const StyleHome = styled.div`
 `;
 
 export default App;
+// export default connect(mapStateToProps)(Home);
+
+// const mapStateToProps = state => {
+//   console.log(state);
+// };

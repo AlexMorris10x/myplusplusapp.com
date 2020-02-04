@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import Projects from "./Projects";
 import Sidebar from "react-sidebar";
-import windowSize from "react-window-size";
 import styled from "styled-components";
 
 function Menu(props) {
@@ -19,159 +18,115 @@ function Menu(props) {
 
   if (!props.loggedIn) {
     return (
-      <React.Fragment>
-        <styleUlLoggedout>
-          <div>{/*Empty Div For Flex*/}</div>
-          <div>
-            <h1>
-              <Link to="/" style={{ color: "white", textAlign: "center" }}>
-                PlusPlus++
-              </Link>
-            </h1>
-          </div>
-          <div>
-            <div>
-              <Link to="/signup">Sign Up</Link>
-            </div>
-            <div>
-              <Link to="/login">Login</Link>
-            </div>
-          </div>
-        </styleUlLoggedout>
-      </React.Fragment>
+      <MenuWrapper>
+        <div>{/*Flex-Div*/}</div>
+        <Link to="/">PlusPlus++</Link>
+        <div>
+          <Link to="/signup">Sign Up</Link>
+          <Link to="/login">Login</Link>
+        </div>
+      </MenuWrapper>
     );
   }
   if (props.loggedIn && state.sidebarOpen === false) {
-    if (props.windowWidth > 1200) {
-      return (
-        <styleUl>
-          <div>{/*Empty Div For Flex*/}</div>
-          <styleSideBar>
-            <styleLogo>
-              <h1>
-                <Link to="/">
-                  PlusPlus++
-                </Link>
-              </h1>
-            </styleLogo>
-          </styleSideBar>
-          <span>
-            <Link to="/login">Logout</Link>
-          </span>
-        </styleUl>
-      );
-    } else {
-      return (
-        <styleUl>
-          <styleSideBar>
-            <button
-              onClick={() => onSetSidebarOpen(true)}
-            >
-              <FontAwesomeIcon icon={faBars} />
-            </button>
-          </styleSideBar>
-          <styleLogo>
-            <h1>
-              <Link to="/">
-                PlusPlus++
-              </Link>
-            </h1>
-          </styleLogo>
-          <span>
-            <Link to="/login" onClick={props.logout}>
-              Logout
-            </Link>
-          </span>
-        </styleUl>
-      );
-    }
-  } else if (props.loggedIn && state.sidebarOpen === true) {
     return (
-      <React.Fragment>
-        <styleUl>
-          <styleSideBar>
-            <div></div>
-          </styleSideBar>
-          <styleLogo>
-            <h1>PlusPlus++</h1>
-          </styleLogo>
-          <span>
-            <Link to="/login" onClick={props.logout}>
-              Logout
-            </Link>
-          </span>
-        </styleUl>
-        <Sidebar
-          sidebar={
-            <React.Fragment>
-              <styleUl>
-                <div >
-                  <button
-                    onClick={() => onSetSidebarOpen(false)}
-                  >
-                    <FontAwesomeIcon icon={faBars} />
-                  </button>
-                </div>
-              </styleUl>
-              <Projects
-                projects={props.projects}
-                username={props.username}
-                addProject={props.addProject}
-                updateProject={props.updateProject}
-                deleteProject={props.deleteProject}
-                moveProject={props.moveProject}
-                projectText={props.projectText}
-                writeProject={props.writeProject}
-              />
-            </React.Fragment>
-          }
-          open={state.sidebarOpen}
-          onSetOpen={onSetSidebarOpen}
-          styles={{
-            sidebar: {
-              position: "fixed",
-              margin: "auto",
-              background: "white",
-              height: "100%",
-              width: props.windowWidth > 400 ? "40vw" : "80vw",
-              maxWidth: 400,
-              top: 0,
-              bottom: 0
+      <MenuWrapper>
+        <SideBarWrapper>
+          <Button onClick={() => onSetSidebarOpen(true)}>
+            <FontAwesomeIcon icon={faBars} />
+          </Button>
+        </SideBarWrapper>
+        <LogoWrapper>
+          <Link to="/">PlusPlus++</Link>
+        </LogoWrapper>
+        <Link to="/login" onClick={props.logout}>
+          Logout
+        </Link>
+      </MenuWrapper>
+    );
+  }
+  if (props.loggedIn && state.sidebarOpen === true) {
+    return (
+      <div>
+        <MenuWrapper>
+          <SideBarWrapper>
+            <Button onClick={() => onSetSidebarOpen(true)}>
+              <FontAwesomeIcon icon={faBars} />
+            </Button>
+          </SideBarWrapper>
+          <LogoWrapper>
+            <Link to="/">PlusPlus++</Link>
+          </LogoWrapper>
+          <Link to="/login" onClick={props.logout}>
+            Logout
+          </Link>
+        </MenuWrapper>
+        <SideBarWrapper>
+          <Sidebar
+            className="superman"
+            sidebar={
+              <div>
+                <MenuWrapper>
+                  <div>
+                    <Button onClick={() => onSetSidebarOpen(false)}>
+                      <FontAwesomeIcon icon={faBars} />
+                    </Button>
+                  </div>
+                </MenuWrapper>
+                <Projects
+                  projects={props.projects}
+                  username={props.username}
+                  addProject={props.addProject}
+                  updateProject={props.updateProject}
+                  deleteProject={props.deleteProject}
+                  moveProject={props.moveProject}
+                  projectText={props.projectText}
+                  writeProject={props.writeProject}
+                />
+              </div>
             }
-          }}
-        ></Sidebar>
-      </React.Fragment>
+            open={state.sidebarOpen}
+            onSetOpen={onSetSidebarOpen}
+          ></Sidebar>
+        </SideBarWrapper>
+      </div>
     );
   }
 }
 
-export default windowSize(Menu);
+export default Menu;
 
-const styleUlLoggedout = styled.div`
+const MenuWrapper = styled.div`
   display: flex;
   background-color: #333;
-  justify-content: space-between;
-  margin: auto;
-  padding: 20px;
-`;
-
-const styleUl = styled.div`
-  display: flex;
-  background-color: black;
   align-items: center;
   justify-content: space-between;
-  margin: auto;
+  margin: -10px;
   padding: 20px;
+  > a {
+    color: white;
+  }
 `;
 
-const styleSideBar = styled.div`
-  align-items: left;
-`
+const LogoWrapper = styled.div`
+  > a {
+    color: white;
+  }
+`;
 
-const styleLogo = styled.div`
-  color: white;
-`
-const button = styled.button`
+const SideBarWrapper = styled.div`
+  > div {
+    > div {
+      > div {
+        background: white;
+        height: 100vh;
+        width: 80vw;
+      }
+    }
+  }
+`;
+
+const Button = styled.button`
   padding: 8px 10px 8px 10px;
   border-radius: 10px;
-`
+`;

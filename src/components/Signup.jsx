@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import { Button, Form, Container } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-// import styled from "styled-components";
+import styled from "styled-components";
 
 function Signup(props) {
   const [state, setState] = useState({
@@ -56,45 +55,39 @@ function Signup(props) {
   }
   return (
     <div className="CustomForm">
-      <ul style={styleUlLoggedout}>
+      <UlLoggedOut>
         <div>
           <Link to="/signup">Sign Up</Link>
         </div>
         <div>
           <Link to="/login">Login</Link>
         </div>
-      </ul>
-      <Container text>
+      </UlLoggedOut>
+      <div>
         <h1>Signup</h1>
-        <Form>
-          <Form.Field>
-            <label htmlFor="username">Username: </label>
-            <input
-              type="text"
-              name="username"
-              value={state.username}
-              onChange={writeText}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label htmlFor="password">Password: </label>
-            <input
-              type="password"
-              name="password"
-              value={state.password}
-              onChange={writeText}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label htmlFor="confirmPassword">Confirm Password: </label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={state.confirmPassword}
-              onChange={writeText}
-            />
-          </Form.Field>
-          <Button
+        <form>
+          <label htmlFor="username">Username: </label>
+          <input
+            type="text"
+            name="username"
+            value={state.username}
+            onChange={writeText}
+          />
+          <label htmlFor="password">Password: </label>
+          <input
+            type="password"
+            name="password"
+            value={state.password}
+            onChange={writeText}
+          />
+          <label htmlFor="confirmPassword">Confirm Password: </label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={state.confirmPassword}
+            onChange={writeText}
+          />
+          <button
             basic={true}
             color={"blue"}
             onClick={signUp}
@@ -105,20 +98,20 @@ function Signup(props) {
               state.confirmPassword.length === 0
             }
           />
-        </Form>
-      </Container>
+        </form>
+      </div>
     </div>
   );
 }
 
 export default Signup;
 
-const styleUlLoggedout = {
-  display: "flex",
-  backgroundColor: "#333",
-  alignItems: "flex-end",
-  justifyContent: "space-between",
-  margin: "auto",
-  padding: 20,
-  flexDirection: "column"
-};
+const UlLoggedOut = styled.div`
+  display: flex;
+  background-color: #333";
+  align-items: flex-end;
+  justify-content: space-between;
+  margin: auto;
+  padding: 20;
+  flex-direction: column;
+`;

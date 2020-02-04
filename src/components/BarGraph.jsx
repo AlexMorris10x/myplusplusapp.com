@@ -8,7 +8,6 @@ import {
   VerticalBarSeries,
   VerticalBarSeriesCanvas
 } from "react-vis";
-import windowSize from "react-window-size";
 import styled from "styled-components";
 
 function BarGraph(props) {
@@ -108,7 +107,7 @@ function BarGraph(props) {
       ).length === 0 ? (
         ""
       ) : (
-        <div style={styleChart}>
+        <styleChart>
           <h3>PROGRESS METER</h3>
           <XYPlot
             xType="ordinal"
@@ -123,17 +122,17 @@ function BarGraph(props) {
             <YAxis />
             <BarSeries data={graphMaker()} />
           </XYPlot>
-        </div>
+        </styleChart>
       )}
     </React.Fragment>
   );
 }
-export default windowSize(BarGraph);
+export default BarGraph;
 
-const styleChart = {
-  textAlign: "center",
-  display: "inline-block",
-  marginRight: 6,
-  backgroundColor: "#eee",
-  marginTop: 20
-};
+const StyleHome = styled.div`
+  text-align: center;
+  display: inline-block;
+  margin-right: 6px
+  background-color: #eee;
+  margin-top: 20px
+`;
