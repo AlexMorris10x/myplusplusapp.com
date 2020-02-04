@@ -7,11 +7,13 @@ import styled from "styled-components";
 
 function Projects(props) {
   return (
-    <React.Fragment>
-      <Link to="/" className="nav-link">
-        <h1>HOME</h1>
-      </Link>
-      <h1>Projects</h1>
+    <ProjectWrapper>
+      <HomeWrapper>
+        <Link to="/" className="nav-link">
+          HOME
+        </Link>
+      </HomeWrapper>
+      <TitleWrapper>Projects</TitleWrapper>
       <form onSubmit={e => props.addProject(e, props.projectText)}>
         <input
           placeholder="New project..."
@@ -19,11 +21,10 @@ function Projects(props) {
           value={props.projectText}
           onChange={e => props.writeProject(e)}
         />
-        <Button>Add Project</Button>
-        <button>add project...</button>
+        <AddProjectButton>Add Project</AddProjectButton>
       </form>
       {displayProjects(props.projects, props)}
-    </React.Fragment>
+    </ProjectWrapper>
   );
 }
 
@@ -35,7 +36,7 @@ const displayProjects = (projects, props) => {
       <Droppable droppableId={"projectBoard"} key={"projectBoard"}>
         {(provieded, snapshot) => {
           return (
-            <React.Fragment
+            <AllProjectsWrapper
               {...provieded.droppableProps}
               ref={provieded.innerRef}
             >
@@ -49,27 +50,29 @@ const displayProjects = (projects, props) => {
                     >
                       {(provided, snapshot) => {
                         return (
-                          <React.Fragment
+                          <ProjectWrapper
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                           >
                             <Link to={`${project._id}`}>
-                              <div>{project.value}</div>
+                              <ProjectTextWrapper>
+                                {project.value}
+                              </ProjectTextWrapper>
                             </Link>
-                            <button
+                            <DeleteProjectButton
                               onClick={() => props.deleteProject(project._id)}
                             >
                               <FontAwesomeIcon icon={faTrashAlt} />
-                            </button>
-                          </React.Fragment>
+                            </DeleteProjectButton>
+                          </ProjectWrapper>
                         );
                       }}
                     </Draggable>
                   );
                 })
                 .reverse()}
-            </React.Fragment>
+            </AllProjectsWrapper>
           );
         }}
       </Droppable>
@@ -79,10 +82,61 @@ const displayProjects = (projects, props) => {
 
 export default Projects;
 
-const Button = styled.button`
-  font-size: 1em;
+const AddProjectButton = styled.button`
   margin: 1em;
-  padding: 0.25em 1em;
+  font-size: 1em;
   border: 2px solid black;
+  border-radius: 10px;
+`;
+
+const DeleteProjectButton = styled.div`
+  margin: -10px auto 10px;
+  padding: 10px;
+  width: min-content;
+  font-size: 1em;
+  color: red;
+  border: 1.5px solid black;
+  border-radius: 12px;
+`;
+
+const HomeWrapper = styled.div`
+  margin: 20px auto;
+  font-size: 2em;
+  > a {
+    color: blue;
+    text-decoration: none;
+  }
+`;
+
+const TitleWrapper = styled.div`
+  margin: auto;
+  padding: 10px;
+  font-size: 2em;
+`;
+
+const AllProjectsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 30px auto;
+  width: 60vw;
+  border: 2px solid black;
+  border-radius: 10px;
+`;
+
+const ProjectWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: auto
+  border: .5px solid black;
   border-radius: 3px;
+  > a {
+    color: blue;
+    text-decoration: none;
+  }
+`;
+
+const ProjectTextWrapper = styled.div`
+  margin: 20px auto;
+  font-size: 2em;
 `;

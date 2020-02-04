@@ -223,32 +223,14 @@ function App() {
             exact
             path="/login"
             render={() => (
-              <Login
-                login={login}
-                logout={logout}
-                deleteProject={deleteProject}
-                addProject={addProject}
-                loggedIn={state.loggedIn}
-                projects={state.projects}
-                projectText={state.projectText}
-                writeProject={state.writeProject}
-              />
+              <Login login={login} logout={logout} loggedIn={state.loggedIn} />
             )}
           />
           <Route
             exact
             path="/signup"
             render={() => (
-              <Signup
-                login={login}
-                logout={logout}
-                deleteProject={deleteProject}
-                addProject={addProject}
-                loggedIn={state.loggedIn}
-                projects={state.projects}
-                projectText={state.projectText}
-                writeProject={state.writeProject}
-              />
+              <Signup login={login} logout={logout} loggedIn={state.loggedIn} />
             )}
           />
           <Route

@@ -130,12 +130,11 @@ function BarGraph(props) {
 export default BarGraph;
 
 const ChartWrapper = styled.div`
-  margin: 20px auto 0 auto;
-  text-align: center;
-  display: inline-block;
+  text-align: "center";
   background-color: #eee;
-  width: 600px;
+  margin: auto;
   > div {
     margin: auto;
+    background-color: #eee;
   }
 `;

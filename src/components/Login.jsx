@@ -26,15 +26,7 @@ function Login(props) {
 
   return (
     <React.Fragment>
-      <Menu
-        logout={props.logout}
-        loggedIn={props.loggedIn}
-        projects={props.projects}
-        addProject={props.addProject}
-        deleteProject={props.deleteProject}
-        projectText={props.projectText}
-        writeProject={props.writeProject}
-      />
+      <Menu logout={props.logout} loggedIn={props.loggedIn} />
       <h1>Login</h1>
       <form onSubmit={logIn}>
         Username:

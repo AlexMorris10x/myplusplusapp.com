@@ -101,9 +101,9 @@ const LoggedOutMenuWrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: right;
+  margin: -8px;
+  padding: 10px;
   background: #333;
-  margin: -10px;
-  padding: 20px;
   > a {
     color: white;
     text-decoration: none;
@@ -112,11 +112,11 @@ const LoggedOutMenuWrapper = styled.div`
 
 const MenuWrapper = styled.div`
   display: flex;
-  background-color: #333;
   align-items: center;
   justify-content: space-between;
-  margin: -10px;
-  padding: 20px;
+  margin: -8px;
+  padding: 10px;
+  background: #333;
   > a {
     color: white;
     text-decoration: none;

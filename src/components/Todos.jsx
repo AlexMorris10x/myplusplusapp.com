@@ -12,7 +12,7 @@ function Todos(props) {
   let projectName = props.projects.filter(project => project._id === endURL);
   return (
     <React.Fragment>
-      <h1>{projectName[0].value}</h1>
+      <ProjectNameWrapper>{projectName[0].value}</ProjectNameWrapper>
       <form onSubmit={e => props.addTodo(e, props.todoText, projectName[0])}>
         <input
           placeholder="Add new todo..."
@@ -20,7 +20,7 @@ function Todos(props) {
           value={props.todoText}
           onChange={e => props.writeTodo(e)}
         />
-        <Button>Add Todo</Button>
+        <AddTodoButton>Add Todo</AddTodoButton>
       </form>
       {displayTodos(props, endURL)}
       {displayCompleteTodos(props, endURL)}
@@ -34,11 +34,11 @@ const displayTodos = (props, endURL) => {
       <Droppable droppableId={"todoBoard"} key={"todoBoard"}>
         {(provieded, snapshot) => {
           return (
-            <React.Fragment
+            <AllTodosWrapper
               {...provieded.droppableProps}
               ref={provieded.innerRef}
             >
-              <h1>TODOs</h1>
+              <ListNameWrapper>TODOs</ListNameWrapper>
               {props.todos
                 .filter(
                   todo => todo.complete === false && todo.project === endURL
@@ -52,29 +52,32 @@ const displayTodos = (props, endURL) => {
                     >
                       {(provided, snapshot) => {
                         return (
-                          <React.Fragment
+                          <TodoWrapper
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                           >
-                            <button
+                            <CompleteTodoButton
                               onClick={() =>
                                 props.completeTodo(todo._id, todo.complete)
                               }
                             >
                               <FontAwesomeIcon icon={faSquare} />
-                            </button>
-                            {todo.value}{" "}
-                            <button onClick={() => props.deleteTodo(todo._id)}>
+                            </CompleteTodoButton>
+                            <TodoTextWrapper>{todo.value}</TodoTextWrapper>
+                            <DeleteTodoButton
+                              onClick={() => props.deleteTodo(todo._id)}
+                            >
                               <FontAwesomeIcon icon={faTrashAlt} />
-                            </button>
-                          </React.Fragment>
+                            </DeleteTodoButton>
+                          </TodoWrapper>
                         );
                       }}
                     </Draggable>
                   );
-                })}
-            </React.Fragment>
+                })
+                .reverse()}
+            </AllTodosWrapper>
           );
         }}
       </Droppable>
@@ -88,11 +91,11 @@ const displayCompleteTodos = (props, endURL) => {
       <Droppable droppableId={"todoBoard"} key={"todoBoard"}>
         {(provieded, snapshot) => {
           return (
-            <React.Fragment
+            <AllTodosWrapper
               {...provieded.droppableProps}
               ref={provieded.innerRef}
             >
-              <h1>Completed</h1>
+              <ListNameWrapper>Completed</ListNameWrapper>
               {props.todos
                 .filter(
                   todo => todo.complete === true && todo.project === endURL
@@ -106,29 +109,32 @@ const displayCompleteTodos = (props, endURL) => {
                     >
                       {(provided, snapshot) => {
                         return (
-                          <React.Fragment
+                          <TodoWrapper
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                           >
-                            <button
+                            <CompleteTodoButton
                               onClick={() =>
                                 props.completeTodo(todo._id, todo.complete)
                               }
                             >
                               <FontAwesomeIcon icon={faCheckSquare} />
-                            </button>
-                            {todo.value}
-                            <button onClick={() => props.deleteTodo(todo._id)}>
+                            </CompleteTodoButton>
+                            <TodoTextWrapper>{todo.value}</TodoTextWrapper>
+                            <DeleteTodoButton
+                              onClick={() => props.deleteTodo(todo._id)}
+                            >
                               <FontAwesomeIcon icon={faTrashAlt} />
-                            </button>
-                          </React.Fragment>
+                            </DeleteTodoButton>
+                          </TodoWrapper>
                         );
                       }}
                     </Draggable>
                   );
-                })}
-            </React.Fragment>
+                })
+                .reverse()}
+            </AllTodosWrapper>
           );
         }}
       </Droppable>
@@ -138,10 +144,64 @@ const displayCompleteTodos = (props, endURL) => {
 
 export default Todos;
 
-const Button = styled.button`
+const ProjectNameWrapper = styled.div`
+  margin: 20px;
+  font-size: 3em;
+`;
+
+const AddTodoButton = styled.button`
   font-size: 1em;
   margin: 1em;
   padding: 0.25em 1em;
   border: 2px solid black;
   border-radius: 3px;
+`;
+
+const CompleteTodoButton = styled.div`
+  margin: auto;
+  padding: 10px;
+  width: min-content;
+  font-size: 1em;
+  color: black;
+  background: transparent;
+`;
+
+const DeleteTodoButton = styled.div`
+  margin: auto;
+  padding: 10px;
+  width: min-content;
+  font-size: 1em;
+  color: red;
+  background: transparent;
+  border: 1.5px solid black;
+  border-radius: 12px;
+`;
+
+const ListNameWrapper = styled.div`
+  margin: auto;
+  padding: 10px;
+  font-size: 2em;
+`;
+
+const AllTodosWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 30px auto;
+  width: 60vw;
+  border: 2px solid black;
+  border-radius: 10px;
+`;
+
+const TodoWrapper = styled.div`
+  display: flex;
+  margin: auto
+  font-size: 1em;
+  border: .5px solid black;
+  border-radius: 3px;
+`;
+
+const TodoTextWrapper = styled.div`
+  width: 60vw;
+  font-size: 1.5em;
 `;
