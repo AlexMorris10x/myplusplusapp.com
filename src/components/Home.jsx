@@ -9,7 +9,7 @@ function Home(props) {
   let URL = window.location.href;
   URL = URL.split("/");
   const endURL = URL[URL.length - 1];
-  if (props.error) return <h1>Error happened...</h1>;
+  if (props.error) return <h1>error happened...</h1>;
   if (props.loading === true) return <h1>loading...</h1>;
   if (props.loggedIn === false) {
     return (
@@ -23,14 +23,17 @@ function Home(props) {
           projectText={props.projectText}
           writeProject={props.writeProject}
         />
-        <h1>
-          {`Welcome To PlusPlus!
-
-            Your path to incremental improvement. It's easy to get started:
-            1. Create your account
-            2. Create your projects and todos
-            3. Complete your todos and watch your progress increase`}
-        </h1>
+        <HomePageWrapper>
+          Welcome To PlusPlus!
+          <br />
+          Your path to incremental improvement. It's easy to get started:
+          <br />
+          1. Create your account
+          <br />
+          2. Create your projects and todos
+          <br />
+          3. Complete your todos and watch your progress increase
+        </HomePageWrapper>
       </React.Fragment>
     );
   }
@@ -46,11 +49,7 @@ function Home(props) {
           projectText={props.projectText}
           writeProject={props.writeProject}
         />
-        {props.projects.length === 0 ? (
-          <h1>Please add projects...</h1>
-        ) : (
-          <FrontPageLineGraph todos={props.todos} projects={props.projects} />
-        )}
+        <FrontPageLineGraph todos={props.todos} projects={props.projects} />
       </React.Fragment>
     );
   if (endURL !== "")
@@ -80,3 +79,13 @@ function Home(props) {
 }
 
 export default Home;
+
+const HomePageWrapper = styled.div`
+  margin: 20px auto;
+  padding: 30px;
+  border-style: solid;
+  border-width: 1.5px;
+  text-align: center;
+  font-size: 2em;
+  color: black;
+`;

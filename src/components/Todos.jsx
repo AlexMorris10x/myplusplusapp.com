@@ -12,15 +12,15 @@ function Todos(props) {
   let projectName = props.projects.filter(project => project._id === endURL);
   return (
     <React.Fragment>
-      <h1>{projectName[0] === undefined ? "" : projectName[0].value}</h1>
-      <form onSubmit={() => props.addTodo(props.todoText, projectName[0])}>
+      <h1>{projectName[0].value}</h1>
+      <form onSubmit={e => props.addTodo(e, props.todoText, projectName[0])}>
         <input
           placeholder="Add new todo..."
           type="text"
           value={props.todoText}
           onChange={e => props.writeTodo(e)}
         />
-        <button>click..</button>
+        <Button>Add Todo</Button>
       </form>
       {displayTodos(props, endURL)}
       {displayCompleteTodos(props, endURL)}
@@ -37,12 +37,6 @@ const displayTodos = (props, endURL) => {
             <React.Fragment
               {...provieded.droppableProps}
               ref={provieded.innerRef}
-              // style={{
-              //   background: snapshot.isDraggingOver ? "lightblue" : "white",
-              //   width: "80%",
-              //   margin: "auto",
-              //   maxWidth: 800
-              // }}
             >
               <h1>TODOs</h1>
               {props.todos
@@ -97,12 +91,6 @@ const displayCompleteTodos = (props, endURL) => {
             <React.Fragment
               {...provieded.droppableProps}
               ref={provieded.innerRef}
-              // style={{
-              //   background: snapshot.isDraggingOver ? "lightblue" : "white",
-              //   width: "80%",
-              //   margin: "auto",
-              //   maxWidth: 800
-              // }}
             >
               <h1>Completed</h1>
               {props.todos
@@ -150,9 +138,10 @@ const displayCompleteTodos = (props, endURL) => {
 
 export default Todos;
 
-// const StyleHome = styled.div`
-//   text-align: center;
-// `;
-
-// background: "transparent",
-// border: "none"
+const Button = styled.button`
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid black;
+  border-radius: 3px;
+`;

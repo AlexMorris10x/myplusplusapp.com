@@ -36,22 +36,24 @@ function Login(props) {
         writeProject={props.writeProject}
       />
       <h1>Login</h1>
-      <form>
-        <label>Username: </label>
+      <form onSubmit={logIn}>
+        Username:
         <input
           type="text"
           name="username"
+          placeholder="type username..."
           value={state.username}
           onChange={writeText}
         />
-        <label>Password: </label>
+        Password:
         <input
           type="password"
           name="password"
+          placeholder="type password..."
           value={state.password}
           onChange={writeText}
         />
-        <Button onClick={logIn} />
+        <Button>Log In</Button>
       </form>
     </React.Fragment>
   );
@@ -63,6 +65,6 @@ const Button = styled.button`
   font-size: 1em;
   margin: 1em;
   padding: 0.25em 1em;
-  border: 2px solid palevioletred;
+  border: 2px solid black;
   border-radius: 3px;
 `;

@@ -65,32 +65,43 @@ function Signup(props) {
         writeProject={props.writeProject}
       />
       <h1>Signup</h1>
-      <form>
-        <label>Username: </label>
+      <form onSubmit={signUp}>
+        Username:
         <input
           type="text"
           name="username"
+          placeholder="type username..."
           value={state.username}
           onChange={writeText}
         />
-        <label htmlFor="password">Password: </label>
+        Password:
         <input
           type="password"
           name="password"
+          placeholder="type password..."
           value={state.password}
           onChange={writeText}
         />
-        <label htmlFor="confirmPassword">Confirm Password: </label>
+        Confirm Password:
         <input
           type="password"
           name="confirmPassword"
+          placeholder="retype password..."
           value={state.confirmPassword}
           onChange={writeText}
         />
-        <button onClick={signUp} content={"Sign Up"} />
+        <Button>Sign Up</Button>
       </form>
     </React.Fragment>
   );
 }
 
 export default Signup;
+
+const Button = styled.button`
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid black;
+  border-radius: 3px;
+`;

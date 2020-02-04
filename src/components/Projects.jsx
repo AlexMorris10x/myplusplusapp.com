@@ -12,13 +12,14 @@ function Projects(props) {
         <h1>HOME</h1>
       </Link>
       <h1>Projects</h1>
-      <form onSubmit={() => props.addProject(props.projectText)}>
+      <form onSubmit={e => props.addProject(e, props.projectText)}>
         <input
           placeholder="New project..."
           type="text"
           value={props.projectText}
           onChange={e => props.writeProject(e)}
         />
+        <Button>Add Project</Button>
         <button>add project...</button>
       </form>
       {displayProjects(props.projects, props)}
@@ -37,11 +38,6 @@ const displayProjects = (projects, props) => {
             <React.Fragment
               {...provieded.droppableProps}
               ref={provieded.innerRef}
-              style={{
-                background: snapshot.isDraggingOver ? "lightblue" : "white",
-                width: "100%",
-                margin: "auto"
-              }}
             >
               {projects
                 .map((project, index) => {
@@ -82,3 +78,11 @@ const displayProjects = (projects, props) => {
 };
 
 export default Projects;
+
+const Button = styled.button`
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid black;
+  border-radius: 3px;
+`;

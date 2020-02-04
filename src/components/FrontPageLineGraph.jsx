@@ -145,22 +145,28 @@ function FrontPageLineGraph(props) {
   };
 
   return (
-    <ChartWrapper>
-      <h3>PROJECTS OVERVIEW</h3>
-      <XYPlot xDomain={graphConstraints()} width={300} height={300}>
-        <HorizontalGridLines />
-        <VerticalGridLines />
-        <XAxis orientation="bottom" title="X Axis" />
-        <YAxis orientation="left" title="Y Axis" />
-        {graphMaker()}
-        <LegendWrapper>
-          <DiscreteColorLegend
-            orientation="horizontal"
-            items={graphLabels().reverse()}
-          />
-        </LegendWrapper>
-      </XYPlot>
-    </ChartWrapper>
+    <React.Fragment>
+      {props.projects.length === 0 ? (
+        <h1>Please add projects...</h1>
+      ) : (
+        <ChartWrapper>
+          <h3>PROJECTS OVERVIEW</h3>
+          <XYPlot xDomain={graphConstraints()} width={300} height={300}>
+            <HorizontalGridLines />
+            <VerticalGridLines />
+            <XAxis orientation="bottom" title="X Axis" />
+            <YAxis orientation="left" title="Y Axis" />
+            {graphMaker()}
+            <LegendWrapper>
+              <DiscreteColorLegend
+                orientation="horizontal"
+                items={graphLabels().reverse()}
+              />
+            </LegendWrapper>
+          </XYPlot>
+        </ChartWrapper>
+      )}
+    </React.Fragment>
   );
 }
 export default FrontPageLineGraph;
@@ -171,7 +177,7 @@ const ChartWrapper = styled.div`
   margin: auto;
   > div {
     margin: auto;
-    background-color: #ee;,
+    background-color: #eee;
   }
 `;
 

@@ -39,8 +39,9 @@ function App() {
           );
           todoRes = todoRes.data;
           const todos = todoRes.filter(todo => todo.username === username);
-          const loggedIn = true;
           const loading = false;
+          let loggedIn = "";
+          username === "" ? (loggedIn = false) : (loggedIn = true);
           setState({
             ...state,
             loggedIn,
@@ -103,8 +104,8 @@ function App() {
     setState({ ...state, todoText });
   };
 
-  const addProject = projectText => {
-    projectText.preventDefault();
+  const addProject = (e, projectText) => {
+    e.preventDefault();
     const project = {
       username: state.username,
       value: projectText
@@ -123,8 +124,8 @@ function App() {
     }
   };
 
-  const addTodo = (todoText, projectName) => {
-    todoText.preventDefault();
+  const addTodo = (e, todoText, projectName) => {
+    e.preventDefault();
     const URL = window.location.href;
     const endURL = URL.substr(URL.lastIndexOf("/") + 1);
     projectName = projectName.value;
