@@ -11,7 +11,7 @@ import {
 import styled from "styled-components";
 
 function BarGraph(props) {
-  const [state, setState] = useState({
+  const [state] = useState({
     useCanvas: false
   });
 
@@ -107,11 +107,11 @@ function BarGraph(props) {
       ).length === 0 ? (
         ""
       ) : (
-        <styleChart>
+        <ChartWrapper>
           <h3>PROGRESS METER</h3>
           <XYPlot
             xType="ordinal"
-            width={props.windowWidth < 900 ? props.windowWidth * 0.8 : 800}
+            width={300}
             height={200}
             xDistance={1000}
             yDomain={[0, 100]}
@@ -122,17 +122,20 @@ function BarGraph(props) {
             <YAxis />
             <BarSeries data={graphMaker()} />
           </XYPlot>
-        </styleChart>
+        </ChartWrapper>
       )}
     </React.Fragment>
   );
 }
 export default BarGraph;
 
-const StyleHome = styled.div`
+const ChartWrapper = styled.div`
+  margin: 20px auto 0 auto;
   text-align: center;
   display: inline-block;
-  margin-right: 6px
   background-color: #eee;
-  margin-top: 20px
+  width: 600px;
+  > div {
+    margin: auto;
+  }
 `;

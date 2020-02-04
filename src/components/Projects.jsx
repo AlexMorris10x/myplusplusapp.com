@@ -7,32 +7,26 @@ import styled from "styled-components";
 
 function Projects(props) {
   return (
-    <div>
-      <div>
-        <Link to="/" className="nav-link">
-          <h1>HOME</h1>
-        </Link>
-      </div>
-      <div></div>
-      <div>
-        <h1>Projects</h1>
-        <form onSubmit={() => props.addProject(props.projectText)}>
-          <input
-            action={{ color: "blue", content: "Post" }}
-            iconPosition="left"
-            placeholder="New project..."
-            type="text"
-            value={props.projectText}
-            onChange={e => props.writeProject(e)}
-          />
-        </form>
-        {displayProjects(props.projects, props.username, props)}
-      </div>
-    </div>
+    <React.Fragment>
+      <Link to="/" className="nav-link">
+        <h1>HOME</h1>
+      </Link>
+      <h1>Projects</h1>
+      <form onSubmit={() => props.addProject(props.projectText)}>
+        <input
+          placeholder="New project..."
+          type="text"
+          value={props.projectText}
+          onChange={e => props.writeProject(e)}
+        />
+        <button>add project...</button>
+      </form>
+      {displayProjects(props.projects, props)}
+    </React.Fragment>
   );
 }
 
-const displayProjects = (projects, username, props) => {
+const displayProjects = (projects, props) => {
   return (
     <DragDropContext
       onDragEnd={projectLocation => props.moveProject(projectLocation)}
@@ -40,7 +34,7 @@ const displayProjects = (projects, username, props) => {
       <Droppable droppableId={"projectBoard"} key={"projectBoard"}>
         {(provieded, snapshot) => {
           return (
-            <div
+            <React.Fragment
               {...provieded.droppableProps}
               ref={provieded.innerRef}
               style={{
@@ -50,8 +44,6 @@ const displayProjects = (projects, username, props) => {
               }}
             >
               {projects
-                .filter(project => project.username === props.username)
-                .reverse()
                 .map((project, index) => {
                   return (
                     <Draggable
@@ -61,30 +53,27 @@ const displayProjects = (projects, username, props) => {
                     >
                       {(provided, snapshot) => {
                         return (
-                          <div
+                          <React.Fragment
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                           >
-                            <div>
-                              <Link to={`${project._id}`}>
-                                <h5>{project.value}</h5>
-                              </Link>
-                            </div>
-                            <div>
-                              <button
-                                onClick={() => props.deleteProject(project._id)}
-                              >
-                                <FontAwesomeIcon icon={faTrashAlt} />
-                              </button>
-                            </div>
-                          </div>
+                            <Link to={`${project._id}`}>
+                              <div>{project.value}</div>
+                            </Link>
+                            <button
+                              onClick={() => props.deleteProject(project._id)}
+                            >
+                              <FontAwesomeIcon icon={faTrashAlt} />
+                            </button>
+                          </React.Fragment>
                         );
                       }}
                     </Draggable>
                   );
-                })}
-            </div>
+                })
+                .reverse()}
+            </React.Fragment>
           );
         }}
       </Droppable>

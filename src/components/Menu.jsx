@@ -19,12 +19,14 @@ function Menu(props) {
   if (!props.loggedIn) {
     return (
       <MenuWrapper>
-        <div>{/*Flex-Div*/}</div>
-        <Link to="/">PlusPlus++</Link>
-        <div>
+        <div></div>
+        <LogoWrapper>
+          <Link to="/">PlusPlus++</Link>
+        </LogoWrapper>
+        <LoggedOutMenuWrapper>
           <Link to="/signup">Sign Up</Link>
           <Link to="/login">Login</Link>
-        </div>
+        </LoggedOutMenuWrapper>
       </MenuWrapper>
     );
   }
@@ -47,10 +49,10 @@ function Menu(props) {
   }
   if (props.loggedIn && state.sidebarOpen === true) {
     return (
-      <div>
+      <React.Fragment>
         <MenuWrapper>
           <SideBarWrapper>
-            <Button onClick={() => onSetSidebarOpen(true)}>
+            <Button onClick={() => onSetSidebarOpen(false)}>
               <FontAwesomeIcon icon={faBars} />
             </Button>
           </SideBarWrapper>
@@ -75,7 +77,6 @@ function Menu(props) {
                 </MenuWrapper>
                 <Projects
                   projects={props.projects}
-                  username={props.username}
                   addProject={props.addProject}
                   updateProject={props.updateProject}
                   deleteProject={props.deleteProject}
@@ -89,12 +90,25 @@ function Menu(props) {
             onSetOpen={onSetSidebarOpen}
           ></Sidebar>
         </SideBarWrapper>
-      </div>
+      </React.Fragment>
     );
   }
 }
 
 export default Menu;
+
+const LoggedOutMenuWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  background: #333;
+  margin: -10px;
+  padding: 20px;
+  > a {
+    color: white;
+    text-decoration: none;
+  }
+`;
 
 const MenuWrapper = styled.div`
   display: flex;
@@ -105,12 +119,15 @@ const MenuWrapper = styled.div`
   padding: 20px;
   > a {
     color: white;
+    text-decoration: none;
   }
 `;
 
 const LogoWrapper = styled.div`
   > a {
     color: white;
+    text-decoration: none;
+    font-size: 2em;
   }
 `;
 

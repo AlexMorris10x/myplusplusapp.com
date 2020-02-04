@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
@@ -105,6 +104,7 @@ function App() {
   };
 
   const addProject = projectText => {
+    projectText.preventDefault();
     const project = {
       username: state.username,
       value: projectText
@@ -124,6 +124,7 @@ function App() {
   };
 
   const addTodo = (todoText, projectName) => {
+    todoText.preventDefault();
     const URL = window.location.href;
     const endURL = URL.substr(URL.lastIndexOf("/") + 1);
     projectName = projectName.value;
@@ -206,66 +207,6 @@ function App() {
       .catch(setState({ ...state }));
   };
 
-  const moveProject = () => {
-    console.log("moveProject");
-  };
-
-  const moveTodo = () => {
-    console.log("moveTodos");
-  };
-
-  // moveTodo = todoLocation => {
-  //   if (todoLocation.destination === null) return;
-  //   const oldState = { ...state };
-  //   let newState = { ...state };
-  //   const source = todoLocation.source.index;
-  //   const destination = todoLocation.destination.index;
-  //   let movedTodo = newstate.todos.reverse();
-  //   movedTodo = newstate.todos.splice(source, 1);
-  //   movedTodo = movedTodo[0];
-  //   const project = movedTodo.project;
-  //   newstate.todos.splice(destination, 0, movedTodo);
-  //   newstate.todos = newstate.todos.reverse();
-  //   axios
-  //     .delete(`/todo/moveTodoDelete/${project}`)
-  //     .then(res => {
-  //       if (res.data) {
-  //         axios
-  //           .put(`/todo/moveTodoAdd/${project}`, newstate.todos)
-  //           .catch(err => console.log(err));
-  //         setState({ ...state, oldState });
-  //       }
-  //     })
-  //     .catch(err => console.log(err));
-  //   setState({ ...state, oldState });
-  // };
-
-  // moveProject = projectLocation => {
-  //   if (projectLocation.destination === null) return;
-  //   const oldState = { ...state };
-  //   let newState = { ...state };
-  //   const source = projectLocation.source.index;
-  //   const destination = projectLocation.destination.index;
-  //   let movedProject = newstate.projects.reverse();
-  //   movedProject = newstate.projects.splice(source, 1);
-  //   movedProject = movedProject[0];
-  //   const username = movedProject.username;
-  //   newstate.projects.splice(destination, 0, movedProject);
-  //   newstate.projects = newstate.projects.reverse();
-  //   axios
-  // .delete(`/project/moveProjectDelete/${username}`)
-  //     .then(res => {
-  //       if (res.data) {
-  //         axios
-  // .put(`/project/moveProjectAdd/${username}`, newstate.projects)
-  //           .catch(err => console.log(err));
-  //         setState({ ...state, oldState });
-  //       }
-  //     })
-  //     .catch(err => console.log(err));
-  //   setState({ ...state, oldState });
-  // };
-
   if (state.redirectTo) {
     return (
       <React.Fragment>
@@ -275,10 +216,40 @@ function App() {
     );
   } else
     return (
-      <StyleHome>
+      <AppWrapper>
         <Switch>
-          <Route exact path="/login" render={() => <Login login={login} />} />
-          <Route exact path="/signup" render={() => <Signup login={login} />} />
+          <Route
+            exact
+            path="/login"
+            render={() => (
+              <Login
+                login={login}
+                logout={logout}
+                deleteProject={deleteProject}
+                addProject={addProject}
+                loggedIn={state.loggedIn}
+                projects={state.projects}
+                projectText={state.projectText}
+                writeProject={state.writeProject}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/signup"
+            render={() => (
+              <Signup
+                login={login}
+                logout={logout}
+                deleteProject={deleteProject}
+                addProject={addProject}
+                loggedIn={state.loggedIn}
+                projects={state.projects}
+                projectText={state.projectText}
+                writeProject={state.writeProject}
+              />
+            )}
+          />
           <Route
             path="/"
             render={() => (
@@ -300,23 +271,21 @@ function App() {
                 deleteProject={deleteProject}
                 deleteTodo={deleteTodo}
                 completeTodo={completeTodo}
-                moveProject={moveProject}
-                moveTodo={moveTodo}
               />
             )}
           />
         </Switch>
-      </StyleHome>
+      </AppWrapper>
     );
 }
 
-const StyleHome = styled.div`
+const AppWrapper = styled.div`
   text-align: center;
 `;
 
 export default App;
-// export default connect(mapStateToProps)(Home);
+// export default connect(mapStateTo(Home);
 
-// const mapStateToProps = state => {
+// const mapStateTo= state => {
 //   console.log(state);
 // };

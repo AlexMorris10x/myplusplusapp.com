@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import Menu from "./Menu";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 function Signup(props) {
@@ -54,64 +54,43 @@ function Signup(props) {
     return <Redirect to={{ pathname: state.redirectTo }} />;
   }
   return (
-    <div className="CustomForm">
-      <UlLoggedOut>
-        <div>
-          <Link to="/signup">Sign Up</Link>
-        </div>
-        <div>
-          <Link to="/login">Login</Link>
-        </div>
-      </UlLoggedOut>
-      <div>
-        <h1>Signup</h1>
-        <form>
-          <label htmlFor="username">Username: </label>
-          <input
-            type="text"
-            name="username"
-            value={state.username}
-            onChange={writeText}
-          />
-          <label htmlFor="password">Password: </label>
-          <input
-            type="password"
-            name="password"
-            value={state.password}
-            onChange={writeText}
-          />
-          <label htmlFor="confirmPassword">Confirm Password: </label>
-          <input
-            type="password"
-            name="confirmPassword"
-            value={state.confirmPassword}
-            onChange={writeText}
-          />
-          <button
-            basic={true}
-            color={"blue"}
-            onClick={signUp}
-            content={"Sign Up"}
-            disabled={
-              state.username.length === 0 ||
-              state.password.length === 0 ||
-              state.confirmPassword.length === 0
-            }
-          />
-        </form>
-      </div>
-    </div>
+    <React.Fragment>
+      <Menu
+        logout={props.logout}
+        loggedIn={props.loggedIn}
+        projects={props.projects}
+        addProject={props.addProject}
+        deleteProject={props.deleteProject}
+        projectText={props.projectText}
+        writeProject={props.writeProject}
+      />
+      <h1>Signup</h1>
+      <form>
+        <label>Username: </label>
+        <input
+          type="text"
+          name="username"
+          value={state.username}
+          onChange={writeText}
+        />
+        <label htmlFor="password">Password: </label>
+        <input
+          type="password"
+          name="password"
+          value={state.password}
+          onChange={writeText}
+        />
+        <label htmlFor="confirmPassword">Confirm Password: </label>
+        <input
+          type="password"
+          name="confirmPassword"
+          value={state.confirmPassword}
+          onChange={writeText}
+        />
+        <button onClick={signUp} content={"Sign Up"} />
+      </form>
+    </React.Fragment>
   );
 }
 
 export default Signup;
-
-const UlLoggedOut = styled.div`
-  display: flex;
-  background-color: #333";
-  align-items: flex-end;
-  justify-content: space-between;
-  margin: auto;
-  padding: 20;
-  flex-direction: column;
-`;

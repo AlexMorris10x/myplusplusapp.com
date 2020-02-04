@@ -40,13 +40,8 @@ function FrontPageLineGraph(props) {
           x: todo.completeDate,
           y: count,
           z: todo.projectName
-          // props.todos.filter(
-          //   allTodos =>
-          //     allTodos.project === todo.project && allTodos.complete === true
-          // ).length,
         });
         bigArr.push(smallArr);
-        // console.log(bigArr);
         return bigArr;
       }
       if (
@@ -59,18 +54,10 @@ function FrontPageLineGraph(props) {
         todo.completeDate !== todos[index + 1].completeDate
       ) {
         count++;
-        // let total = props.todos.filter(
-        //     allTodos =>
-        //       allTodos.project === todo.project && allTodos.complete === true
-        //   ).length
         smallArr.push({
           x: todo.completeDate,
           y: count,
           z: todo.projectName
-          // props.todos.filter(
-          //   allTodos =>
-          //     allTodos.project === todo.project && allTodos.complete === true
-          // ).length,
         });
         count = 0;
       } else if (
@@ -78,21 +65,12 @@ function FrontPageLineGraph(props) {
         todo.completeDate === todos[index + 1].completeDate
       ) {
         count++;
-        // let total = props.todos.filter(
-        //     allTodos =>
-        //       allTodos.project === todo.project && allTodos.complete === true
-        //   ).length
         smallArr.push({
           x: todo.completeDate,
           y: count,
           z: todo.projectName
-          // props.todos.filter(
-          //   allTodos =>
-          //     allTodos.project === todo.project && allTodos.complete === true
-          // ).length,
         });
         bigArr.push(smallArr);
-        // console.log(bigArr);
         smallArr = [];
         count = 0;
       }
@@ -154,17 +132,6 @@ function FrontPageLineGraph(props) {
   const graphLabels = () => {
     let arr = [];
     if (props.projects === undefined) props.projects = "";
-    // let labels = props.projects.sort(
-    //   (a, b) => {
-    //     if (a.value > b.value) {
-    //         return -1;
-    //     }
-    //     if (b.value > a.value) {
-    //         return 1;
-    //     }
-    //     return 0;
-    //   }
-    // )
     let labels = props.projects;
     labels.length === 0
       ? (labels = "")
@@ -178,7 +145,7 @@ function FrontPageLineGraph(props) {
   };
 
   return (
-    <StyleChart>
+    <ChartWrapper>
       <h3>PROJECTS OVERVIEW</h3>
       <XYPlot xDomain={graphConstraints()} width={300} height={300}>
         <HorizontalGridLines />
@@ -186,25 +153,29 @@ function FrontPageLineGraph(props) {
         <XAxis orientation="bottom" title="X Axis" />
         <YAxis orientation="left" title="Y Axis" />
         {graphMaker()}
-        <Legend>
+        <LegendWrapper>
           <DiscreteColorLegend
             orientation="horizontal"
             items={graphLabels().reverse()}
           />
-        </Legend>
+        </LegendWrapper>
       </XYPlot>
-    </StyleChart>
+    </ChartWrapper>
   );
 }
 export default FrontPageLineGraph;
 
-const StyleChart = styled.div`
-text-align: "center",
-background-color: "#eee",
-margin: auto;
+const ChartWrapper = styled.div`
+  text-align: "center";
+  background-color: #eee;
+  margin: auto;
+  > div {
+    margin: auto;
+    background-color: #ee;,
+  }
 `;
 
-const Legend = styled.div`
+const LegendWrapper = styled.div`
   margin: auto;
   background: white;
 `;

@@ -11,7 +11,7 @@ function Todos(props) {
   const endURL = URL[URL.length - 1];
   let projectName = props.projects.filter(project => project._id === endURL);
   return (
-    <div>
+    <React.Fragment>
       <h1>{projectName[0] === undefined ? "" : projectName[0].value}</h1>
       <form onSubmit={() => props.addTodo(props.todoText, projectName[0])}>
         <input
@@ -20,38 +20,35 @@ function Todos(props) {
           value={props.todoText}
           onChange={e => props.writeTodo(e)}
         />
+        <button>click..</button>
       </form>
-      <div>{displayTodos(props.todos, props.username, props)}</div>
-      <div>{displayCompleteTodos(props.todos, props.username, props)}</div>
-    </div>
+      {displayTodos(props, endURL)}
+      {displayCompleteTodos(props, endURL)}
+    </React.Fragment>
   );
 }
 
-const displayTodos = (todos, username, props) => {
-  let URL = window.location.href;
-  URL = URL.split("/");
-  const endURL = URL[URL.length - 1];
+const displayTodos = (props, endURL) => {
   return (
     <DragDropContext onDragEnd={todoLocation => props.moveTodo(todoLocation)}>
       <Droppable droppableId={"todoBoard"} key={"todoBoard"}>
         {(provieded, snapshot) => {
           return (
-            <div
+            <React.Fragment
               {...provieded.droppableProps}
               ref={provieded.innerRef}
-              style={{
-                background: snapshot.isDraggingOver ? "lightblue" : "white",
-                width: "80%",
-                margin: "auto",
-                maxWidth: 800
-              }}
+              // style={{
+              //   background: snapshot.isDraggingOver ? "lightblue" : "white",
+              //   width: "80%",
+              //   margin: "auto",
+              //   maxWidth: 800
+              // }}
             >
               <h1>TODOs</h1>
-              {todos
+              {props.todos
                 .filter(
                   todo => todo.complete === false && todo.project === endURL
                 )
-                .reverse()
                 .map((todo, index) => {
                   return (
                     <Draggable
@@ -61,41 +58,29 @@ const displayTodos = (todos, username, props) => {
                     >
                       {(provided, snapshot) => {
                         return (
-                          <div
+                          <React.Fragment
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                           >
-                            <div>
-                              <button
-                                onClick={() =>
-                                  props.completeTodo(todo._id, todo.complete)
-                                }
-                              >
-                                <FontAwesomeIcon icon={faSquare} />
-                              </button>
-                            </div>
-                            <div>
-                              {todo.complete === true ? (
-                                <h5>{todo.value}</h5>
-                              ) : (
-                                <h5>{todo.value}</h5>
-                              )}
-                            </div>
-                            <div>
-                              <button
-                                onClick={() => props.deleteTodo(todo._id)}
-                              >
-                                <FontAwesomeIcon icon={faTrashAlt} />
-                              </button>
-                            </div>
-                          </div>
+                            <button
+                              onClick={() =>
+                                props.completeTodo(todo._id, todo.complete)
+                              }
+                            >
+                              <FontAwesomeIcon icon={faSquare} />
+                            </button>
+                            {todo.value}{" "}
+                            <button onClick={() => props.deleteTodo(todo._id)}>
+                              <FontAwesomeIcon icon={faTrashAlt} />
+                            </button>
+                          </React.Fragment>
                         );
                       }}
                     </Draggable>
                   );
                 })}
-            </div>
+            </React.Fragment>
           );
         }}
       </Droppable>
@@ -103,92 +88,59 @@ const displayTodos = (todos, username, props) => {
   );
 };
 
-const displayCompleteTodos = (todos, username, props) => {
-  let URL = window.location.href;
-  URL = URL.split("/");
-  const endURL = URL[URL.length - 1];
+const displayCompleteTodos = (props, endURL) => {
   return (
     <DragDropContext onDragEnd={todoLocation => props.moveTodo(todoLocation)}>
       <Droppable droppableId={"todoBoard"} key={"todoBoard"}>
         {(provieded, snapshot) => {
           return (
-            <div
-              style={{
-                background: "lightgrey",
-                width: "80vw",
-                margin: "auto",
-                marginBottom: 20,
-                padding: 20,
-                maxWidth: 800,
-                display:
-                  todos.filter(
-                    todo => todo.complete === true && todo.project === endURL
-                  ).length === 0
-                    ? "none"
-                    : "block"
-              }}
+            <React.Fragment
+              {...provieded.droppableProps}
+              ref={provieded.innerRef}
+              // style={{
+              //   background: snapshot.isDraggingOver ? "lightblue" : "white",
+              //   width: "80%",
+              //   margin: "auto",
+              //   maxWidth: 800
+              // }}
             >
-              <h1>COMPLETED</h1>
-              <div
-                {...provieded.droppableProps}
-                ref={provieded.innerRef}
-                style={{
-                  background: snapshot.isDraggingOver ? "lightblue" : "white",
-                  width: "80%",
-                  margin: "auto",
-                  maxWidth: 800
-                }}
-              >
-                {todos
-                  .filter(
-                    todo => todo.complete === true && todo.project === endURL
-                  )
-                  .reverse()
-                  .map((todo, index) => {
-                    return (
-                      <Draggable
-                        key={todo._id}
-                        draggableId={todo._id}
-                        index={index}
-                      >
-                        {(provided, snapshot) => {
-                          return (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
+              <h1>Completed</h1>
+              {props.todos
+                .filter(
+                  todo => todo.complete === true && todo.project === endURL
+                )
+                .map((todo, index) => {
+                  return (
+                    <Draggable
+                      key={todo._id}
+                      draggableId={todo._id}
+                      index={index}
+                    >
+                      {(provided, snapshot) => {
+                        return (
+                          <React.Fragment
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <button
+                              onClick={() =>
+                                props.completeTodo(todo._id, todo.complete)
+                              }
                             >
-                              <div>
-                                <button
-                                  onClick={() =>
-                                    props.completeTodo(todo._id, todo.complete)
-                                  }
-                                >
-                                  <FontAwesomeIcon icon={faCheckSquare} />
-                                </button>
-                              </div>
-                              <div>
-                                {todo.complete === true ? (
-                                  <h5>{todo.value}</h5>
-                                ) : (
-                                  <h5>{todo.value}</h5>
-                                )}
-                              </div>
-                              <div>
-                                <button
-                                  onClick={() => props.deleteTodo(todo._id)}
-                                >
-                                  <FontAwesomeIcon icon={faTrashAlt} />
-                                </button>
-                              </div>
-                            </div>
-                          );
-                        }}
-                      </Draggable>
-                    );
-                  })}
-              </div>
-            </div>
+                              <FontAwesomeIcon icon={faCheckSquare} />
+                            </button>
+                            {todo.value}
+                            <button onClick={() => props.deleteTodo(todo._id)}>
+                              <FontAwesomeIcon icon={faTrashAlt} />
+                            </button>
+                          </React.Fragment>
+                        );
+                      }}
+                    </Draggable>
+                  );
+                })}
+            </React.Fragment>
           );
         }}
       </Droppable>
