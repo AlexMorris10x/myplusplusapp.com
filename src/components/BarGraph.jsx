@@ -132,7 +132,7 @@ export default BarGraph;
 const ChartWrapper = styled.div`
   text-align: "center";
   background-color: #eee;
-  margin: auto;
+  margin: auto 10%;
   > div {
     margin: auto;
     background-color: #eee;

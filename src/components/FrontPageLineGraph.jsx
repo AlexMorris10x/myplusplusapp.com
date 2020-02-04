@@ -151,7 +151,7 @@ function FrontPageLineGraph(props) {
       ) : (
         <ChartWrapper>
           <h3>PROJECTS OVERVIEW</h3>
-          <XYPlot xDomain={graphConstraints()} width={300} height={300}>
+          <XYPlot xDomain={graphConstraints()} width={300} height={200}>
             <HorizontalGridLines />
             <VerticalGridLines />
             <XAxis orientation="bottom" title="X Axis" />

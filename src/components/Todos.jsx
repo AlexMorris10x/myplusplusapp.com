@@ -157,26 +157,6 @@ const AddTodoButton = styled.button`
   border-radius: 3px;
 `;
 
-const CompleteTodoButton = styled.div`
-  margin: auto;
-  padding: 10px;
-  width: min-content;
-  font-size: 1em;
-  color: black;
-  background: transparent;
-`;
-
-const DeleteTodoButton = styled.div`
-  margin: auto;
-  padding: 10px;
-  width: min-content;
-  font-size: 1em;
-  color: red;
-  background: transparent;
-  border: 1.5px solid black;
-  border-radius: 12px;
-`;
-
 const ListNameWrapper = styled.div`
   margin: auto;
   padding: 10px;
@@ -204,4 +184,24 @@ const TodoWrapper = styled.div`
 const TodoTextWrapper = styled.div`
   width: 60vw;
   font-size: 1.5em;
+`;
+
+const CompleteTodoButton = styled.div`
+  margin: auto;
+  padding: 10px;
+  width: min-content;
+  font-size: 1em;
+  color: black;
+  background: transparent;
+`;
+
+const DeleteTodoButton = styled.div`
+  margin: auto;
+  padding: 10px;
+  width: min-content;
+  font-size: 1em;
+  color: red;
+  background: transparent;
+  border: 1.5px solid black;
+  border-radius: 12px;
 `;

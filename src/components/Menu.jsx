@@ -34,9 +34,9 @@ function Menu(props) {
     return (
       <MenuWrapper>
         <SideBarWrapper>
-          <Button onClick={() => onSetSidebarOpen(true)}>
+          <MainMenuButton onClick={() => onSetSidebarOpen(true)}>
             <FontAwesomeIcon icon={faBars} />
-          </Button>
+          </MainMenuButton>
         </SideBarWrapper>
         <LogoWrapper>
           <Link to="/">PlusPlus++</Link>
@@ -52,9 +52,9 @@ function Menu(props) {
       <React.Fragment>
         <MenuWrapper>
           <SideBarWrapper>
-            <Button onClick={() => onSetSidebarOpen(false)}>
+            <MainMenuButton onClick={() => onSetSidebarOpen(false)}>
               <FontAwesomeIcon icon={faBars} />
-            </Button>
+            </MainMenuButton>
           </SideBarWrapper>
           <LogoWrapper>
             <Link to="/">PlusPlus++</Link>
@@ -65,15 +65,12 @@ function Menu(props) {
         </MenuWrapper>
         <SideBarWrapper>
           <Sidebar
-            className="superman"
             sidebar={
               <div>
                 <MenuWrapper>
-                  <div>
-                    <Button onClick={() => onSetSidebarOpen(false)}>
-                      <FontAwesomeIcon icon={faBars} />
-                    </Button>
-                  </div>
+                  <SideBarButton onClick={() => onSetSidebarOpen(false)}>
+                    <FontAwesomeIcon icon={faBars} />
+                  </SideBarButton>
                 </MenuWrapper>
                 <Projects
                   projects={props.projects}
@@ -143,7 +140,13 @@ const SideBarWrapper = styled.div`
   }
 `;
 
-const Button = styled.button`
+const MainMenuButton = styled.button`
+  padding: 8px 10px 8px 10px;
+  border-radius: 10px;
+`;
+
+const SideBarButton = styled.button`
+  margin: 6px;
   padding: 8px 10px 8px 10px;
   border-radius: 10px;
 `;

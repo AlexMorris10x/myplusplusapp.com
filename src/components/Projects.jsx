@@ -55,11 +55,9 @@ const displayProjects = (projects, props) => {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                           >
-                            <Link to={`${project._id}`}>
-                              <ProjectTextWrapper>
-                                {project.value}
-                              </ProjectTextWrapper>
-                            </Link>
+                            <ProjectTextWrapper>
+                              <Link to={`${project._id}`}>{project.value}</Link>
+                            </ProjectTextWrapper>
                             <DeleteProjectButton
                               onClick={() => props.deleteProject(project._id)}
                             >
@@ -87,16 +85,6 @@ const AddProjectButton = styled.button`
   font-size: 1em;
   border: 2px solid black;
   border-radius: 10px;
-`;
-
-const DeleteProjectButton = styled.div`
-  margin: -10px auto 10px;
-  padding: 10px;
-  width: min-content;
-  font-size: 1em;
-  color: red;
-  border: 1.5px solid black;
-  border-radius: 12px;
 `;
 
 const HomeWrapper = styled.div`
@@ -128,15 +116,26 @@ const ProjectWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: auto
+  font-size: 1em;
   border: .5px solid black;
   border-radius: 3px;
+`;
+
+const ProjectTextWrapper = styled.div`
+  margin: 20px auto;
+  font-size: 2em;
   > a {
     color: blue;
     text-decoration: none;
   }
 `;
 
-const ProjectTextWrapper = styled.div`
-  margin: 20px auto;
-  font-size: 2em;
+const DeleteProjectButton = styled.div`
+  margin: -10px auto 10px;
+  padding: 10px;
+  width: min-content;
+  font-size: 1em;
+  color: red;
+  border: 1.5px solid black;
+  border-radius: 12px;
 `;
