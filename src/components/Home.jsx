@@ -20,6 +20,7 @@ function Home(props) {
           projects={props.projects}
           addProject={props.addProject}
           deleteProject={props.deleteProject}
+          moveProject={props.moveProject}
         />
         <HomePageWrapper>
           Welcome To PlusPlus!
@@ -44,6 +45,7 @@ function Home(props) {
           projects={props.projects}
           addProject={props.addProject}
           deleteProject={props.deleteProject}
+          moveProject={props.moveProject}
         />
         <FrontPageLineGraph todos={props.todos} projects={props.projects} />
       </React.Fragment>
@@ -57,6 +59,7 @@ function Home(props) {
           projects={props.projects}
           addProject={props.addProject}
           deleteProject={props.deleteProject}
+          moveProject={props.moveProject}
         />
         <BarGraph todos={props.todos} />
         <Todos
@@ -65,6 +68,7 @@ function Home(props) {
           addTodo={props.addTodo}
           deleteTodo={props.deleteTodo}
           completeTodo={props.completeTodo}
+          moveTodo={props.moveTodo}
         />
       </React.Fragment>
     );

@@ -159,22 +159,23 @@ function App() {
 
   const deleteProject = id => {
     const projects = state.projects.filter(project => project._id !== id);
-    setState({
-      ...state,
-      projects
-    });
+    setState({ ...state, projects });
     axios
-      .delete(`/project/deleteProject/${id}`)
-      .then(res => {
-        if (res.data) {
-          setState({ ...state, projects });
-        }
-      })
+      .all([
+        axios.delete(`/project/deleteProject/${id}`),
+        axios.delete(`/project/deleteTodos/${id}`)
+      ])
+      .then(
+        axios.spread((deleteProjectRes, deleteTodosRes) => {
+          if (deleteProjectRes.data && deleteTodosRes.data) {
+            setState({ ...state, projects });
+          }
+        })
+      )
       .catch(setState({ ...state }));
   };
 
   const deleteTodo = id => {
-    const oldState = { ...state };
     const todos = state.todos.filter(todo => todo._id !== id);
     setState({ ...state, todos });
     axios
@@ -184,7 +185,7 @@ function App() {
           setState({ ...state, todos });
         }
       })
-      .catch(setState({ ...oldState }));
+      .catch(setState({ ...state }));
   };
 
   const completeTodo = (id, complete) => {
@@ -211,6 +212,86 @@ function App() {
       })
       .catch(setState({ ...state }));
   };
+
+  const moveTodo = todoLocation => {
+    if (todoLocation.destination === null) return;
+    let todos = state.todos;
+    const source = todoLocation.source.index;
+    const destination = todoLocation.destination.index;
+    let todo = todos.splice(source, 1);
+    todo = todo[0];
+    const projectId = todo.projectId;
+    todos.splice(destination, 0, todo);
+    axios
+      .all([
+        axios.delete(`/todo/moveTodoDelete/${projectId}`),
+        axios.post(`/todo/moveTodoAdd/${projectId}`, todos)
+      ])
+      .then(
+        axios.spread((moveTodoDeleteRes, moveTodoAddRes) => {
+          if (moveTodoDeleteRes.data && moveTodoAddRes.data) {
+            setState({
+              ...state,
+              todos
+            });
+          }
+        })
+      )
+      .catch(setState({ ...state }));
+  };
+
+  const moveProject = projectLocation => {
+    if (projectLocation.destination === null) return;
+    let projects = state.projects;
+    const source = projectLocation.source.index;
+    const destination = projectLocation.destination.index;
+    let project = projects.splice(source, 1);
+    project = project[0];
+    const username = project.username;
+    projects.splice(destination, 0, project);
+    axios
+      .all([
+        axios.delete(`/project/moveProjectDelete/${username}`),
+        axios.post(`/project/moveProjectAdd/${username}`, projects)
+      ])
+      .then(
+        axios.spread((moveProjectDeleteRes, moveProjectAddRes) => {
+          if (moveProjectDeleteRes.data && moveProjectAddRes.data) {
+            setState({
+              ...state,
+              projects
+            });
+          }
+        })
+      )
+      .catch(setState({ ...state }));
+  };
+
+  // moveProject = projectLocation => {
+  //   if (projectLocation.destination === null) return;
+  //   const oldState = { ...state };
+  //   let newState = { ...state };
+  //   const source = projectLocation.source.index;
+  //   const destination = projectLocation.destination.index;
+  //   let movedProject = newState.projects.reverse();
+  //   movedProject = newState.projects.splice(source, 1);
+  //   movedProject = movedProject[0];
+  //   const username = movedProject.username;
+  //   newState.projects.splice(destination, 0, movedProject);
+  //   newState.projects = newState.projects.reverse();
+  //   axios
+  // .delete(`/project/moveProjectDelete/${username}`)
+  //     .then(res => {
+  //       if (res.data) {
+  //         axios
+  // .put(`/project/moveProjectAdd/${username}`, newState.projects)
+  //           .catch(err => console.log(err));
+  //         setState({ ...state, oldState });
+  //       }
+  //     })
+  //     .catch(err => console.log(err));
+  //   setState({ ...state, oldState });
+  // };
 
   if (state.redirectTo) {
     return (
@@ -248,6 +329,8 @@ function App() {
                 deleteProject={deleteProject}
                 deleteTodo={deleteTodo}
                 completeTodo={completeTodo}
+                moveTodo={moveTodo}
+                moveProject={moveProject}
               />
             )}
           />

@@ -19,12 +19,16 @@ function FrontPageLineGraph(props) {
     let todos = props.todos
       .filter(todo => todo.complete === true)
       .map(todo => {
-        return dateConverter(todo.completeDate, todo.project, todo.projectName);
+        return dateConverter(
+          todo.completeDate,
+          todo.projectId,
+          todo.projectName
+        );
       })
       .sort((a, b) => a.completeDate - b.completeDate)
       .sort((a, b) => {
-        const project1 = a.project.toLowerCase();
-        const project2 = b.project.toLowerCase();
+        const project1 = a.projectId.toLowerCase();
+        const project2 = b.projectId.toLowerCase();
         if (project1 < project2) {
           return -1;
         }
@@ -45,12 +49,12 @@ function FrontPageLineGraph(props) {
         return bigArr;
       }
       if (
-        todo.project === todos[index + 1].project &&
+        todo.projectId === todos[index + 1].projectId &&
         todo.completeDate === todos[index + 1].completeDate
       ) {
         count++;
       } else if (
-        todo.project === todos[index + 1].project &&
+        todo.projectId === todos[index + 1].projectId &&
         todo.completeDate !== todos[index + 1].completeDate
       ) {
         count++;
@@ -61,7 +65,7 @@ function FrontPageLineGraph(props) {
         });
         count = 0;
       } else if (
-        todo.project !== todos[index + 1].project &&
+        todo.projectId !== todos[index + 1].projectId &&
         todo.completeDate === todos[index + 1].completeDate
       ) {
         count++;
@@ -83,7 +87,7 @@ function FrontPageLineGraph(props) {
         });
   };
 
-  const dateConverter = (completeDate, project, projectName) => {
+  const dateConverter = (completeDate, projectId, projectName) => {
     const months = {
       Jan: "01",
       Feb: "02",
@@ -109,7 +113,7 @@ function FrontPageLineGraph(props) {
       Number(finalCompleteDate[0] - 1) * 10 + Number(finalCompleteDate[1]);
     return {
       completeDate: finalCompleteDate,
-      project: project,
+      projectId: projectId,
       projectName: projectName
     };
   };
@@ -144,16 +148,6 @@ function FrontPageLineGraph(props) {
       : (labels = labels[labels.length - 1]);
   };
 
-  const ITEMS = [
-    { title: "Dashed", color: "#45aeb1", strokeStyle: "dashed" },
-    { title: "Dasharray", color: "#f93", strokeDasharray: "1 2 3 4 5 6 7" },
-    { title: "Dots", color: "url(#circles)", strokeWidth: 9 },
-    { title: "Stripes", color: "url(#stripes)" },
-    { title: "Wide stripes", color: "url(#stripes)", strokeWidth: 13 },
-    { title: "Normal", color: "purple" },
-    { title: "Wide", color: "powderblue", strokeWidth: 6 }
-  ];
-
   return (
     <React.Fragment>
       {props.projects.length === 0 ? (
@@ -167,17 +161,12 @@ function FrontPageLineGraph(props) {
             <XAxis orientation="bottom" title="X Axis" />
             <YAxis orientation="left" title="Y Axis" />
             {graphMaker()}
-            <DiscreteColorLegend
-              orientation="horizontal"
-              width={300}
-              items={ITEMS}
-            />
-            {/* <LegendWrapper> */}
-            {/* <DiscreteColorLegend
-              orientation="horizontal"
-              items={graphLabels().reverse()}
-            /> */}
-            {/* </LegendWrapper> */}
+            <LegendWrapper>
+              <DiscreteColorLegend
+                orientation="horizontal"
+                items={graphLabels().reverse()}
+              />
+            </LegendWrapper>
           </XYPlot>
         </ChartWrapper>
       )}

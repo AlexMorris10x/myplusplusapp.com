@@ -47,7 +47,7 @@ function Todos(props) {
         <AddTodoButton>Add Todo</AddTodoButton>
       </form>
       {displayTodos(props, endURL)}
-      {displayCompleteTodos(props, endURL)}
+      {/* {displayCompleteTodos(props, endURL)} */}
     </React.Fragment>
   );
 }
@@ -55,7 +55,7 @@ function Todos(props) {
 const displayTodos = (props, endURL) => {
   return (
     <DragDropContext
-      onDragEnd={todoLocation => props.moveTodo(todoLocation)}
+      onDragEnd={todoLocation => props.moveTodo(todoLocation, props.todos)}
     >
       <Droppable droppableId={"todoBoard"} key={"todoBoard"}>
         {(provieded, snapshot) => {
@@ -63,6 +63,12 @@ const displayTodos = (props, endURL) => {
             <AllTodosWrapper
               {...provieded.droppableProps}
               ref={provieded.innerRef}
+              style={{
+                background: snapshot.isDraggingOver ? "lightblue" : "white",
+                height: 300,
+                margin: "auto",
+                maxWidth: 800
+              }}
             >
               <ListNameWrapper>TODOs</ListNameWrapper>
               {props.todos
@@ -102,8 +108,7 @@ const displayTodos = (props, endURL) => {
                     </Draggable>
                   );
                 })
-                // .reverse()
-                }
+                .reverse()}
             </AllTodosWrapper>
           );
         }}
@@ -115,9 +120,9 @@ const displayTodos = (props, endURL) => {
 const displayCompleteTodos = (props, endURL) => {
   return (
     <DragDropContext
-      onDragEnd={todoLocation => props.moveTodo(todoLocation)}
+      onDragEnd={todoLocation => props.moveTodo(todoLocation, props.todos)}
     >
-      <Droppable droppableId={"todoCompleteBoard"} key={"todoCompleteBoard"}>
+      <Droppable droppableId={"todoBoard"} key={"todoBoard"}>
         {(provieded, snapshot) => {
           return (
             <AllTodosWrapper
@@ -162,8 +167,7 @@ const displayCompleteTodos = (props, endURL) => {
                     </Draggable>
                   );
                 })
-                // .reverse()
-                }
+                .reverse()}
             </AllTodosWrapper>
           );
         }}
@@ -205,7 +209,6 @@ const AllTodosWrapper = styled.div`
 const TodoWrapper = styled.div`
   display: flex;
   margin: auto
-  background: white
   font-size: 1em;
   border: .5px solid black;
   border-radius: 3px;

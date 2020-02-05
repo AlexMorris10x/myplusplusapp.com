@@ -60,36 +60,36 @@ const displayProjects = props => {
               {...provieded.droppableProps}
               ref={provieded.innerRef}
             >
-              {props.projects
-                .map((project, index) => {
-                  return (
-                    <Draggable
-                      key={project._id}
-                      draggableId={project._id}
-                      index={index}
-                    >
-                      {(provided, snapshot) => {
-                        return (
-                          <ProjectWrapper
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
+              {props.projects.map((project, index) => {
+                return (
+                  <Draggable
+                    key={project._id}
+                    draggableId={project._id}
+                    index={index}
+                  >
+                    {(provided, snapshot) => {
+                      return (
+                        <ProjectWrapper
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <ProjectTextWrapper>
+                            <Link to={`${project._id}`}>{project.text}</Link>
+                          </ProjectTextWrapper>
+                          <DeleteProjectButton
+                            onClick={() => props.deleteProject(project._id)}
                           >
-                            <ProjectTextWrapper>
-                              <Link to={`${project._id}`}>{project.text}</Link>
-                            </ProjectTextWrapper>
-                            <DeleteProjectButton
-                              onClick={() => props.deleteProject(project._id)}
-                            >
-                              <FontAwesomeIcon icon={faTrashAlt} />
-                            </DeleteProjectButton>
-                          </ProjectWrapper>
-                        );
-                      }}
-                    </Draggable>
-                  );
-                })
-                .reverse()}
+                            <FontAwesomeIcon icon={faTrashAlt} />
+                          </DeleteProjectButton>
+                        </ProjectWrapper>
+                      );
+                    }}
+                  </Draggable>
+                );
+              })
+              // .reverse()
+              }
             </AllProjectsWrapper>
           );
         }}

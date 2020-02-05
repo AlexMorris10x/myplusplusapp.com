@@ -80,6 +80,7 @@ function Menu(props) {
                   moveProject={props.moveProject}
                   projectText={props.projectText}
                   writeProject={props.writeProject}
+                  moveProject={props.moveProject}
                 />
               </div>
             }

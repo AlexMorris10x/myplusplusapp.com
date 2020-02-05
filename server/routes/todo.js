@@ -51,13 +51,13 @@ router.put("/completeTodo/:id", (req, res, next) => {
     .catch(next);
 });
 
-router.delete("/moveTodoDelete/:project", (req, res, next) => {
-  TODO.deleteMany({ project: req.params.project })
+router.delete("/moveTodoDelete/:projectId", (req, res, next) => {
+  TODO.deleteMany({ projectId: req.params.projectId })
     .then(data => res.json(data))
     .catch(next);
 });
 
-router.put("/moveTodoAdd/:project", (req, res, next) => {
+router.post("/moveTodoAdd/:projectId", (req, res, next) => {
   const todos = req.body;
   TODO.insertMany(todos)
     .then(data => res.json(data))
