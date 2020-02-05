@@ -9,10 +9,10 @@ router.get("/getProject", (req, res, next) => {
 });
 
 router.post("/addProject", (req, res) => {
-  const { username, value } = req.body;
+  const { username, text } = req.body;
   const newProject = new PROJECT({
     username: username,
-    value: value
+    text: text
   });
 
   newProject.save((err, savedProject) => {

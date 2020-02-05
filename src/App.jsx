@@ -13,11 +13,8 @@ function App() {
     loading: true,
     loggedIn: false,
     redirectTo: "",
-    username: "",
     projects: [],
-    todos: [],
-    projectText: "",
-    todoText: ""
+    todos: []
   });
 
   useEffect(() => {
@@ -32,7 +29,7 @@ function App() {
           let username = "";
           userRes.data.user === null
             ? (userRes = "")
-            : (username = userRes.data.user.username);
+            : (username = userRes.data.user.username.toLowerCase());
           projectRes = projectRes.data;
           const projects = projectRes.filter(
             project => project.username === username
@@ -55,7 +52,26 @@ function App() {
       .catch(setState({ ...state }));
   }, []);
 
-  const login = (username, password) => {
+  const signUp = (e, username = username.toLowerCase(), password) => {
+    e.preventDefault();
+    axios
+      .post("/auth/signup", {
+        username: username,
+        password: password
+      })
+      .then(res => {
+        if (res.data) {
+          login(username, password);
+        } else {
+          setState({
+            ...state
+          });
+        }
+      });
+  };
+
+  const login = (e, username = username.toLowerCase(), password) => {
+    e.preventDefault();
     axios
       .post("/auth/login", {
         username,
@@ -75,8 +91,8 @@ function App() {
       .catch(setState({ ...state }));
   };
 
-  const logout = event => {
-    event.preventDefault();
+  const logout = e => {
+    e.preventDefault();
     axios
       .post("/auth/logout")
       .then(res => {
@@ -92,32 +108,20 @@ function App() {
       .catch(setState({ ...state }));
   };
 
-  const writeProject = e => {
-    e.preventDefault();
-    const projectText = e.target.value;
-    setState({ ...state, projectText });
-  };
-
-  const writeTodo = e => {
-    e.preventDefault();
-    const todoText = e.target.value;
-    setState({ ...state, todoText });
-  };
-
   const addProject = (e, projectText) => {
     e.preventDefault();
     const project = {
       username: state.username,
-      value: projectText
+      text: projectText
     };
-    if (project.value && project.value.length > 0) {
+    if (project.text && project.text.length > 0) {
       axios
         .post("/project/addProject", project)
         .then(res => {
           if (res.data) {
             let project = res.data;
             const projects = [...state.projects, project];
-            setState({ ...state, projects, projectText: "" });
+            setState({ ...state, projects });
           }
         })
         .catch(setState({ ...state }));
@@ -128,18 +132,18 @@ function App() {
     e.preventDefault();
     const URL = window.location.href;
     const endURL = URL.substr(URL.lastIndexOf("/") + 1);
-    projectName = projectName.value;
+    projectName = projectName.text;
     const todo = {
       username: state.username,
-      value: todoText,
-      project: endURL,
+      text: todoText,
+      projectId: endURL,
       projectName: projectName,
       complete: false,
       completeDate: Date()
     };
     const todos = [...state.todos, todo];
     setState({ ...state, todos, todoText: "" });
-    if (todo.value && todo.value.length > 0) {
+    if (todo.text && todo.text.length > 0) {
       axios
         .post("/todo/addTodo", todo)
         .then(res => {
@@ -222,33 +226,23 @@ function App() {
           <Route
             exact
             path="/login"
-            render={() => (
-              <Login login={login} logout={logout} loggedIn={state.loggedIn} />
-            )}
+            render={() => <Login login={login} loggedIn={state.loggedIn} />}
           />
           <Route
             exact
             path="/signup"
-            render={() => (
-              <Signup login={login} logout={logout} loggedIn={state.loggedIn} />
-            )}
+            render={() => <Signup loggedIn={state.loggedIn} signUp={signUp} />}
           />
           <Route
             path="/"
             render={() => (
               <Home
-                user={state.user}
                 loggedIn={state.loggedIn}
                 loading={state.loading}
-                username={state.username}
                 error={state.error}
                 projects={state.projects}
                 todos={state.todos}
-                projectText={state.projectText}
-                todoText={state.todoText}
                 logout={logout}
-                writeProject={writeProject}
-                writeTodo={writeTodo}
                 addProject={addProject}
                 addTodo={addTodo}
                 deleteProject={deleteProject}
@@ -262,13 +256,13 @@ function App() {
     );
 }
 
-const AppWrapper = styled.div`
-  text-align: center;
-`;
-
 export default App;
 // export default connect(mapStateTo(Home);
 
 // const mapStateTo= state => {
 //   console.log(state);
 // };
+
+const AppWrapper = styled.div`
+  text-align: center;
+`;

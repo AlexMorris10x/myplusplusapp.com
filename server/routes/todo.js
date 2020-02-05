@@ -11,8 +11,8 @@ router.get("/getTodo", (req, res, next) => {
 router.post("/addTodo", (req, res) => {
   const {
     username,
-    value,
-    project,
+    text,
+    projectId,
     projectName,
     complete,
     completeDate
@@ -20,8 +20,8 @@ router.post("/addTodo", (req, res) => {
 
   const newTODO = new TODO({
     username: username,
-    value: value,
-    project: project,
+    text: text,
+    projectId: projectId,
     projectName: projectName,
     complete: complete,
     completeDate: completeDate

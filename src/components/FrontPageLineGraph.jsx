@@ -136,13 +136,23 @@ function FrontPageLineGraph(props) {
     labels.length === 0
       ? (labels = "")
       : (labels = labels.map((project, index) => {
-          arr.push({ title: project.value });
+          arr.push({ title: project.text });
           return arr;
         }));
     return labels === undefined || labels.length === 0
       ? (labels = [])
       : (labels = labels[labels.length - 1]);
   };
+
+  const ITEMS = [
+    { title: "Dashed", color: "#45aeb1", strokeStyle: "dashed" },
+    { title: "Dasharray", color: "#f93", strokeDasharray: "1 2 3 4 5 6 7" },
+    { title: "Dots", color: "url(#circles)", strokeWidth: 9 },
+    { title: "Stripes", color: "url(#stripes)" },
+    { title: "Wide stripes", color: "url(#stripes)", strokeWidth: 13 },
+    { title: "Normal", color: "purple" },
+    { title: "Wide", color: "powderblue", strokeWidth: 6 }
+  ];
 
   return (
     <React.Fragment>
@@ -157,12 +167,17 @@ function FrontPageLineGraph(props) {
             <XAxis orientation="bottom" title="X Axis" />
             <YAxis orientation="left" title="Y Axis" />
             {graphMaker()}
-            <LegendWrapper>
-              <DiscreteColorLegend
-                orientation="horizontal"
-                items={graphLabels().reverse()}
-              />
-            </LegendWrapper>
+            <DiscreteColorLegend
+              orientation="horizontal"
+              width={300}
+              items={ITEMS}
+            />
+            {/* <LegendWrapper> */}
+            {/* <DiscreteColorLegend
+              orientation="horizontal"
+              items={graphLabels().reverse()}
+            /> */}
+            {/* </LegendWrapper> */}
           </XYPlot>
         </ChartWrapper>
       )}

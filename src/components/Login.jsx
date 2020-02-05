@@ -16,19 +16,20 @@ function Login(props) {
     });
   };
 
-  const logIn = e => {
+  const logInLocal = e => {
     e.preventDefault();
     props.login(state.username, state.password);
     setState({
-      ...state
+      username: "",
+      password: ""
     });
   };
 
   return (
     <React.Fragment>
-      <Menu logout={props.logout} loggedIn={props.loggedIn} />
+      <Menu loggedIn={props.loggedIn} />
       <h1>Login</h1>
-      <form onSubmit={logIn}>
+      <form onSubmit={e => logInLocal(e)}>
         Username:
         <input
           type="text"

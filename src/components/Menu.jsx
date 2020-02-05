@@ -134,7 +134,11 @@ const SideBarWrapper = styled.div`
       > div {
         background: white;
         height: 100vh;
-        width: 80vw;
+        max-width: 400px;
+        width: 40vw;
+        @media (max-width: 600px) {
+          width: 80vw;
+        }
       }
     }
   }

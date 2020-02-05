@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import Menu from "./Menu";
-import axios from "axios";
-import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 
 function Signup(props) {
   const [state, setState] = useState({
     username: "",
     password: "",
-    confirmPassword: "",
-    redirectTo: null
+    confirmPassword: ""
   });
 
   const writeText = e => {
@@ -20,44 +17,21 @@ function Signup(props) {
     });
   };
 
-  const signUp = event => {
-    const { username, password, confirmPassword } = state;
-    event.preventDefault();
-    if (
-      username &&
-      username.length > 0 &&
-      password &&
-      password.length > 0 &&
-      confirmPassword &&
-      confirmPassword.length > 0
-    ) {
-      axios
-        .post("/auth/signup", {
-          username: state.username,
-          password: state.password,
-          redirectTo: "/signup"
-        })
-        .then(response => {
-          if (!response.data.errmsg) {
-            props.login(state.username, state.password);
-            setState({
-              redirectTo: "/"
-            });
-          } else {
-            console.log(response.data.errmsg);
-          }
-        });
-    }
+  const signUpLocal = e => {
+    e.preventDefault();
+    props.signUp(state.username, state.password);
+    setState({
+      username: "",
+      password: "",
+      confirmPassword: ""
+    });
   };
 
-  if (state.redirectTo) {
-    return <Redirect to={{ pathname: state.redirectTo }} />;
-  }
   return (
     <React.Fragment>
-      <Menu logout={props.logout} loggedIn={props.loggedIn} />
+      <Menu loggedIn={props.loggedIn} />
       <h1>Signup</h1>
-      <form onSubmit={signUp}>
+      <form onSubmit={e => signUpLocal(e)}>
         Username:
         <input
           type="text"

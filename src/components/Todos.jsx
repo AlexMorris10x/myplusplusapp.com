@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faCheckSquare } from "@fortawesome/free-solid-svg-icons";
@@ -6,19 +6,43 @@ import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import styled from "styled-components";
 
 function Todos(props) {
+  const [state, setState] = useState({
+    todoText: ""
+  });
+
+  const writeText = e => {
+    e.preventDefault();
+    setState({
+      ...state,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const addTodoLocal = (e, todoText, projectName) => {
+    e.preventDefault();
+    if (todoText.length === 0) return;
+    props.addTodo(e, todoText, projectName);
+    setState({
+      todoText: ""
+    });
+  };
+
   let URL = window.location.href;
   URL = URL.split("/");
   const endURL = URL[URL.length - 1];
   let projectName = props.projects.filter(project => project._id === endURL);
   return (
     <React.Fragment>
-      <ProjectNameWrapper>{projectName[0].value}</ProjectNameWrapper>
-      <form onSubmit={e => props.addTodo(e, props.todoText, projectName[0])}>
+      <ProjectNameWrapper>
+        {projectName[0] === undefined ? "" : projectName[0].text}
+      </ProjectNameWrapper>
+      <form onSubmit={e => addTodoLocal(e, state.todoText, projectName[0])}>
         <input
           placeholder="Add new todo..."
           type="text"
-          value={props.todoText}
-          onChange={e => props.writeTodo(e)}
+          name="todoText"
+          value={state.todoText}
+          onChange={e => writeText(e)}
         />
         <AddTodoButton>Add Todo</AddTodoButton>
       </form>
@@ -41,7 +65,7 @@ const displayTodos = (props, endURL) => {
               <ListNameWrapper>TODOs</ListNameWrapper>
               {props.todos
                 .filter(
-                  todo => todo.complete === false && todo.project === endURL
+                  todo => todo.complete === false && todo.projectId === endURL
                 )
                 .map((todo, index) => {
                   return (
@@ -64,7 +88,7 @@ const displayTodos = (props, endURL) => {
                             >
                               <FontAwesomeIcon icon={faSquare} />
                             </CompleteTodoButton>
-                            <TodoTextWrapper>{todo.value}</TodoTextWrapper>
+                            <TodoTextWrapper>{todo.text}</TodoTextWrapper>
                             <DeleteTodoButton
                               onClick={() => props.deleteTodo(todo._id)}
                             >
@@ -98,7 +122,7 @@ const displayCompleteTodos = (props, endURL) => {
               <ListNameWrapper>Completed</ListNameWrapper>
               {props.todos
                 .filter(
-                  todo => todo.complete === true && todo.project === endURL
+                  todo => todo.complete === true && todo.projectId === endURL
                 )
                 .map((todo, index) => {
                   return (
@@ -121,7 +145,7 @@ const displayCompleteTodos = (props, endURL) => {
                             >
                               <FontAwesomeIcon icon={faCheckSquare} />
                             </CompleteTodoButton>
-                            <TodoTextWrapper>{todo.value}</TodoTextWrapper>
+                            <TodoTextWrapper>{todo.text}</TodoTextWrapper>
                             <DeleteTodoButton
                               onClick={() => props.deleteTodo(todo._id)}
                             >
@@ -150,11 +174,10 @@ const ProjectNameWrapper = styled.div`
 `;
 
 const AddTodoButton = styled.button`
-  font-size: 1em;
   margin: 1em;
-  padding: 0.25em 1em;
+  font-size: 1em;
   border: 2px solid black;
-  border-radius: 3px;
+  border-radius: 10px;
 `;
 
 const ListNameWrapper = styled.div`
@@ -181,11 +204,6 @@ const TodoWrapper = styled.div`
   border-radius: 3px;
 `;
 
-const TodoTextWrapper = styled.div`
-  width: 60vw;
-  font-size: 1.5em;
-`;
-
 const CompleteTodoButton = styled.div`
   margin: auto;
   padding: 10px;
@@ -193,6 +211,11 @@ const CompleteTodoButton = styled.div`
   font-size: 1em;
   color: black;
   background: transparent;
+`;
+
+const TodoTextWrapper = styled.div`
+  width: 60vw;
+  font-size: 1.5em;
 `;
 
 const DeleteTodoButton = styled.div`
