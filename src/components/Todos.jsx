@@ -37,10 +37,13 @@ function Todos(props) {
     for (let todo of todos) {
       orderObj[todo.order] = todo;
     }
-    for (let todo in orderObj) {
-      if (todo === orderObj[todo].order) {
-        newTodos.unshift(orderObj[todo]);
-      }
+    let finder = orderObj[null]._id;
+    let nextObj = {};
+    for (let i = 0; i < todos.length - 1; i++) {
+      if (nextObj === undefined) return;
+      nextObj = orderObj[finder];
+      newTodos.unshift(orderObj[finder]);
+      finder = nextObj._id;
     }
     newTodos.push(orderObj[null]);
     return newTodos;
@@ -117,6 +120,10 @@ const displayTodos = (props, todos) => {
             <AllTodosWrapper
               {...provieded.droppableProps}
               ref={provieded.innerRef}
+              style={{
+                background: snapshot.isDraggingOver ? "lightblue" : "white",
+                paddingBottom: snapshot.isDraggingOver ? 40 : 0
+              }}
             >
               <ListNameWrapper>TODOs</ListNameWrapper>
               {todos.map((todo, index) => {
@@ -257,12 +264,12 @@ const AllTodosWrapper = styled.div`
 `;
 
 const TodoWrapper = styled.div`
+  border-radius: 8px;
   display: flex;
   margin: auto
   background: white;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
-  border-radius: 8px;
   &:hover {
     background: #e9ebee;
     border-radius: 8px;

@@ -46,7 +46,12 @@ function App() {
           });
         })
       )
-      .catch(setState({ ...state }));
+      // .catch((state.loading = false), setState({ ...state }));
+      .catch(
+        (state.loading = false),
+        (state.loggedIn = true),
+        setState({ ...state })
+      );
   }, []);
 
   const signUp = (e, username, password) => {
@@ -92,19 +97,19 @@ function App() {
 
   const logout = e => {
     e.preventDefault();
-    axios
-      .post("/auth/logout")
-      .then(res => {
-        if (res.status === 200) {
-          setState({
-            ...state,
-            loggedIn: false,
-            user: null,
-            redirectTo: "/login"
-          });
-        }
-      })
-      .catch(setState({ ...state }));
+    // axios
+    //   .post("/auth/logout")
+    //   .then(res => {
+    //     if (res.status === 200) {
+    //       setState({
+    //         ...state,
+    //         loggedIn: false,
+    //         user: null,
+    //         redirectTo: "/login"
+    //       });
+    //     }
+    //   })
+    //   .catch(setState({ ...state }));
   };
 
   const addProject = (e, projectText) => {
@@ -220,29 +225,33 @@ function App() {
   };
 
   const moveTodo = (todoLocation, todos) => {
-    if (todoLocation.destination === null) return;
-    const source = todoLocation.source.index;
-    const destination = todoLocation.destination.index;
-    console.log(source, destination);
-    // if (destination === todos.length - 1) {
-    //   console.log("bottom");
-    // }
-    // if (destination === 0) {
+    console.log();
+    // if (todoLocation.destination === null) return;
+    // const source = todoLocation.source.index;
+    // const destination = todoLocation.destination.index;
+    // // if (destination === todos.length - 1) {
+    // //   console.log("bottom");
+    // // }
+    // // if (destination === 0) {
+    // //   todos[source - 1].order = todos[source + 1]._id;
+    // //   todos[source].order = todos[destination]._id;
+    // // }
+    // // if (destination !== 0 || destination === todos.length - 1) {
+    // //   console.log(true);
+    // console.log(source, destination);
+    // if (destination < source) {
     //   todos[source - 1].order = todos[source + 1]._id;
     //   todos[source].order = todos[destination]._id;
+    //   todos[destination - 1].order = todos[source]._id;
+    //   setState({ ...state, todos });
     // }
-    // if (destination !== 0 || destination === todos.length - 1) {
-    //   console.log(true);
-    todos[source - 1].order = todos[source + 1]._id;
-    todos[source].order = todos[destination]._id;
-    todos[destination - 1].order = todos[source]._id;
-
+    // if (destination > source) {
+    //   console.log("lower");
+    //   // todos[source - 1].order = todos[source + 1]._id;
+    //   // todos[source].order = todos[destination]._id;
+    //   // todos[destination - 1].order = todos[source]._id;
+    //   // setState({ ...state, todos });
     // }
-    setState({ ...state, todos });
-    // setState({ ...state, todos });
-    // setState({...state, todos})
-    // console.log(source, destination);
-    // console.log(todos);
     // axios
     //   .all([
     //     axios.delete(`/todo/moveTodoDelete/${projectId}`),
