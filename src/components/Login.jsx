@@ -16,9 +16,9 @@ function Login(props) {
     });
   };
 
-  const logInLocal = e => {
+  const submitLogIn = e => {
     e.preventDefault();
-    props.login(state.username, state.password);
+    props.login(e, state.username, state.password);
     setState({
       username: "",
       password: ""
@@ -29,9 +29,9 @@ function Login(props) {
     <React.Fragment>
       <Menu loggedIn={props.loggedIn} />
       <h1>Login</h1>
-      <form onSubmit={e => logInLocal(e)}>
+      <FormWrapper onSubmit={e => submitLogIn(e)}>
         Username:
-        <input
+        <InputWrapper
           type="text"
           name="username"
           placeholder="type username..."
@@ -39,25 +39,39 @@ function Login(props) {
           onChange={writeText}
         />
         Password:
-        <input
+        <InputWrapper
           type="password"
           name="password"
           placeholder="type password..."
           value={state.password}
           onChange={writeText}
         />
-        <Button>Log In</Button>
-      </form>
+        <LogInButton>Log In</LogInButton>
+      </FormWrapper>
     </React.Fragment>
   );
 }
 
 export default Login;
 
-const Button = styled.button`
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
+const FormWrapper = styled.form`
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  max-width: 400px;
+`;
+
+const InputWrapper = styled.input`
+  margin: 10px;
+  padding: 2px;
+  border-radius: 10px;
+`;
+
+const LogInButton = styled.button`
+  margin: 20px auto;
+  font-size: 0.8em;
+  color: white;
+  background: #4065b4;
   border: 2px solid black;
-  border-radius: 3px;
+  border-radius: 10px;
 `;

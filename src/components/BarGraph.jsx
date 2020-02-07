@@ -22,7 +22,7 @@ function BarGraph(props) {
     let data = [];
     let count = 0;
     let todos = props.todos
-      .filter(todo => todo.complete === true && todo.project === endURL)
+      .filter(todo => todo.complete === true && todo.projectId === endURL)
       .map(todo => {
         return dateConverter(todo.completeDate);
       })
@@ -36,7 +36,7 @@ function BarGraph(props) {
           x: dateConverterLegible(todo),
           y:
             (count /
-              props.todos.filter(todo => todo.project === endURL).length) *
+              props.todos.filter(todo => todo.projectId === endURL).length) *
             100
         });
         count = 0;
@@ -74,18 +74,18 @@ function BarGraph(props) {
 
   const dateConverterLegible = date => {
     const months = {
-      ["0,1"]: "Jan",
-      ["0,2"]: "Feb",
-      ["0,3"]: "March",
-      ["0,4"]: "April",
-      ["0,5"]: "May",
-      ["0,6"]: "June",
-      ["0,7"]: "July",
-      ["0,8"]: "August",
-      ["0,9"]: "Sept",
-      ["1,0"]: "Oct",
-      ["1,1"]: "Nov",
-      ["1,2"]: "Dec"
+      "0,1": "Jan",
+      "0,2": "Feb",
+      "0,3": "March",
+      "0,4": "April",
+      "0,5": "May",
+      "0,6": "June",
+      "0,7": "July",
+      "0,8": "August",
+      "0,9": "Sept",
+      "1,0": "Oct",
+      "1,1": "Nov",
+      "1,2": "Dec"
     };
     date = date.split("");
     let year = date.splice(0, 4).join("");
@@ -100,31 +100,27 @@ function BarGraph(props) {
   const endURL = URL[URL.length - 1];
   const { useCanvas } = state;
   const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
+  let totalTodos = props.todos.filter(
+    todo => todo.complete === true && todo.projectId === endURL
+  ).length;
+  if (totalTodos === 0) return "";
   return (
-    <React.Fragment>
-      {props.todos.filter(
-        todo => todo.project === endURL && todo.complete === true
-      ).length === 0 ? (
-        ""
-      ) : (
-        <ChartWrapper>
-          <h3>PROGRESS METER</h3>
-          <XYPlot
-            xType="ordinal"
-            width={300}
-            height={200}
-            xDistance={1000}
-            yDomain={[0, 100]}
-          >
-            <VerticalGridLines />
-            <HorizontalGridLines />
-            <XAxis />
-            <YAxis />
-            <BarSeries data={graphMaker()} />
-          </XYPlot>
-        </ChartWrapper>
-      )}
-    </React.Fragment>
+    <ChartWrapper>
+      <h3>PROGRESS METER</h3>
+      <XYPlot
+        xType="ordinal"
+        width={300}
+        height={200}
+        xDistance={1000}
+        yDomain={[0, 100]}
+      >
+        <VerticalGridLines />
+        <HorizontalGridLines />
+        <XAxis />
+        <YAxis />
+        <BarSeries data={graphMaker()} />
+      </XYPlot>
+    </ChartWrapper>
   );
 }
 export default BarGraph;

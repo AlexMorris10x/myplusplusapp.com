@@ -27,22 +27,39 @@ function Projects(props) {
     });
   };
 
+  if (props.projects.length === 0)
+    return (
+      <React.Fragment>
+        <TitleWrapper>Add New Project...</TitleWrapper>
+        <FormWrapper onSubmit={e => addProjectLocal(e, state.projectText)}>
+          <input
+            placeholder="New project name..."
+            type="text"
+            name="projectText"
+            value={state.projectText}
+            onChange={e => writeText(e)}
+          />
+          <AddProjectButton>Add Project</AddProjectButton>
+        </FormWrapper>
+      </React.Fragment>
+    );
+
   return (
     <React.Fragment>
       <HomeWrapper>
         <Link to="/">HOME</Link>
       </HomeWrapper>
       <TitleWrapper>Projects</TitleWrapper>
-      <form onSubmit={e => addProjectLocal(e, state.projectText)}>
+      <FormWrapper onSubmit={e => addProjectLocal(e, state.projectText)}>
         <input
-          placeholder="New project..."
+          placeholder="New project name..."
           type="text"
           name="projectText"
           value={state.projectText}
           onChange={e => writeText(e)}
         />
         <AddProjectButton>Add Project</AddProjectButton>
-      </form>
+      </FormWrapper>
       {displayProjects(props)}
     </React.Fragment>
   );
@@ -69,27 +86,27 @@ const displayProjects = props => {
                   >
                     {(provided, snapshot) => {
                       return (
-                        <ProjectWrapper
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <ProjectTextWrapper>
-                            <Link to={`${project._id}`}>{project.text}</Link>
-                          </ProjectTextWrapper>
-                          <DeleteProjectButton
-                            onClick={() => props.deleteProject(project._id)}
+                        <Link to={`${project._id}`}>
+                          <ProjectWrapper
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
                           >
-                            <FontAwesomeIcon icon={faTrashAlt} />
-                          </DeleteProjectButton>
-                        </ProjectWrapper>
+                            <ProjectTextWrapper>
+                              {project.text}
+                            </ProjectTextWrapper>
+                            <DeleteProjectButton
+                              onClick={() => props.deleteProject(project._id)}
+                            >
+                              <FontAwesomeIcon icon={faTrashAlt} />
+                            </DeleteProjectButton>
+                          </ProjectWrapper>
+                        </Link>
                       );
                     }}
                   </Draggable>
                 );
-              })
-              // .reverse()
-              }
+              })}
             </AllProjectsWrapper>
           );
         }}
@@ -102,21 +119,35 @@ export default Projects;
 
 const HomeWrapper = styled.div`
   margin: 40px auto;
+  max-width: 250px;
   font-size: 2em;
+  &:hover {
+    background: #e9ebee;
+  }
   > a {
-    color: blue;
+    color: #1d2129;
     text-decoration: none;
   }
 `;
 
-const AddProjectButton = styled.button`
-  margin: 1em;
-  font-size: 1em;
-  border: 2px solid black;
-  border-radius: 10px;
+const FormWrapper = styled.form`
+  > input {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
 `;
 
-const TitleWrapper = styled.div`
+const AddProjectButton = styled.button`
+  margin: 0;
+  font-size: 0.8em;
+  color: white;
+  background: #4065b4;
+  border: 2px solid black;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+`;
+
+const TitleWrapper = styled.p`
   margin: auto;
   padding: 10px;
   font-size: 2em;
@@ -138,29 +169,36 @@ const AllProjectsWrapper = styled.div`
 
 const ProjectWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  font-size: 1em;
-  border: 0.5px solid black;
-  border-radius: 3px;
+  margin: auto
+  background: #e9ebee;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  border-radius: 8px;
+  &:hover {
+    background: #e9ebee;
+    border-radius: 8px;
+  }
+  > a {
+    text-decoration: none;
+    font-size: 1.2em;
+    color: #1d2129;
+  }
+
 `;
 
 const ProjectTextWrapper = styled.div`
-  margin: 20px auto;
+  margin: 20px 0 20px 30px;
   padding: 10px;
   width: 40vw;
-  font-size: 1em;
-  > a {
-    color: blue;
-    text-decoration: none;
-  }
 `;
 
 const DeleteProjectButton = styled.div`
   margin: auto;
-  padding: 10px;
+  padding: 6px;
   width: min-content;
   font-size: 1em;
   color: red;
+  background: white;
   border: 1.5px solid black;
-  border-radius: 12px;
+  border-radius: 8px;
 `;

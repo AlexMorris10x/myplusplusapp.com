@@ -3,8 +3,8 @@ const router = express.Router();
 const PROJECT = require("../db/project");
 const TODO = require("../db/todo");
 
-router.get("/getProject", (req, res, next) => {
-  PROJECT.find()
+router.get("/getProject/", (req, res, next) => {
+  PROJECT.find({ username: req.user.username })
     .then(data => res.json(data))
     .catch(next);
 });

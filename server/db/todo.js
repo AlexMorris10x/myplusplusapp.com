@@ -7,7 +7,8 @@ const TODOSchema = new Schema({
   projectId: { type: String, unique: false },
   projectName: { type: String, unique: false },
   complete: { type: Boolean, unique: false },
-  completeDate: { type: String, unique: false }
+  completeDate: { type: String, unique: false },
+  order: { type: String, unique: false }
 });
 
 const TODO = mongoose.model("TODO", TODOSchema);

@@ -10,6 +10,7 @@ function Todos(props) {
     todoText: ""
   });
 
+  // writes for form
   const writeText = e => {
     e.preventDefault();
     setState({
@@ -18,7 +19,8 @@ function Todos(props) {
     });
   };
 
-  const addTodoLocal = (e, todoText, projectName) => {
+  // Creates new todos
+  const submitAddTodo = (e, todoText, projectName) => {
     e.preventDefault();
     if (todoText.length === 0) return;
     props.addTodo(e, todoText, projectName);
@@ -27,35 +29,87 @@ function Todos(props) {
     });
   };
 
+  // Orders todos based on the todo below
+  const orderTodos = todos => {
+    if (props.todos.length === 0) return;
+    let newTodos = [];
+    let orderObj = {};
+    for (let todo of todos) {
+      orderObj[todo.order] = todo;
+    }
+    for (let todo in orderObj) {
+      if (todo === orderObj[todo].order) {
+        newTodos.unshift(orderObj[todo]);
+      }
+    }
+    newTodos.push(orderObj[null]);
+    return newTodos;
+  };
+
+  // Creating globals
+  let todos = props.todos;
   let URL = window.location.href;
   URL = URL.split("/");
   const endURL = URL[URL.length - 1];
   let projectName = props.projects.filter(project => project._id === endURL);
-  return (
-    <React.Fragment>
-      <ProjectNameWrapper>
-        {projectName[0] === undefined ? "" : projectName[0].text}
-      </ProjectNameWrapper>
-      <form onSubmit={e => addTodoLocal(e, state.todoText, projectName[0])}>
-        <input
-          placeholder="Add new todo..."
-          type="text"
-          name="todoText"
-          value={state.todoText}
-          onChange={e => writeText(e)}
-        />
-        <AddTodoButton>Add Todo</AddTodoButton>
-      </form>
-      {displayTodos(props, endURL)}
-      {displayCompleteTodos(props, endURL)}
-    </React.Fragment>
-  );
+
+  // Catching for undefined
+  if (todos === undefined || todos.length === 0) {
+    return (
+      <React.Fragment>
+        <ProjectNameWrapper>
+          {projectName[0] === undefined ? "" : projectName[0].text}
+        </ProjectNameWrapper>
+        <FormWrapper
+          onSubmit={e => submitAddTodo(e, state.todoText, projectName[0])}
+        >
+          <input
+            placeholder="New todo name..."
+            type="text"
+            name="todoText"
+            value={state.todoText}
+            onChange={e => writeText(e)}
+          />
+          <AddTodoButton>Add Todo</AddTodoButton>
+        </FormWrapper>
+      </React.Fragment>
+    );
+  }
+
+  // Passing
+  if (todos) {
+    todos = orderTodos(todos);
+    todos.filter(todo => todo.projectId === endURL);
+    return (
+      <React.Fragment>
+        <ProjectNameWrapper>
+          {projectName[0] === undefined ? "" : projectName[0].text}
+        </ProjectNameWrapper>
+        <FormWrapper
+          onSubmit={e => submitAddTodo(e, state.todoText, projectName[0])}
+        >
+          <input
+            placeholder="New todo name..."
+            type="text"
+            name="todoText"
+            value={state.todoText}
+            onChange={e => writeText(e)}
+          />
+          <AddTodoButton>Add Todo</AddTodoButton>
+        </FormWrapper>
+        {displayTodos(props, todos, endURL)}
+        {displayCompleteTodos(props, todos, endURL)}
+      </React.Fragment>
+    );
+  }
 }
 
-const displayTodos = (props, endURL) => {
+// Undone todos
+const displayTodos = (props, todos) => {
+  todos = todos.filter(todo => todo.complete === false);
   return (
     <DragDropContext
-      onDragEnd={todoLocation => props.moveTodo(todoLocation)}
+      onDragEnd={todoLocation => props.moveTodo(todoLocation, todos)}
     >
       <Droppable droppableId={"todoBoard"} key={"todoBoard"}>
         {(provieded, snapshot) => {
@@ -65,45 +119,39 @@ const displayTodos = (props, endURL) => {
               ref={provieded.innerRef}
             >
               <ListNameWrapper>TODOs</ListNameWrapper>
-              {props.todos
-                .filter(
-                  todo => todo.complete === false && todo.projectId === endURL
-                )
-                .map((todo, index) => {
-                  return (
-                    <Draggable
-                      key={todo._id}
-                      draggableId={todo._id}
-                      index={index}
-                    >
-                      {(provided, snapshot) => {
-                        return (
-                          <TodoWrapper
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
+              {todos.map((todo, index) => {
+                return (
+                  <Draggable
+                    key={todo._id}
+                    draggableId={todo._id}
+                    index={index}
+                  >
+                    {(provided, snapshot) => {
+                      return (
+                        <TodoWrapper
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <CompleteTodoButton
+                            onClick={() =>
+                              props.completeTodo(todo._id, todo.complete)
+                            }
                           >
-                            <CompleteTodoButton
-                              onClick={() =>
-                                props.completeTodo(todo._id, todo.complete)
-                              }
-                            >
-                              <FontAwesomeIcon icon={faSquare} />
-                            </CompleteTodoButton>
-                            <TodoTextWrapper>{todo.text}</TodoTextWrapper>
-                            <DeleteTodoButton
-                              onClick={() => props.deleteTodo(todo._id)}
-                            >
-                              <FontAwesomeIcon icon={faTrashAlt} />
-                            </DeleteTodoButton>
-                          </TodoWrapper>
-                        );
-                      }}
-                    </Draggable>
-                  );
-                })
-                // .reverse()
-                }
+                            <FontAwesomeIcon icon={faSquare} />
+                          </CompleteTodoButton>
+                          <TodoTextWrapper>{todo.text}</TodoTextWrapper>
+                          <DeleteTodoButton
+                            onClick={() => props.deleteTodo(todo._id)}
+                          >
+                            <FontAwesomeIcon icon={faTrashAlt} />
+                          </DeleteTodoButton>
+                        </TodoWrapper>
+                      );
+                    }}
+                  </Draggable>
+                );
+              })}
             </AllTodosWrapper>
           );
         }}
@@ -112,11 +160,13 @@ const displayTodos = (props, endURL) => {
   );
 };
 
-const displayCompleteTodos = (props, endURL) => {
+//Completed todos
+const displayCompleteTodos = (props, todos) => {
+  todos = todos.filter(todo => todo.complete === true);
+  const todoTotal = todos.length;
+  if (todoTotal === 0) return "";
   return (
-    <DragDropContext
-      onDragEnd={todoLocation => props.moveTodo(todoLocation)}
-    >
+    <DragDropContext onDragEnd={todoLocation => props.moveTodo(todoLocation)}>
       <Droppable droppableId={"todoCompleteBoard"} key={"todoCompleteBoard"}>
         {(provieded, snapshot) => {
           return (
@@ -125,45 +175,39 @@ const displayCompleteTodos = (props, endURL) => {
               ref={provieded.innerRef}
             >
               <ListNameWrapper>Completed</ListNameWrapper>
-              {props.todos
-                .filter(
-                  todo => todo.complete === true && todo.projectId === endURL
-                )
-                .map((todo, index) => {
-                  return (
-                    <Draggable
-                      key={todo._id}
-                      draggableId={todo._id}
-                      index={index}
-                    >
-                      {(provided, snapshot) => {
-                        return (
-                          <TodoWrapper
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
+              {todos.map((todo, index) => {
+                return (
+                  <Draggable
+                    key={todo._id}
+                    draggableId={todo._id}
+                    index={index}
+                  >
+                    {(provided, snapshot) => {
+                      return (
+                        <TodoWrapper
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <CompleteTodoButton
+                            onClick={() =>
+                              props.completeTodo(todo._id, todo.complete)
+                            }
                           >
-                            <CompleteTodoButton
-                              onClick={() =>
-                                props.completeTodo(todo._id, todo.complete)
-                              }
-                            >
-                              <FontAwesomeIcon icon={faCheckSquare} />
-                            </CompleteTodoButton>
-                            <TodoTextWrapper>{todo.text}</TodoTextWrapper>
-                            <DeleteTodoButton
-                              onClick={() => props.deleteTodo(todo._id)}
-                            >
-                              <FontAwesomeIcon icon={faTrashAlt} />
-                            </DeleteTodoButton>
-                          </TodoWrapper>
-                        );
-                      }}
-                    </Draggable>
-                  );
-                })
-                // .reverse()
-                }
+                            <FontAwesomeIcon icon={faCheckSquare} />
+                          </CompleteTodoButton>
+                          <TodoTextWrapper>{todo.text}</TodoTextWrapper>
+                          <DeleteTodoButton
+                            onClick={() => props.deleteTodo(todo._id)}
+                          >
+                            <FontAwesomeIcon icon={faTrashAlt} />
+                          </DeleteTodoButton>
+                        </TodoWrapper>
+                      );
+                    }}
+                  </Draggable>
+                );
+              })}
             </AllTodosWrapper>
           );
         }}
@@ -174,19 +218,29 @@ const displayCompleteTodos = (props, endURL) => {
 
 export default Todos;
 
-const ProjectNameWrapper = styled.div`
+const ProjectNameWrapper = styled.p`
   margin: 40px 0 20px 0;
   font-size: 3em;
 `;
 
-const AddTodoButton = styled.button`
-  margin: 1em;
-  font-size: 1em;
-  border: 2px solid black;
-  border-radius: 10px;
+const FormWrapper = styled.form`
+  > input {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
 `;
 
-const ListNameWrapper = styled.div`
+const AddTodoButton = styled.button`
+  margin: 0;
+  font-size: 0.8em;
+  color: white;
+  background: #4065b4;
+  border: 2px solid black;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+`;
+
+const ListNameWrapper = styled.p`
   margin: auto;
   padding: 10px;
   font-size: 2em;
@@ -205,10 +259,14 @@ const AllTodosWrapper = styled.div`
 const TodoWrapper = styled.div`
   display: flex;
   margin: auto
-  background: white
-  font-size: 1em;
-  border: .5px solid black;
-  border-radius: 3px;
+  background: white;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  border-radius: 8px;
+  &:hover {
+    background: #e9ebee;
+    border-radius: 8px;
+  }
 `;
 
 const CompleteTodoButton = styled.div`
@@ -220,19 +278,19 @@ const CompleteTodoButton = styled.div`
   background: transparent;
 `;
 
-const TodoTextWrapper = styled.div`
+const TodoTextWrapper = styled.p`
   margin: 10px;
   width: 60vw;
-  font-size: 1.5em;
+  font-size: 1em;
 `;
 
 const DeleteTodoButton = styled.div`
   margin: auto;
-  padding: 10px;
+  padding: 6px;
   width: min-content;
   font-size: 1em;
   color: red;
-  background: transparent;
+  background: white;
   border: 1.5px solid black;
-  border-radius: 12px;
+  border-radius: 8px;
 `;

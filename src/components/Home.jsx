@@ -36,7 +36,7 @@ function Home(props) {
       </React.Fragment>
     );
   }
-  if (endURL === "")
+  if (endURL === "") {
     return (
       <React.Fragment>
         <Menu
@@ -50,6 +50,7 @@ function Home(props) {
         <FrontPageLineGraph todos={props.todos} projects={props.projects} />
       </React.Fragment>
     );
+  }
   if (endURL !== "")
     return (
       <React.Fragment>

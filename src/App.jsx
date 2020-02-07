@@ -13,6 +13,7 @@ function App() {
     loading: true,
     loggedIn: false,
     redirectTo: "",
+    username: "",
     projects: [],
     todos: []
   });
@@ -21,7 +22,7 @@ function App() {
     axios
       .all([
         axios.get("/auth/user"),
-        axios.get("/project/getProject"),
+        axios.get("/project/getProject/"),
         axios.get("/todo/getTodo")
       ])
       .then(
@@ -29,13 +30,9 @@ function App() {
           let username = "";
           userRes.data.user === null
             ? (userRes = "")
-            : (username = userRes.data.user.username.toLowerCase());
-          projectRes = projectRes.data;
-          const projects = projectRes.filter(
-            project => project.username === username
-          );
-          todoRes = todoRes.data;
-          const todos = todoRes.filter(todo => todo.username === username);
+            : (username = userRes.data.user.username);
+          let projects = projectRes.data;
+          let todos = todoRes.data;
           const loading = false;
           let loggedIn = "";
           username === "" ? (loggedIn = false) : (loggedIn = true);
@@ -52,8 +49,9 @@ function App() {
       .catch(setState({ ...state }));
   }, []);
 
-  const signUp = (e, username = username.toLowerCase(), password) => {
+  const signUp = (e, username, password) => {
     e.preventDefault();
+    username = username.toLowerCase();
     axios
       .post("/auth/signup", {
         username: username,
@@ -61,7 +59,7 @@ function App() {
       })
       .then(res => {
         if (res.data) {
-          login(username, password);
+          login(e, username, password);
         } else {
           setState({
             ...state
@@ -70,8 +68,9 @@ function App() {
       });
   };
 
-  const login = (e, username = username.toLowerCase(), password) => {
+  const login = (e, username, password) => {
     e.preventDefault();
+    username = username.toLowerCase();
     axios
       .post("/auth/login", {
         username,
@@ -133,16 +132,16 @@ function App() {
     const URL = window.location.href;
     const endURL = URL.substr(URL.lastIndexOf("/") + 1);
     projectName = projectName.text;
-    const todo = {
+    let todo = {
       username: state.username,
       text: todoText,
       projectId: endURL,
       projectName: projectName,
       complete: false,
-      completeDate: Date()
+      completeDate: Date(),
+      order: null
     };
-    const todos = [...state.todos, todo];
-    setState({ ...state, todos, todoText: "" });
+    createOrder(state.todos, todo);
     if (todo.text && todo.text.length > 0) {
       axios
         .post("/todo/addTodo", todo)
@@ -155,6 +154,13 @@ function App() {
         })
         .catch(setState({ ...state }));
     }
+  };
+
+  const createOrder = (todos, todo) => {
+    if (todos.length === 0) return;
+    let previousTodo = todos[todos.length - 1]._id;
+    todo.order = previousTodo;
+    return todo;
   };
 
   const deleteProject = id => {
@@ -213,85 +219,51 @@ function App() {
       .catch(setState({ ...state }));
   };
 
-  const moveTodo = todoLocation => {
+  const moveTodo = (todoLocation, todos) => {
     if (todoLocation.destination === null) return;
-    let todos = state.todos;
     const source = todoLocation.source.index;
     const destination = todoLocation.destination.index;
-    let todo = todos.splice(source, 1);
-    todo = todo[0];
-    const projectId = todo.projectId;
-    todos.splice(destination, 0, todo);
-    axios
-      .all([
-        axios.delete(`/todo/moveTodoDelete/${projectId}`),
-        axios.post(`/todo/moveTodoAdd/${projectId}`, todos)
-      ])
-      .then(
-        axios.spread((moveTodoDeleteRes, moveTodoAddRes) => {
-          if (moveTodoDeleteRes.data && moveTodoAddRes.data) {
-            setState({
-              ...state,
-              todos
-            });
-          }
-        })
-      )
-      .catch(setState({ ...state }));
+    console.log(source, destination);
+    // if (destination === todos.length - 1) {
+    //   console.log("bottom");
+    // }
+    // if (destination === 0) {
+    //   todos[source - 1].order = todos[source + 1]._id;
+    //   todos[source].order = todos[destination]._id;
+    // }
+    // if (destination !== 0 || destination === todos.length - 1) {
+    //   console.log(true);
+    todos[source - 1].order = todos[source + 1]._id;
+    todos[source].order = todos[destination]._id;
+    todos[destination - 1].order = todos[source]._id;
+
+    // }
+    setState({ ...state, todos });
+    // setState({ ...state, todos });
+    // setState({...state, todos})
+    // console.log(source, destination);
+    // console.log(todos);
+    // axios
+    //   .all([
+    //     axios.delete(`/todo/moveTodoDelete/${projectId}`),
+    //     axios.post(`/todo/moveTodoAdd/${projectId}`, todos)
+    //   ])
+    //   .then(
+    //     axios.spread((moveTodoDeleteRes, moveTodoAddRes) => {
+    //       if (moveTodoDeleteRes.data && moveTodoAddRes.data) {
+    //         setState({
+    //           ...state,
+    //           todos
+    //         });
+    //       }
+    //     })
+    //   )
+    //   .catch(setState({ ...state }));
   };
 
   const moveProject = projectLocation => {
-    if (projectLocation.destination === null) return;
-    let projects = state.projects;
-    const source = projectLocation.source.index;
-    const destination = projectLocation.destination.index;
-    let project = projects.splice(source, 1);
-    project = project[0];
-    const username = project.username;
-    projects.splice(destination, 0, project);
-    axios
-      .all([
-        axios.delete(`/project/moveProjectDelete/${username}`),
-        axios.post(`/project/moveProjectAdd/${username}`, projects)
-      ])
-      .then(
-        axios.spread((moveProjectDeleteRes, moveProjectAddRes) => {
-          if (moveProjectDeleteRes.data && moveProjectAddRes.data) {
-            setState({
-              ...state,
-              projects
-            });
-          }
-        })
-      )
-      .catch(setState({ ...state }));
+    console.log(projectLocation);
   };
-
-  // moveProject = projectLocation => {
-  //   if (projectLocation.destination === null) return;
-  //   const oldState = { ...state };
-  //   let newState = { ...state };
-  //   const source = projectLocation.source.index;
-  //   const destination = projectLocation.destination.index;
-  //   let movedProject = newState.projects.reverse();
-  //   movedProject = newState.projects.splice(source, 1);
-  //   movedProject = movedProject[0];
-  //   const username = movedProject.username;
-  //   newState.projects.splice(destination, 0, movedProject);
-  //   newState.projects = newState.projects.reverse();
-  //   axios
-  // .delete(`/project/moveProjectDelete/${username}`)
-  //     .then(res => {
-  //       if (res.data) {
-  //         axios
-  // .put(`/project/moveProjectAdd/${username}`, newState.projects)
-  //           .catch(err => console.log(err));
-  //         setState({ ...state, oldState });
-  //       }
-  //     })
-  //     .catch(err => console.log(err));
-  //   setState({ ...state, oldState });
-  // };
 
   if (state.redirectTo) {
     return (
@@ -348,4 +320,13 @@ export default App;
 
 const AppWrapper = styled.div`
   text-align: center;
+  font-family: Times New Roman;
+  font-weight: bold;
+  p {
+    color: #1d2129;
+  }
+  a {
+    color: #1d2129;
+    text-decoration: none;
+  }
 `;

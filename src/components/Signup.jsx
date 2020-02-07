@@ -17,9 +17,9 @@ function Signup(props) {
     });
   };
 
-  const signUpLocal = e => {
+  const submitSignUp = e => {
     e.preventDefault();
-    props.signUp(state.username, state.password);
+    props.signUp(e, state.username, state.password);
     setState({
       username: "",
       password: "",
@@ -31,9 +31,9 @@ function Signup(props) {
     <React.Fragment>
       <Menu loggedIn={props.loggedIn} />
       <h1>Signup</h1>
-      <form onSubmit={e => signUpLocal(e)}>
+      <FormWrapper onSubmit={e => submitSignUp(e)}>
         Username:
-        <input
+        <InputWrapper
           type="text"
           name="username"
           placeholder="type username..."
@@ -41,7 +41,7 @@ function Signup(props) {
           onChange={writeText}
         />
         Password:
-        <input
+        <InputWrapper
           type="password"
           name="password"
           placeholder="type password..."
@@ -49,25 +49,40 @@ function Signup(props) {
           onChange={writeText}
         />
         Confirm Password:
-        <input
+        <InputWrapper
           type="password"
           name="confirmPassword"
           placeholder="retype password..."
           value={state.confirmPassword}
           onChange={writeText}
         />
-        <Button>Sign Up</Button>
-      </form>
+        <SignUpButton>Sign Up</SignUpButton>
+      </FormWrapper>
     </React.Fragment>
   );
 }
 
 export default Signup;
 
-const Button = styled.button`
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
+const FormWrapper = styled.form`
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  max-width: 400px;
+`;
+
+const InputWrapper = styled.input`
+  margin: 10px;
+  padding: 2px;
+  border: 1.2px solid black;
+  border-radius: 10px;
+`;
+
+const SignUpButton = styled.button`
+  margin: 20px auto;
+  font-size: 0.8em;
+  color: white;
+  background: #4065b4;
   border: 2px solid black;
-  border-radius: 3px;
+  border-radius: 10px;
 `;

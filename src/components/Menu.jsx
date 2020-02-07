@@ -16,13 +16,17 @@ function Menu(props) {
     setState({ sidebarOpen: open });
   };
 
+  if (props.loggedIn && props.projects.length === 0) {
+    state.sidebarOpen = true;
+  }
+
   if (!props.loggedIn) {
     return (
       <MenuWrapper>
         <div></div>
-        <LogoWrapper>
+        <LoggedOutLogoWrapper>
           <Link to="/">PlusPlus++</Link>
-        </LogoWrapper>
+        </LoggedOutLogoWrapper>
         <LoggedOutMenuWrapper>
           <Link to="/signup">Sign Up</Link>
           <Link to="/login">Login</Link>
@@ -30,6 +34,7 @@ function Menu(props) {
       </MenuWrapper>
     );
   }
+
   if (props.loggedIn && state.sidebarOpen === false) {
     return (
       <MenuWrapper>
@@ -80,7 +85,6 @@ function Menu(props) {
                   moveProject={props.moveProject}
                   projectText={props.projectText}
                   writeProject={props.writeProject}
-                  moveProject={props.moveProject}
                 />
               </div>
             }
@@ -101,10 +105,24 @@ const LoggedOutMenuWrapper = styled.div`
   text-align: right;
   margin: -8px;
   padding: 10px;
-  background: #333;
+  background: #f9fafb;
   > a {
-    color: white;
+    color: #25282c;
     text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    &:hover {
+      background: #e9ebee;
+      border-radius: 10px;
+    }
+  }
+`;
+
+const LoggedOutLogoWrapper = styled.div`
+  margin: 0 0 0 60px;
+  > a {
+    font-size: 1.7em;
+    font-family: Arial;
   }
 `;
 
@@ -114,18 +132,29 @@ const MenuWrapper = styled.div`
   justify-content: space-between;
   margin: -8px;
   padding: 10px;
-  background: #333;
+  background: #f9fafb;
+  > div {
+    &:hover {
+      background: #e9ebee;
+      border-radius: 10px;
+    }
+  }
   > a {
-    color: white;
+    color: #25282c;
     text-decoration: none;
+    font-weight: bold;
+    &:hover {
+      background: #e9ebee;
+      border-radius: 10px;
+    }
   }
 `;
 
 const LogoWrapper = styled.div`
   > a {
-    color: white;
-    text-decoration: none;
-    font-size: 2em;
+    color: #25282c;
+    font-size: 1.7em;
+    font-family: Arial;
   }
 `;
 
@@ -145,13 +174,15 @@ const SideBarWrapper = styled.div`
   }
 `;
 
-const MainMenuButton = styled.button`
+const MainMenuButton = styled.div`
   padding: 8px 10px 8px 10px;
+  border: 1.5px solid black;
   border-radius: 10px;
 `;
 
-const SideBarButton = styled.button`
+const SideBarButton = styled.div`
   margin: 6px;
   padding: 8px 10px 8px 10px;
+  border: 1.5px solid black;
   border-radius: 10px;
 `;

@@ -3,7 +3,7 @@ const router = express.Router();
 const TODO = require("../db/todo");
 
 router.get("/getTodo", (req, res, next) => {
-  TODO.find()
+  TODO.find({ username: req.user.username })
     .then(data => res.json(data))
     .catch(next);
 });
@@ -15,7 +15,8 @@ router.post("/addTodo", (req, res) => {
     projectId,
     projectName,
     complete,
-    completeDate
+    completeDate,
+    order
   } = req.body;
 
   const newTODO = new TODO({
@@ -24,7 +25,8 @@ router.post("/addTodo", (req, res) => {
     projectId: projectId,
     projectName: projectName,
     complete: complete,
-    completeDate: completeDate
+    completeDate: completeDate,
+    order: order
   });
 
   newTODO.save((err, savedTODO) => {
