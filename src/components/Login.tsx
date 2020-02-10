@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import Menu from "./Menu";
 import styled from "styled-components";
 
-function Login(props) {
+function Login(props: any): any {
   const [state, setState] = useState({
     username: "",
     password: ""
   });
 
-  const writeText = e => {
+  const writeText = (e: any) => {
     e.preventDefault();
     setState({
       ...state,
@@ -16,7 +16,7 @@ function Login(props) {
     });
   };
 
-  const submitLogIn = e => {
+  const submitLogIn = (e: any) => {
     e.preventDefault();
     props.login(e, state.username, state.password);
     setState({

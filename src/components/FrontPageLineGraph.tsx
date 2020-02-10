@@ -1,16 +1,16 @@
 import React from "react";
-import {
-  XYPlot,
-  XAxis,
-  YAxis,
-  HorizontalGridLines,
-  VerticalGridLines,
-  // LineSeries,
-  DiscreteColorLegend
-} from "react-vis";
+// import {
+//   XYPlot,
+//   XAxis,
+//   YAxis,
+//   HorizontalGridLines,
+//   VerticalGridLines,
+//   // LineSeries,
+//   DiscreteColorLegend
+// } from "react-vis";
 import styled from "styled-components";
 
-function FrontPageLineGraph(props) {
+function FrontPageLineGraph(props: any): any {
   const graphMaker = () => {
     return "";
   };
@@ -123,7 +123,7 @@ function FrontPageLineGraph(props) {
 
   const graphConstraints = () => {
     let startAndEnd = props.todos.sort(
-      (a, b) => a.completeDate - b.completeDate
+      (a: any, b: any) => a.completeDate - b.completeDate
     );
     startAndEnd === undefined || startAndEnd.length === 0
       ? (startAndEnd = "")
@@ -137,12 +137,12 @@ function FrontPageLineGraph(props) {
   };
 
   const graphLabels = () => {
-    let arr = [];
+    let arr: any = [];
     if (props.projects === undefined) props.projects = "";
     let labels = props.projects;
     labels.length === 0
       ? (labels = "")
-      : (labels = labels.map((project, index) => {
+      : (labels = labels.map((project: any) => {
           arr.push({ title: project.text });
           return arr;
         }));
@@ -154,7 +154,7 @@ function FrontPageLineGraph(props) {
   return (
     <ChartWrapper>
       <h3>PROJECTS OVERVIEW</h3>
-      <XYPlot xDomain={graphConstraints()} width={300} height={200}>
+      {/* <XYPlot xDomain={graphConstraints()} width={300} height={200}>
         <HorizontalGridLines />
         <VerticalGridLines />
         <XAxis orientation="bottom" title="X Axis" />
@@ -163,7 +163,7 @@ function FrontPageLineGraph(props) {
         <LegendWrapper>
           <DiscreteColorLegend orientation="horizontal" items={graphLabels()} />
         </LegendWrapper>
-      </XYPlot>
+      </XYPlot> */}
     </ChartWrapper>
   );
 }

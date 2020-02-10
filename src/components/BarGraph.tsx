@@ -1,33 +1,35 @@
 import React, { useState } from "react";
-import {
-  XYPlot,
-  XAxis,
-  YAxis,
-  VerticalGridLines,
-  HorizontalGridLines,
-  VerticalBarSeries,
-  VerticalBarSeriesCanvas
-} from "react-vis";
+// import {
+//   XYPlot,
+//   XAxis,
+//   YAxis,
+//   VerticalGridLines,
+//   HorizontalGridLines,
+//   VerticalBarSeries,
+//   VerticalBarSeriesCanvas
+// } from "react-vis:";
 import styled from "styled-components";
 
-function BarGraph(props) {
+function BarGraph(props: any): any {
   const [state] = useState({
     useCanvas: false
   });
 
   const graphMaker = () => {
-    let URL = window.location.href;
-    URL = URL.split("/");
-    const endURL = URL[URL.length - 1];
-    let data = [];
+    const URL: string = window.location.href;
+    const splitURL: string[] = URL.split("/");
+    const endURL = splitURL[splitURL.length - 1];
+    let data: any = [];
     let count = 0;
     let todos = props.todos
-      .filter(todo => todo.complete === true && todo.projectId === endURL)
-      .map(todo => {
+      .filter(
+        (todo: any) => todo.complete === true && todo.projectId === endURL
+      )
+      .map((todo: any) => {
         return dateConverter(todo.completeDate);
       })
-      .sort((a, b) => a - b);
-    todos.map((todo, index) => {
+      .sort((a: any, b: any) => a - b);
+    todos.map((todo: any, index: any) => {
       if (todo === todos[index + 1]) {
         count++;
       } else {
@@ -36,7 +38,8 @@ function BarGraph(props) {
           x: dateConverterLegible(todo),
           y:
             (count /
-              props.todos.filter(todo => todo.projectId === endURL).length) *
+              props.todos.filter((todo: any) => todo.projectId === endURL)
+                .length) *
             100
         });
         count = 0;
@@ -46,8 +49,8 @@ function BarGraph(props) {
     return data;
   };
 
-  const dateConverter = date => {
-    const months = {
+  const dateConverter = (date: any) => {
+    const months: any = {
       Jan: "01",
       Feb: "02",
       March: "03",
@@ -72,8 +75,8 @@ function BarGraph(props) {
     return finalDate.join("");
   };
 
-  const dateConverterLegible = date => {
-    const months = {
+  const dateConverterLegible = (date: any) => {
+    const months: any = {
       "0,1": "Jan",
       "0,2": "Feb",
       "0,3": "March",
@@ -95,19 +98,19 @@ function BarGraph(props) {
     return legibleDate;
   };
 
-  let URL = window.location.href;
+  let URL: any = window.location.href;
   URL = URL.split("/");
   const endURL = URL[URL.length - 1];
   const { useCanvas } = state;
-  const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
+  // const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
   let totalTodos = props.todos.filter(
-    todo => todo.complete === true && todo.projectId === endURL
+    (todo: any) => todo.complete === true && todo.projectId === endURL
   ).length;
   if (totalTodos === 0) return "";
   return (
     <ChartWrapper>
       <h3>PROGRESS METER</h3>
-      <XYPlot
+      {/* <XYPlot
         xType="ordinal"
         width={300}
         height={200}
@@ -119,7 +122,7 @@ function BarGraph(props) {
         <XAxis />
         <YAxis />
         <BarSeries data={graphMaker()} />
-      </XYPlot>
+      </XYPlot> */}
     </ChartWrapper>
   );
 }

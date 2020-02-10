@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import Menu from "./Menu";
 import styled from "styled-components";
 
-function Signup(props) {
+function Signup(props: any): any {
   const [state, setState] = useState({
     username: "",
     password: "",
     confirmPassword: ""
   });
 
-  const writeText = e => {
+  const writeText = (e: any) => {
     e.preventDefault();
     setState({
       ...state,
@@ -17,7 +17,7 @@ function Signup(props) {
     });
   };
 
-  const submitSignUp = e => {
+  const submitSignUp = (e: any) => {
     e.preventDefault();
     props.signUp(e, state.username, state.password);
     setState({
@@ -29,7 +29,7 @@ function Signup(props) {
 
   return (
     <React.Fragment>
-      <Menu loggedIn={props.loggedIn} />
+      {/* <Menu loggedIn={props.loggedIn} /> */}
       <h1>Signup</h1>
       <FormWrapper onSubmit={e => submitSignUp(e)}>
         Username:

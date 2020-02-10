@@ -5,12 +5,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
-function Projects(props) {
+function Projects(props: any):any {
   const [state, setState] = useState({
     projectText: ""
   });
 
-  const writeText = e => {
+  const writeText = (e: any) => {
     e.preventDefault();
     setState({
       ...state,
@@ -18,7 +18,7 @@ function Projects(props) {
     });
   };
 
-  const addProjectLocal = (e, projectText) => {
+  const addProjectLocal = (e: any, projectText: any) => {
     e.preventDefault();
     if (projectText.length === 0) return;
     props.addProject(e, projectText);
@@ -50,7 +50,7 @@ function Projects(props) {
         <Link to="/">HOME</Link>
       </HomeWrapper>
       <TitleWrapper>Projects</TitleWrapper>
-      <FormWrapper onSubmit={e => addProjectLocal(e, state.projectText)}>
+      <FormWrapper onSubmit={(e: any) => addProjectLocal(e, state.projectText)}>
         <input
           placeholder="New project name..."
           type="text"
@@ -65,7 +65,7 @@ function Projects(props) {
   );
 }
 
-const displayProjects = props => {
+const displayProjects = (props: any) => {
   return (
     <DragDropContext
       onDragEnd={projectLocation => props.moveProject(projectLocation)}
@@ -77,7 +77,7 @@ const displayProjects = props => {
               {...provieded.droppableProps}
               ref={provieded.innerRef}
             >
-              {props.projects.map((project, index) => {
+              {props.projects.map((project: any, index: any) => {
                 return (
                   <Draggable
                     key={project._id}

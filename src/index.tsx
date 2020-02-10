@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App.jsx";
+import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 // import { createStore, applyMiddleware, compose } from "redux";
 // import rootReducer from "./store/reducers/rootReducer";
@@ -10,9 +10,7 @@ import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
   <BrowserRouter>
-    {/* <Provider store={store}> */}
     <App />
-    {/* </Provider> */}
   </BrowserRouter>,
   document.getElementById("root")
 );

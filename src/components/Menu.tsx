@@ -6,13 +6,13 @@ import Projects from "./Projects";
 import Sidebar from "react-sidebar";
 import styled from "styled-components";
 
-function Menu(props) {
-  const [state, setState] = useState({
+function Menu(props: any): any {
+  const [state, setState] = useState<any>({
     redirectTo: null,
     sidebarOpen: false
   });
 
-  const onSetSidebarOpen = open => {
+  const onSetSidebarOpen = (open: any) => {
     setState({ sidebarOpen: open });
   };
 

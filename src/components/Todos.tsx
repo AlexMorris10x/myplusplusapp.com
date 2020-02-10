@@ -5,13 +5,13 @@ import { faTrashAlt, faCheckSquare } from "@fortawesome/free-solid-svg-icons";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import styled from "styled-components";
 
-function Todos(props) {
+function Todos(props: any): any {
   const [state, setState] = useState({
     todoText: ""
   });
 
-  // writes for form
-  const writeText = e => {
+  // Write text for form
+  const writeText = (e: any) => {
     e.preventDefault();
     setState({
       ...state,
@@ -19,8 +19,13 @@ function Todos(props) {
     });
   };
 
-  // Creates new todos
-  const submitAddTodo = (e, todoText, projectName) => {
+  // Submit for new todos
+  const submitAddTodo = (
+    e: any,
+    todos: any,
+    todoText: any,
+    projectName: any
+  ) => {
     e.preventDefault();
     if (todoText.length === 0) return;
     props.addTodo(e, todoText, projectName);
@@ -29,34 +34,39 @@ function Todos(props) {
     });
   };
 
-  // Orders todos based on the todo below
-  const orderTodos = todos => {
-    if (props.todos.length === 0) return;
-    let newTodos = [];
-    let orderObj = {};
-    for (let todo of todos) {
-      orderObj[todo.order] = todo;
-    }
-    let finder = orderObj[null]._id;
-    let nextObj = {};
-    for (let i = 0; i < todos.length - 1; i++) {
-      if (nextObj === undefined) return;
-      nextObj = orderObj[finder];
-      newTodos.unshift(orderObj[finder]);
-      finder = nextObj._id;
-    }
-    newTodos.push(orderObj[null]);
-    return newTodos;
+  // Orders todos "linked list" alrgorithm
+  const orderTodos = (todos: any) => {
+    // if (todos === undefined || todos.length === 0) return todos;
+    // let newTodos = [];
+    // let orderObj: any = {};
+    // for (let todo of todos) {
+    //   orderObj[todo.order] = todo;
+    // }
+    // let finder = orderObj[null]._id;
+    // let nextObj = {};
+    // for (let i = 0; i < todos.length - 1; i++) {
+    //   if (nextObj === undefined) return;
+    //   nextObj = orderObj[finder];
+    //   newTodos.unshift(orderObj[finder]);
+    //   finder = nextObj._id;
+    // }
+    // newTodos.push(orderObj[null]);
+    // return newTodos
   };
 
-  // Creating globals
+  // Grab end URL
+  const URL: string = window.location.href;
+  const splitURL: string[] = URL.split("/");
+  const endURL = splitURL[splitURL.length - 1];
+  // Grab project todos
   let todos = props.todos;
-  let URL = window.location.href;
-  URL = URL.split("/");
-  const endURL = URL[URL.length - 1];
-  let projectName = props.projects.filter(project => project._id === endURL);
+  todos = todos.filter((todo: any) => todo.projectId === endURL);
+  // Grab project name
+  let projectName = props.projects.filter(
+    (project: any) => project._id === endURL
+  );
 
-  // Catching for undefined
+  // Catch for undefined todoos
   if (todos === undefined || todos.length === 0) {
     return (
       <React.Fragment>
@@ -64,7 +74,9 @@ function Todos(props) {
           {projectName[0] === undefined ? "" : projectName[0].text}
         </ProjectNameWrapper>
         <FormWrapper
-          onSubmit={e => submitAddTodo(e, state.todoText, projectName[0])}
+          onSubmit={e =>
+            submitAddTodo(e, todos, state.todoText, projectName[0])
+          }
         >
           <input
             placeholder="New todo name..."
@@ -79,17 +91,18 @@ function Todos(props) {
     );
   }
 
-  // Passing
+  // Component wrapper
   if (todos) {
-    todos = orderTodos(todos);
-    todos.filter(todo => todo.projectId === endURL);
+    // todos = orderTodos(todos);
     return (
       <React.Fragment>
         <ProjectNameWrapper>
           {projectName[0] === undefined ? "" : projectName[0].text}
         </ProjectNameWrapper>
         <FormWrapper
-          onSubmit={e => submitAddTodo(e, state.todoText, projectName[0])}
+          onSubmit={e =>
+            submitAddTodo(e, todos, state.todoText, projectName[0])
+          }
         >
           <input
             placeholder="New todo name..."
@@ -100,16 +113,16 @@ function Todos(props) {
           />
           <AddTodoButton>Add Todo</AddTodoButton>
         </FormWrapper>
-        {displayTodos(props, todos, endURL)}
-        {displayCompleteTodos(props, todos, endURL)}
+        {displayTodos(props, todos)}
+        {displayCompleteTodos(props, todos)}
       </React.Fragment>
     );
   }
 }
 
-// Undone todos
-const displayTodos = (props, todos) => {
-  todos = todos.filter(todo => todo.complete === false);
+// Undone todo list
+const displayTodos = (props: any, todos: any) => {
+  todos = todos.filter((todo: any) => todo.complete === false);
   return (
     <DragDropContext
       onDragEnd={todoLocation => props.moveTodo(todoLocation, todos)}
@@ -126,7 +139,7 @@ const displayTodos = (props, todos) => {
               }}
             >
               <ListNameWrapper>TODOs</ListNameWrapper>
-              {todos.map((todo, index) => {
+              {todos.map((todo: any, index: any) => {
                 return (
                   <Draggable
                     key={todo._id}
@@ -167,9 +180,9 @@ const displayTodos = (props, todos) => {
   );
 };
 
-//Completed todos
-const displayCompleteTodos = (props, todos) => {
-  todos = todos.filter(todo => todo.complete === true);
+//Completed todo list
+const displayCompleteTodos = (props: any, todos: any) => {
+  todos = todos.filter((todo: any) => todo.complete === true);
   const todoTotal = todos.length;
   if (todoTotal === 0) return "";
   return (
@@ -182,7 +195,7 @@ const displayCompleteTodos = (props, todos) => {
               ref={provieded.innerRef}
             >
               <ListNameWrapper>Completed</ListNameWrapper>
-              {todos.map((todo, index) => {
+              {todos.map((todo: any, index: any) => {
                 return (
                   <Draggable
                     key={todo._id}
