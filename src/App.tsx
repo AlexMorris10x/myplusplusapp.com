@@ -143,7 +143,7 @@ function App(): any {
     //       });
     //     }
     //   })
-    //   .catch(() => setState({ ...state }));
+    // .catch(() => setState({ ...state }));
   };
 
   const addProject = (e: any, projectText: string) => {
