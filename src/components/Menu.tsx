@@ -46,7 +46,7 @@ function Menu(props: any): any {
         <LogoWrapper>
           <Link to="/">PlusPlus</Link>
         </LogoWrapper>
-        <Link to="/login" onClick={props.logout}>
+        <Link to="/" onClick={props.logout}>
           Logout
         </Link>
       </MenuWrapper>

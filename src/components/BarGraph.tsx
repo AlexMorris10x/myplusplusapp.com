@@ -1,13 +1,14 @@
+/// <reference types="react-vis-types" />
 import React, { useState } from "react";
-// import {
-//   XYPlot,
-//   XAxis,
-//   YAxis,
-//   VerticalGridLines,
-//   HorizontalGridLines,
-//   VerticalBarSeries,
-//   VerticalBarSeriesCanvas
-// } from "react-vis:";
+import {
+  XYPlot,
+  XAxis,
+  YAxis,
+  VerticalGridLines,
+  HorizontalGridLines,
+  VerticalBarSeries,
+  VerticalBarSeriesCanvas
+} from "react-vis";
 import styled from "styled-components";
 
 function BarGraph(props: any): any {
@@ -102,7 +103,7 @@ function BarGraph(props: any): any {
   URL = URL.split("/");
   const endURL = URL[URL.length - 1];
   const { useCanvas } = state;
-  // const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
+  const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
   let totalTodos = props.todos.filter(
     (todo: any) => todo.complete === true && todo.projectId === endURL
   ).length;
@@ -110,7 +111,7 @@ function BarGraph(props: any): any {
   return (
     <ChartWrapper>
       <h3>PROGRESS METER</h3>
-      {/* <XYPlot
+      <XYPlot
         xType="ordinal"
         width={300}
         height={200}
@@ -122,7 +123,7 @@ function BarGraph(props: any): any {
         <XAxis />
         <YAxis />
         <BarSeries data={graphMaker()} />
-      </XYPlot> */}
+      </XYPlot>
     </ChartWrapper>
   );
 }

@@ -130,21 +130,22 @@ function App(): any {
   };
 
   const logout = (e: any) => {
-    e.preventDefault();
-    axios
-      .post("/auth/logout")
-      .then(res => {
-        if (res.status === 200) {
-          setState({
-            ...state,
-            loggedIn: false,
-            username: "",
-            redirectTo: "/login"
-          });
-        }
-      })
-      .catch(() => setState({ ...state }));
+    // e.preventDefault();
+    // axios
+    //   .post("/auth/logout")
+    //   .then(res => {
+    //     if (res.status === 200) {
+    //       setState({
+    //         ...state,
+    //         loggedIn: false,
+    //         username: "",
+    //         redirectTo: "/login"
+    //       });
+    //     }
+    //   })
+    //   .catch(() => setState({ ...state }));
   };
+
   const addProject = (e: any, projectText: string) => {
     e.preventDefault();
     const project = {

@@ -20,21 +20,21 @@ function Todos(props: any): any {
   };
 
   // submitTodo and reset form
-  const submitAddTodo = (e: any, todoText: string) => {
+  const submitAddTodo = (e: any) => {
     e.preventDefault();
-    props.addTodo(e, todoText);
+    props.addTodo(e, state.todoText);
     setState({ ...state, todoText: "" });
   };
 
-  // Grab project todos
+  // grab project todos
   let todos = props.todos;
 
-  // Component wrapper
+  // component wrapper
   if (todos) {
     return (
       <React.Fragment>
         <ProjectNameWrapper>{props.projectName}</ProjectNameWrapper>
-        <FormWrapper onSubmit={(e: any) => submitAddTodo(e, state.todoText)}>
+        <FormWrapper onSubmit={(e: any) => submitAddTodo(e)}>
           <input
             placeholder="New todo name..."
             type="text"
@@ -51,7 +51,7 @@ function Todos(props: any): any {
   }
 }
 
-// Undone todo list
+// undone todo list
 const displayTodos = (props: any, todos: any) => {
   todos = todos.filter((todo: any) => todo.complete === false);
   return (
@@ -109,7 +109,7 @@ const displayTodos = (props: any, todos: any) => {
   );
 };
 
-//Completed todo list
+//completed todo list
 const displayCompleteTodos = (props: any, todos: any) => {
   todos = todos.filter((todo: any) => todo.complete === true);
   const todoTotal = todos.length;

@@ -31,7 +31,7 @@ function Signup(props: any): any {
     <React.Fragment>
       <Menu loggedIn={props.loggedIn} projects={props.projects} />
       <h1>Signup</h1>
-      <FormWrapper onSubmit={e => submitSignUp(e)}>
+      <FormWrapper onSubmit={(e: any) => submitSignUp(e)}>
         Username:
         <InputWrapper
           type="text"
