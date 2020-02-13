@@ -27,7 +27,7 @@ function Login(props: any): any {
 
   return (
     <React.Fragment>
-      <Menu loggedIn={props.loggedIn} />
+      <Menu loggedIn={props.loggedIn} projects={props.projects} />
       <h1>Login</h1>
       <FormWrapper onSubmit={e => submitLogIn(e)}>
         Username:

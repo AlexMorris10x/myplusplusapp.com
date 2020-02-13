@@ -3,7 +3,7 @@ const router = express.Router();
 const PROJECT = require("../db/project");
 const TODO = require("../db/todo");
 
-router.get("/getProject/", (req, res, next) => {
+router.get("/getProject", (req, res, next) => {
   PROJECT.find({ username: req.user.username })
     .then(data => res.json(data))
     .catch(next);
@@ -35,17 +35,17 @@ router.delete("/deleteTodos/:id", (req, res, next) => {
     .catch(next);
 });
 
-router.delete("/moveProjectDelete/:username", (req, res, next) => {
-  PROJECT.deleteMany({ username: req.params.username })
-    .then(data => res.json(data))
-    .catch(next);
-});
+// router.delete("/moveProjectDelete/:username", (req, res, next) => {
+//   PROJECT.deleteMany({ username: req.params.username })
+//     .then(data => res.json(data))
+//     .catch(next);
+// });
 
-router.post("/moveprojectAdd/:username", (req, res, next) => {
-  const projects = req.body;
-  PROJECT.insertMany(projects)
-    .then(data => res.json(data))
-    .catch(next);
-});
+// router.post("/moveprojectAdd/:username", (req, res, next) => {
+//   const projects = req.body;
+//   PROJECT.insertMany(projects)
+//     .then(data => res.json(data))
+//     .catch(next);
+// });
 
 module.exports = router;

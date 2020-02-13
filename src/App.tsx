@@ -9,15 +9,52 @@ import Home from "./components/Home";
 
 function App(): any {
   let [state, setState] = useState<any>({
+    username: "",
     error: null,
     loading: true,
     loggedIn: false,
-    user: null,
     redirectTo: "",
-    username: "",
     projects: [],
     todos: []
   });
+
+  // Finding the end URL
+  const URL: string = window.location.href;
+  const splitURL: string[] = URL.split("/");
+  const endURL: string = splitURL[splitURL.length - 1];
+
+  // // Grab project name
+  let projectName: any;
+
+  state.projects.length > 0
+    ? (projectName = state.projects.filter(
+        (project: any) => project._id === endURL
+      ))
+    : (projectName = "");
+
+  projectName[0] !== undefined
+    ? (projectName = projectName[0].text)
+    : (projectName = "");
+
+  // Orders todos "linked list" alrgorithm
+  // const orderTodos = (todos: any) => {
+  //   // if (todos === undefined || todos.length === 0) return todos;
+  //   // let newTodos = [];
+  //   // let orderObj: any = {};
+  //   // for (let todo of todos) {
+  //   //   orderObj[todo.order] = todo;
+  //   // }
+  //   // let finder = orderObj[null]._id;
+  //   // let nextObj = {};
+  //   // for (let i = 0; i < todos.length - 1; i++) {
+  //   //   if (nextObj === undefined) return;
+  //   //   nextObj = orderObj[finder];
+  //   //   newTodos.unshift(orderObj[finder]);
+  //   //   finder = nextObj._id;
+  //   // }
+  //   // newTodos.push(orderObj[null]);
+  //   // return newTodos
+  // };
 
   useEffect(() => {
     axios
@@ -28,34 +65,29 @@ function App(): any {
       ])
       .then(
         axios.spread((userRes: any, projectRes: any, todoRes: any) => {
-          let username = "";
-          userRes.data.user === null
-            ? userRes
-            : (username = userRes.data.user.username);
+          let username: string = userRes.data[0].username;
+          userRes.data[0].username === undefined
+            ? (userRes = null)
+            : (username = userRes.data[0].username);
           let projects = projectRes.data;
           let todos = todoRes.data;
           const loading = false;
-          let loggedIn;
-          username === "" ? (loggedIn = false) : (loggedIn = true);
+          let loggedIn: boolean;
+          loggedIn = true;
           setState({
             ...state,
+            username,
             loggedIn,
             loading,
-            username,
             todos,
             projects
           });
         })
-      );
-    // .catch(setState({ ...state }));
-    // .catch(
-    //   (state.loading = false),
-    //   (state.loggedIn = true),
-    //   setState({ ...state })
-    // );
+      )
+      .catch(() => setState({ ...state, loading: false }));
   }, []);
 
-  const signUp = (e: any, username: any, password: any) => {
+  const signUp = (e: any, username: string, password: string) => {
     e.preventDefault();
     username = username.toLowerCase();
     axios
@@ -67,14 +99,15 @@ function App(): any {
         if (res.data) {
           login(e, username, password);
         } else {
-          setState({
-            ...state
-          });
+          () =>
+            setState({
+              ...state
+            });
         }
       });
   };
 
-  const login = (e: any, username: any, password: any) => {
+  const login = (e: any, username: string, password: string) => {
     e.preventDefault();
     username = username.toLowerCase();
     axios
@@ -92,45 +125,47 @@ function App(): any {
             redirectTo: "/"
           });
         }
-      });
-    // .catch(setState({ ...state }));
+      })
+      .catch(() => setState({ ...state }));
   };
 
   const logout = (e: any) => {
     e.preventDefault();
-    let user: any = null;
-    axios.post("/auth/logout").then(res => {
-      if (res.status === 200) {
-        setState({
-          ...state,
-          loggedIn: false,
-          user: null,
-          redirectTo: "/login"
-        });
-      }
-    });
-    // .catch(setState({ ...state }));
+    axios
+      .post("/auth/logout")
+      .then(res => {
+        if (res.status === 200) {
+          setState({
+            ...state,
+            loggedIn: false,
+            username: "",
+            redirectTo: "/login"
+          });
+        }
+      })
+      .catch(() => setState({ ...state }));
   };
-
-  const addProject = (e: any, projectText: any) => {
+  const addProject = (e: any, projectText: string) => {
     e.preventDefault();
     const project = {
       username: state.username,
       text: projectText
     };
     if (project.text && project.text.length > 0) {
-      axios.post("/project/addProject", project).then(res => {
-        if (res.data) {
-          let project = res.data;
-          const projects = [...state.projects, project];
-          setState({ ...state, projects });
-        }
-      });
-      // .catch(setState({ ...state }));
+      axios
+        .post("/project/addProject", project)
+        .then(res => {
+          if (res.data) {
+            let project = res.data;
+            const projects = [...state.projects, project];
+            setState({ ...state, projects });
+          }
+        })
+        .catch(() => setState({ ...state }));
     }
   };
 
-  const addTodo = (e: any, todos: any, todoText: any, projectName: any) => {
+  const addTodo = (e: any, todoText: string) => {
     e.preventDefault();
     const URL: string = window.location.href;
     const splitURL: string[] = URL.split("/");
@@ -145,16 +180,19 @@ function App(): any {
       completeDate: Date(),
       order: null
     };
+
     // createOrder(todos, todo);
     if (todo.text && todo.text.length > 0) {
-      axios.post("/todo/addTodo", todo).then(res => {
-        if (res.data) {
-          let todo = res.data;
-          const todos = [...state.todos, todo];
-          setState({ ...state, todos, todoText: "" });
-        }
-      });
-      // .catch(setState({ ...state }));
+      axios
+        .post("/todo/addTodo", todo)
+        .then(res => {
+          if (res.data) {
+            let todo = res.data;
+            const todos = [...state.todos, todo];
+            setState({ ...state, todos, todoText: "" });
+          }
+        })
+        .catch(() => setState({ ...state }));
     }
   };
 
@@ -165,7 +203,7 @@ function App(): any {
     return todo;
   };
 
-  const deleteProject = (id: any) => {
+  const deleteProject = (id: string) => {
     const projects = state.projects.filter(
       (project: any) => project._id !== id
     );
@@ -181,22 +219,24 @@ function App(): any {
             setState({ ...state, projects });
           }
         })
-      );
-    // .catch(setState({ ...state }));
+      )
+      .catch(() => setState({ ...state }));
   };
 
-  const deleteTodo = (id: any) => {
+  const deleteTodo = (id: string) => {
     const todos = state.todos.filter((todo: any) => todo._id !== id);
-    setState({ ...state, todos });
-    axios.delete(`/todo/deleteTodo/${id}`).then(res => {
-      if (res.data) {
-        setState({ ...state, todos });
-      }
-    });
-    // .catch(setState({ ...state }));
+    () => setState({ ...state, todos });
+    axios
+      .delete(`/todo/deleteTodo/${id}`)
+      .then(res => {
+        if (res.data) {
+          setState({ ...state, todos });
+        }
+      })
+      .catch(() => setState({ ...state }));
   };
 
-  const completeTodo = (id: any, complete: any) => {
+  const completeTodo = (id: string, complete: {}) => {
     if (complete === true) {
       complete = false;
     } else {
@@ -211,41 +251,39 @@ function App(): any {
       }
     });
     complete = { complete: complete, completeDate: Date() };
-    axios.put(`/todo/completeTodo/${id}`, complete).then(res => {
-      if (res.data) {
-        setState({ ...state, todos });
-      }
-    });
-    // .catch(setState({ ...state }));
+    axios
+      .put(`/todo/completeTodo/${id}`, complete)
+      .then(res => {
+        if (res.data) {
+          setState({ ...state, todos });
+        }
+      })
+      .catch(() => setState({ ...state }));
   };
 
-  const moveTodo = (todoLocation: any, todos: any) => {
-    console.log(todoLocation);
-    // if (todoLocation.destination === null) return;
+  let filteredTodos: any = state.todos.filter(
+    (todo: any) => todo.projectId === endURL
+  );
+
+  const moveTodo = (todoLocation: any, filteredTodos: any) => {
+    if (todoLocation.destination === null) return;
+    console.log("moved todos");
+    // return non moves
     // const source = todoLocation.source.index;
     // const destination = todoLocation.destination.index;
-    // // if (destination === todos.length - 1) {
-    // //   console.log("bottom");
-    // // }
-    // // if (destination === 0) {
-    // //   todos[source - 1].order = todos[source + 1]._id;
-    // //   todos[source].order = todos[destination]._id;
-    // // }
-    // // if (destination !== 0 || destination === todos.length - 1) {
-    // //   console.log(true);
-    // console.log(source, destination);
+    // let todos: any = filteredTodos;
     // if (destination < source) {
     //   todos[source - 1].order = todos[source + 1]._id;
     //   todos[source].order = todos[destination]._id;
     //   todos[destination - 1].order = todos[source]._id;
     //   setState({ ...state, todos });
     // }
+
     // if (destination > source) {
-    //   console.log("lower");
-    //   // todos[source - 1].order = todos[source + 1]._id;
-    //   // todos[source].order = todos[destination]._id;
-    //   // todos[destination - 1].order = todos[source]._id;
-    //   // setState({ ...state, todos });
+    // todos[source - 1].order = todos[source + 1]._id;
+    // todos[source].order = todos[destination]._id;
+    // todos[destination - 1].order = todos[source]._id;
+    // setState({ ...state, todos });
     // }
     // axios
     //   .all([
@@ -283,12 +321,24 @@ function App(): any {
           <Route
             exact
             path="/login"
-            render={() => <Login login={login} loggedIn={state.loggedIn} />}
+            render={() => (
+              <Login
+                login={login}
+                loggedIn={state.loggedIn}
+                projects={state.projects}
+              />
+            )}
           />
           <Route
             exact
             path="/signup"
-            render={() => <Signup loggedIn={state.loggedIn} signUp={signUp} />}
+            render={() => (
+              <Signup
+                loggedIn={state.loggedIn}
+                signUp={signUp}
+                projects={state.projects}
+              />
+            )}
           />
           <Route
             path="/"
@@ -298,7 +348,7 @@ function App(): any {
                 loading={state.loading}
                 error={state.error}
                 projects={state.projects}
-                todos={state.todos}
+                todos={filteredTodos}
                 logout={logout}
                 addProject={addProject}
                 addTodo={addTodo}
@@ -307,6 +357,8 @@ function App(): any {
                 completeTodo={completeTodo}
                 moveTodo={moveTodo}
                 moveProject={moveProject}
+                endURL={endURL}
+                projectName={projectName}
               />
             )}
           />

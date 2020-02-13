@@ -25,7 +25,7 @@ function Menu(props: any): any {
       <MenuWrapper>
         <div></div>
         <LoggedOutLogoWrapper>
-          <Link to="/">PlusPlus++</Link>
+          <Link to="/">PlusPlus</Link>
         </LoggedOutLogoWrapper>
         <LoggedOutMenuWrapper>
           <Link to="/signup">Sign Up</Link>
@@ -44,7 +44,7 @@ function Menu(props: any): any {
           </MainMenuButton>
         </SideBarWrapper>
         <LogoWrapper>
-          <Link to="/">PlusPlus++</Link>
+          <Link to="/">PlusPlus</Link>
         </LogoWrapper>
         <Link to="/login" onClick={props.logout}>
           Logout
@@ -62,7 +62,7 @@ function Menu(props: any): any {
             </MainMenuButton>
           </SideBarWrapper>
           <LogoWrapper>
-            <Link to="/">PlusPlus++</Link>
+            <Link to="/">PlusPlus</Link>
           </LogoWrapper>
           <Link to="/login" onClick={props.logout}>
             Logout

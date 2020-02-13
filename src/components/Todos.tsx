@@ -19,91 +19,22 @@ function Todos(props: any): any {
     });
   };
 
-  // Submit for new todos
-  const submitAddTodo = (
-    e: any,
-    todos: any,
-    todoText: any,
-    projectName: any
-  ) => {
+  // submitTodo and reset form
+  const submitAddTodo = (e: any, todoText: string) => {
     e.preventDefault();
-    if (todoText.length === 0) return;
-    props.addTodo(e, todoText, projectName);
-    setState({
-      todoText: ""
-    });
+    props.addTodo(e, todoText);
+    setState({ ...state, todoText: "" });
   };
 
-  // Orders todos "linked list" alrgorithm
-  const orderTodos = (todos: any) => {
-    // if (todos === undefined || todos.length === 0) return todos;
-    // let newTodos = [];
-    // let orderObj: any = {};
-    // for (let todo of todos) {
-    //   orderObj[todo.order] = todo;
-    // }
-    // let finder = orderObj[null]._id;
-    // let nextObj = {};
-    // for (let i = 0; i < todos.length - 1; i++) {
-    //   if (nextObj === undefined) return;
-    //   nextObj = orderObj[finder];
-    //   newTodos.unshift(orderObj[finder]);
-    //   finder = nextObj._id;
-    // }
-    // newTodos.push(orderObj[null]);
-    // return newTodos
-  };
-
-  // Grab end URL
-  const URL: string = window.location.href;
-  const splitURL: string[] = URL.split("/");
-  const endURL = splitURL[splitURL.length - 1];
   // Grab project todos
   let todos = props.todos;
-  todos = todos.filter((todo: any) => todo.projectId === endURL);
-  // Grab project name
-  let projectName = props.projects.filter(
-    (project: any) => project._id === endURL
-  );
-
-  // Catch for undefined todoos
-  if (todos === undefined || todos.length === 0) {
-    return (
-      <React.Fragment>
-        <ProjectNameWrapper>
-          {projectName[0] === undefined ? "" : projectName[0].text}
-        </ProjectNameWrapper>
-        <FormWrapper
-          onSubmit={e =>
-            submitAddTodo(e, todos, state.todoText, projectName[0])
-          }
-        >
-          <input
-            placeholder="New todo name..."
-            type="text"
-            name="todoText"
-            value={state.todoText}
-            onChange={e => writeText(e)}
-          />
-          <AddTodoButton>Add Todo</AddTodoButton>
-        </FormWrapper>
-      </React.Fragment>
-    );
-  }
 
   // Component wrapper
   if (todos) {
-    // todos = orderTodos(todos);
     return (
       <React.Fragment>
-        <ProjectNameWrapper>
-          {projectName[0] === undefined ? "" : projectName[0].text}
-        </ProjectNameWrapper>
-        <FormWrapper
-          onSubmit={e =>
-            submitAddTodo(e, todos, state.todoText, projectName[0])
-          }
-        >
+        <ProjectNameWrapper>{props.projectName}</ProjectNameWrapper>
+        <FormWrapper onSubmit={(e: any) => submitAddTodo(e, state.todoText)}>
           <input
             placeholder="New todo name..."
             type="text"
@@ -124,9 +55,7 @@ function Todos(props: any): any {
 const displayTodos = (props: any, todos: any) => {
   todos = todos.filter((todo: any) => todo.complete === false);
   return (
-    <DragDropContext
-      onDragEnd={todoLocation => props.moveTodo(todoLocation, todos)}
-    >
+    <DragDropContext onDragEnd={todoLocation => props.moveTodo(todoLocation)}>
       <Droppable droppableId={"todoBoard"} key={"todoBoard"}>
         {(provieded, snapshot) => {
           return (

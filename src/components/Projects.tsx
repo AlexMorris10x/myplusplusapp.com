@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
-function Projects(props: any):any {
+function Projects(props: any): any {
   const [state, setState] = useState({
     projectText: ""
   });
@@ -18,31 +18,12 @@ function Projects(props: any):any {
     });
   };
 
-  const addProjectLocal = (e: any, projectText: any) => {
+  // submitTodo and reset form
+  const submitAddProject = (e: any, projectText: string) => {
     e.preventDefault();
-    if (projectText.length === 0) return;
     props.addProject(e, projectText);
-    setState({
-      projectText: ""
-    });
+    setState({ ...state, projectText: "" });
   };
-
-  if (props.projects.length === 0)
-    return (
-      <React.Fragment>
-        <TitleWrapper>Add New Project...</TitleWrapper>
-        <FormWrapper onSubmit={e => addProjectLocal(e, state.projectText)}>
-          <input
-            placeholder="New project name..."
-            type="text"
-            name="projectText"
-            value={state.projectText}
-            onChange={e => writeText(e)}
-          />
-          <AddProjectButton>Add Project</AddProjectButton>
-        </FormWrapper>
-      </React.Fragment>
-    );
 
   return (
     <React.Fragment>
@@ -50,7 +31,9 @@ function Projects(props: any):any {
         <Link to="/">HOME</Link>
       </HomeWrapper>
       <TitleWrapper>Projects</TitleWrapper>
-      <FormWrapper onSubmit={(e: any) => addProjectLocal(e, state.projectText)}>
+      <FormWrapper
+        onSubmit={(e: any) => submitAddProject(e, state.projectText)}
+      >
         <input
           placeholder="New project name..."
           type="text"
@@ -77,36 +60,38 @@ const displayProjects = (props: any) => {
               {...provieded.droppableProps}
               ref={provieded.innerRef}
             >
-              {props.projects.map((project: any, index: any) => {
-                return (
-                  <Draggable
-                    key={project._id}
-                    draggableId={project._id}
-                    index={index}
-                  >
-                    {(provided, snapshot) => {
-                      return (
-                        <Link to={`${project._id}`}>
-                          <ProjectWrapper
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <ProjectTextWrapper>
-                              {project.text}
-                            </ProjectTextWrapper>
-                            <DeleteProjectButton
-                              onClick={() => props.deleteProject(project._id)}
+              {props.projects.map(
+                (project: { _id: string; text: string }, index: number) => {
+                  return (
+                    <Draggable
+                      key={project._id}
+                      draggableId={project._id}
+                      index={index}
+                    >
+                      {(provided, snapshot) => {
+                        return (
+                          <Link to={`${project._id}`}>
+                            <ProjectWrapper
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
                             >
-                              <FontAwesomeIcon icon={faTrashAlt} />
-                            </DeleteProjectButton>
-                          </ProjectWrapper>
-                        </Link>
-                      );
-                    }}
-                  </Draggable>
-                );
-              })}
+                              <ProjectTextWrapper>
+                                {project.text}
+                              </ProjectTextWrapper>
+                              <DeleteProjectButton
+                                onClick={() => props.deleteProject(project._id)}
+                              >
+                                <FontAwesomeIcon icon={faTrashAlt} />
+                              </DeleteProjectButton>
+                            </ProjectWrapper>
+                          </Link>
+                        );
+                      }}
+                    </Draggable>
+                  );
+                }
+              )}
             </AllProjectsWrapper>
           );
         }}

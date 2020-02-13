@@ -3,12 +3,18 @@ const router = express.Router();
 const User = require("../db/user");
 const passport = require("../passport");
 
+// router.get("/user", (req, res, next) => {
+//   if (req.user) {
+//     return res.json({ user: req.user.username });
+//   } else {
+//     return res.json({ user: null });
+//   }
+// });
+
 router.get("/user", (req, res, next) => {
-  if (req.user) {
-    return res.json({ user: req.user });
-  } else {
-    return res.json({ user: null });
-  }
+  User.find({ username: req.user.username })
+    .then(data => res.json(data))
+    .catch(next);
 });
 
 router.post("/signup", (req, res) => {

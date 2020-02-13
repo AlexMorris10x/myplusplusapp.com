@@ -29,7 +29,7 @@ function Signup(props: any): any {
 
   return (
     <React.Fragment>
-      {/* <Menu loggedIn={props.loggedIn} /> */}
+      <Menu loggedIn={props.loggedIn} projects={props.projects} />
       <h1>Signup</h1>
       <FormWrapper onSubmit={e => submitSignUp(e)}>
         Username:

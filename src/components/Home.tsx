@@ -68,6 +68,8 @@ function Home(props: any): any {
           deleteTodo={props.deleteTodo}
           completeTodo={props.completeTodo}
           moveTodo={props.moveTodo}
+          endURL={endURL}
+          projectName={props.projectName}
         />
       </React.Fragment>
     );
