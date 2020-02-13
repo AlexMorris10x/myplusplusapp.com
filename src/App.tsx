@@ -99,10 +99,9 @@ function App(): any {
         if (res.data) {
           login(e, username, password);
         } else {
-          () =>
-            setState({
-              ...state
-            });
+          setState({
+            ...state
+          });
         }
       });
   };
@@ -226,7 +225,7 @@ function App(): any {
 
   const deleteTodo = (id: string) => {
     const todos = state.todos.filter((todo: any) => todo._id !== id);
-    () => setState({ ...state, todos });
+    setState({ ...state, todos });
     axios
       .delete(`/todo/deleteTodo/${id}`)
       .then(res => {

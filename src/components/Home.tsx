@@ -12,27 +12,29 @@ function Home(props: any): any {
   if (props.error) return <h1>error happened...</h1>;
   if (props.loading === true) return <h1>loading...</h1>;
   if (endURL === "" && props.loggedIn === false) {
-    <React.Fragment>
-      <Menu
-        logout={props.logout}
-        loggedIn={props.loggedIn}
-        projects={props.projects}
-        addProject={props.addProject}
-        deleteProject={props.deleteProject}
-        moveProject={props.moveProject}
-      />
-      <HomePageWrapper>
-        Welcome To PlusPlus!
-        <br />
-        Your path to incremental improvement. It's easy to get started:
-        <br />
-        1. Create your account
-        <br />
-        2. Create your projects and todos
-        <br />
-        3. Complete your todos and watch your progress increase
-      </HomePageWrapper>
-    </React.Fragment>;
+    return (
+      <React.Fragment>
+        <Menu
+          logout={props.logout}
+          loggedIn={props.loggedIn}
+          projects={props.projects}
+          addProject={props.addProject}
+          deleteProject={props.deleteProject}
+          moveProject={props.moveProject}
+        />
+        <HomePageWrapper>
+          Welcome To PlusPlus!
+          <br />
+          Your path to incremental improvement. It's easy to get started:
+          <br />
+          1. Create your account
+          <br />
+          2. Create your projects and todos
+          <br />
+          3. Complete your todos and watch your progress increase
+        </HomePageWrapper>
+      </React.Fragment>
+    );
   }
   if (endURL === "") {
     return (
