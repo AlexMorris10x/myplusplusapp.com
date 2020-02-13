@@ -11,8 +11,8 @@ function App(): any {
   let [state, setState] = useState<any>({
     username: "",
     error: null,
-    loading: true,
-    loggedIn: false,
+    loading: false,
+    loggedIn: true,
     redirectTo: "",
     projects: [],
     todos: []
@@ -142,7 +142,7 @@ function App(): any {
     //       });
     //     }
     //   })
-    // .catch(() => setState({ ...state }));
+    //   .catch(() => setState({ ...state }));
   };
 
   const addProject = (e: any, projectText: string) => {
