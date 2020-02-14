@@ -9,11 +9,11 @@ import Home from "./components/Home";
 
 function App(): any {
   let [state, setState] = useState<any>({
-    username: "",
     error: null,
-    loading: false,
-    loggedIn: true,
+    loading: true,
+    loggedIn: false,
     redirectTo: "",
+    username: "",
     projects: [],
     todos: []
   });
@@ -23,7 +23,7 @@ function App(): any {
   const splitURL: string[] = URL.split("/");
   const endURL: string = splitURL[splitURL.length - 1];
 
-  // // Grab project name
+  // Grab project name
   let projectName: any;
 
   state.projects.length > 0
@@ -129,20 +129,20 @@ function App(): any {
   };
 
   const logout = (e: any) => {
-    // e.preventDefault();
-    // axios
-    //   .post("/auth/logout")
-    //   .then(res => {
-    //     if (res.status === 200) {
-    //       setState({
-    //         ...state,
-    //         loggedIn: false,
-    //         username: "",
-    //         redirectTo: "/login"
-    //       });
-    //     }
-    //   })
-    //   .catch(() => setState({ ...state }));
+    e.preventDefault();
+    axios
+      .post("/auth/logout")
+      .then(res => {
+        if (res.status === 200) {
+          setState({
+            ...state,
+            loggedIn: false,
+            username: "",
+            redirectTo: "/login"
+          });
+        }
+      })
+      .catch(() => setState({ ...state }));
   };
 
   const addProject = (e: any, projectText: string) => {
@@ -167,9 +167,6 @@ function App(): any {
 
   const addTodo = (e: any, todoText: string) => {
     e.preventDefault();
-    const URL: string = window.location.href;
-    const splitURL: string[] = URL.split("/");
-    const endURL = splitURL[splitURL.length - 1];
     projectName = projectName.text;
     let todo = {
       username: state.username,
