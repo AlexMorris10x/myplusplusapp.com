@@ -17,14 +17,11 @@ function BarGraph(props: any): any {
   });
 
   const graphMaker = () => {
-    const URL: string = window.location.href;
-    const splitURL: string[] = URL.split("/");
-    const endURL = splitURL[splitURL.length - 1];
     let data: any = [];
     let count = 0;
     let todos = props.todos
       .filter(
-        (todo: any) => todo.complete === true && todo.projectId === endURL
+        (todo: any) => todo.complete === true && todo.projectId === props.endURL
       )
       .map((todo: any) => {
         return dateConverter(todo.completeDate);
@@ -39,7 +36,7 @@ function BarGraph(props: any): any {
           x: dateConverterLegible(todo),
           y:
             (count /
-              props.todos.filter((todo: any) => todo.projectId === endURL)
+              props.todos.filter((todo: any) => todo.projectId === props.endURL)
                 .length) *
             100
         });
@@ -99,13 +96,10 @@ function BarGraph(props: any): any {
     return legibleDate;
   };
 
-  let URL: any = window.location.href;
-  URL = URL.split("/");
-  const endURL = URL[URL.length - 1];
   const { useCanvas } = state;
   const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
   let totalTodos = props.todos.filter(
-    (todo: any) => todo.complete === true && todo.projectId === endURL
+    (todo: any) => todo.complete === true && todo.projectId === props.endURL
   ).length;
   if (totalTodos === 0) return "";
   return (

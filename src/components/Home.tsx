@@ -6,12 +6,9 @@ import Todos from "./Todos";
 import BarGraph from "./BarGraph";
 
 function Home(props: any): any {
-  const URL: string = window.location.href;
-  const splitURL: string[] = URL.split("/");
-  const endURL = splitURL[splitURL.length - 1];
   if (props.error) return <h1>error happened...</h1>;
   if (props.loading === true) return <h1>loading...</h1>;
-  if (endURL === "" && props.loggedIn === false) {
+  if (props.endURL === "" && props.loggedIn === false) {
     return (
       <React.Fragment>
         <Menu
@@ -36,7 +33,7 @@ function Home(props: any): any {
       </React.Fragment>
     );
   }
-  if (endURL === "") {
+  if (props.endURL === "") {
     return (
       <React.Fragment>
         <Menu
@@ -51,7 +48,7 @@ function Home(props: any): any {
       </React.Fragment>
     );
   }
-  if (endURL !== "")
+  if (props.endURL !== "")
     return (
       <React.Fragment>
         <Menu
@@ -62,7 +59,7 @@ function Home(props: any): any {
           deleteProject={props.deleteProject}
           moveProject={props.moveProject}
         />
-        <BarGraph todos={props.todos} />
+        <BarGraph todos={props.todos} endURL={props.endURL} />
         <Todos
           projects={props.projects}
           todos={props.todos}
@@ -70,7 +67,7 @@ function Home(props: any): any {
           deleteTodo={props.deleteTodo}
           completeTodo={props.completeTodo}
           moveTodo={props.moveTodo}
-          endURL={endURL}
+          endURL={props.endURL}
           projectName={props.projectName}
         />
       </React.Fragment>
