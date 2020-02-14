@@ -7,7 +7,21 @@ import BarGraph from "./BarGraph";
 
 function Home(props: any): any {
   if (props.error) return <h1>error happened...</h1>;
-  if (props.loading === true) return <h1>loading...</h1>;
+  if (props.loading === true)
+    return (
+      <React.Fragment>
+        <Menu
+          logout={props.logout}
+          loggedIn={props.loggedIn}
+          projects={props.projects}
+          addProject={props.addProject}
+          deleteProject={props.deleteProject}
+          moveProject={props.moveProject}
+        />
+        <h1>loading...</h1>
+      </React.Fragment>
+    );
+
   // if (props.endURL === "" && props.loggedIn === false) {
   //   return (
   //     <React.Fragment>
