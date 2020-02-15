@@ -19,9 +19,7 @@ function App(): any {
   });
 
   // Finding the end URL
-  const URL: string = window.location.href;
-  const splitURL: string[] = URL.split("/");
-  const endURL: string = splitURL[splitURL.length - 1];
+  const endURL: any = window.location.href.split("/").slice(-1)[0];
 
   // Grab project name
   let projectName: any;
@@ -37,11 +35,12 @@ function App(): any {
     : (projectName = "");
   //
 
+  ////
   useEffect(() => {
     axios
       .all([
         axios.get("/auth/user"),
-        axios.get("/project/getProject/"),
+        axios.get("/project/getProject"),
         axios.get("/todo/getTodo")
       ])
       .then(
@@ -65,7 +64,7 @@ function App(): any {
           });
         })
       )
-      .catch(() => setState({ ...state, loading: false }));
+      .catch(() => setState({ ...state, username: "test", loading: false }));
   }, []);
 
   const signUp = (e: any, username: string, password: string) => {
@@ -111,22 +110,24 @@ function App(): any {
 
   //logs user out
   const logout = (e: any) => {
-    // e.preventDefault();
-    // axios
-    //   .post("/auth/logout")
-    //   .then(res => {
-    //     if (res.status === 200) {
-    //       setState({
-    //         ...state,
-    //         loggedIn: false,
-    //         username: "",
-    //         redirectTo: "/login"
-    //       });
-    //     }
-    //   })
-    //   .catch(() => setState({ ...state }));
+    e.preventDefault();
+    axios
+      .post("/auth/logout")
+      .then(res => {
+        if (res.status === 200) {
+          setState({
+            ...state,
+            loggedIn: false,
+            username: "",
+            redirectTo: "/login"
+          });
+        }
+      })
+      .catch(() => setState({ ...state }));
   };
+  ////
 
+  ////
   // creates new project to list
   const addProject = (e: any, projectText: string) => {
     e.preventDefault();
@@ -146,41 +147,6 @@ function App(): any {
         })
         .catch(() => setState({ ...state }));
     }
-  };
-
-  // creates new todo to list
-  const addTodo = (e: any, todoText: string) => {
-    e.preventDefault();
-    projectName = projectName.text;
-    let todo = {
-      username: state.username,
-      text: todoText,
-      projectId: endURL,
-      projectName: projectName,
-      complete: false,
-      completeDate: Date(),
-      order: null
-    };
-    createOrder(state.todos, todo);
-    if (todo.text && todo.text.length > 0) {
-      axios
-        .post("/todo/addTodo", todo)
-        .then(res => {
-          if (res.data) {
-            let todo = res.data;
-            const todos = [...state.todos, todo];
-            setState({ ...state, todos, todoText: "" });
-          }
-        })
-        .catch(() => setState({ ...state }));
-    }
-  };
-
-  const createOrder = (todos: any, todo: any) => {
-    // if (todos.length === 0) return;
-    // let previousTodo = todos[todos.length - 1]._id;
-    // todo.order = previousTodo;
-    // return todo;
   };
 
   const deleteProject = (id: string) => {
@@ -203,12 +169,68 @@ function App(): any {
       .catch(() => setState({ ...state }));
   };
 
-  const deleteTodo = (id: string) => {
-    const todos = state.todos.filter((todo: any) => todo._id !== id);
+  const moveProject = (projectLocation: any) => {
+    console.log(projectLocation);
+  };
+  ////
+
+  ////
+  // creates new todo to list
+  const addTodo = (e: any, todoText: string) => {
+    e.preventDefault();
+    let todo = {
+      username: state.username,
+      text: todoText,
+      projectId: endURL,
+      complete: false,
+      completeDate: Date(),
+      order: null
+    };
+    orderVal(filteredTodos, todo);
+    if (todo.text && todo.text.length > 0) {
+      axios
+        .post("/todo/addTodo", todo)
+        .then(res => {
+          if (res.data) {
+            let todo = res.data;
+            const todos = [...state.todos, todo];
+            setState({ ...state, todos, todoText: "" });
+          }
+        })
+        .catch(() => setState({ ...state }));
+    }
+  };
+
+  const orderVal = (todos: any, todo: any) => {
+    if (todos.length === 0) return;
+    let previousTodo = todos[0]._id;
+    todo.order = previousTodo;
+    return todo;
+  };
+
+  const deleteTodo = (id: string, index: number) => {
+    const todos = filteredTodos.filter((todo: any) => todo._id !== id);
+    let newId: string | null;
+    let newVal: any = {};
+    if (filteredTodos.length === 1 || index === 0) {
+      newId = null;
+      newVal = { orderVal: null };
+    } else if (index < filteredTodos.length - 1) {
+      newId = todos[index - 1]._id;
+      newVal = { orderVal: todos[index]._id };
+      todos[index - 1].order = todos[index]._id;
+    } else {
+      newId = todos[todos.length - 1]._id;
+      newVal = { orderVal: null };
+      todos[todos.length - 1].order = null;
+    }
     setState({ ...state, todos });
     axios
-      .delete(`/todo/deleteTodo/${id}`)
-      .then(res => {
+      .all([
+        axios.delete(`/todo/deleteTodo/${id}`),
+        axios.put(`/todo/updateOrder/${newId}`, newVal)
+      ])
+      .then((res: any) => {
         if (res.data) {
           setState({ ...state, todos });
         }
@@ -241,70 +263,133 @@ function App(): any {
       .catch(() => setState({ ...state }));
   };
 
-  const moveTodo = (todoLocation: any, filteredTodos: any) => {
-    if (todoLocation.destination === null) return;
-    console.log("moved todos");
+  const moveTodo = (todoLocation: any) => {
+    // set variables
+    let todos: any = filteredTodos;
+    const source: any = todoLocation.source.index;
+    const destination: any = todoLocation.destination.index;
+
     // return non moves
-    // const source = todoLocation.source.index;
-    // const destination = todoLocation.destination.index;
-    // let todos: any = filteredTodos;
-    // if (destination < source) {
-    //   todos[source - 1].order = todos[source + 1]._id;
-    //   todos[source].order = todos[destination]._id;
-    //   todos[destination - 1].order = todos[source]._id;
-    //   setState({ ...state, todos });
-    // }
+    if (destination === source) {
+      setState({ ...state, todos });
+      return;
+    }
 
-    // if (destination > source) {
-    // todos[source - 1].order = todos[source + 1]._id;
-    // todos[source].order = todos[destination]._id;
-    // todos[destination - 1].order = todos[source]._id;
-    // setState({ ...state, todos });
-    // }
-    // axios
-    //   .all([
-    //     axios.delete(`/todo/moveTodoDelete/${projectId}`),
-    //     axios.post(`/todo/moveTodoAdd/${projectId}`, todos)
-    //   ])
-    //   .then(
-    //     axios.spread((moveTodoDeleteRes, moveTodoAddRes) => {
-    //       if (moveTodoDeleteRes.data && moveTodoAddRes.data) {
-    //         setState({
-    //           ...state,
-    //           todos
-    //         });
-    //       }
-    //     })
-    //   )
-    // .catch(setState({ ...state }));
+    // create order map
+    let movedTodoId: any;
+    let sourceTodoId: any;
+    let destinationTodoId: any;
+
+    let movedTodoOrder: any;
+    let sourceTodoOrder: any;
+    let destinationTodoOrder: any;
+
+    // moving down the list
+    if (source < destination) {
+      // if destination is bottom (null)
+      if (todos[destination + 1] === undefined) {
+        movedTodoId = todos[source]._id;
+        movedTodoOrder = null;
+        todos[source].order = null;
+      } else {
+        movedTodoId = todos[source]._id;
+        movedTodoOrder = todos[destination + 1]._id;
+        todos[source].order = todos[destination + 1]._id;
+      }
+      // if beginning is top (id=null)
+      if (todos[source - 1] === undefined) {
+        sourceTodoId = null;
+        sourceTodoOrder = null;
+        // todos[source - 1].order = todos[source + 1]._id;
+      } else {
+        sourceTodoId = todos[source - 1]._id;
+        sourceTodoOrder = todos[source + 1]._id;
+        todos[source - 1].order = todos[source + 1]._id;
+      }
+      //
+      destinationTodoId = todos[destination]._id;
+      destinationTodoOrder = todos[source]._id;
+      todos[destination].order = todos[source]._id;
+      //
+      //moving up
+    } else if (source > destination) {
+      //
+      movedTodoId = todos[source]._id;
+      movedTodoOrder = todos[destination]._id;
+      todos[source].order = todos[destination]._id;
+      // if source starts at bottom (item above = null)
+      if (todos[source + 1] === undefined) {
+        sourceTodoId = todos[source - 1]._id;
+        sourceTodoOrder = null;
+        todos[source - 1].order = null;
+      } else {
+        sourceTodoId = todos[source - 1]._id;
+        sourceTodoOrder = todos[source + 1]._id;
+        todos[source - 1].order = todos[source + 1]._id;
+      }
+      // if destinaton is top (id = null)
+      if (todos[destination - 1] === undefined) {
+        destinationTodoId = null;
+        destinationTodoOrder = null;
+        // todos[destination - 1].order = todos[source]._id;
+      } else {
+        destinationTodoId = todos[destination - 1]._id;
+        destinationTodoOrder = todos[source]._id;
+        todos[destination - 1].order = todos[source]._id;
+      }
+    }
+    setState({ ...state, todos });
+    const movedTodo = {
+      movedTodoId: movedTodoId,
+      movedTodoOrder: movedTodoOrder
+    };
+    const sourceTodo = {
+      sourceTodoId: sourceTodoId,
+      sourceTodoOrder: sourceTodoOrder
+    };
+    const destinationTodo = {
+      destinationTodoId: destinationTodoId,
+      destinationTodoOrder: destinationTodoOrder
+    };
+    axios
+      .all([
+        axios.put(`/todo/movedTodo`, movedTodo),
+        axios.put(`/todo/sourceTodo`, sourceTodo),
+        axios.put(`/todo/destinationTodo`, destinationTodo)
+      ])
+      .then((res: any) => {
+        if (res.data) {
+          setState({ ...state, todos });
+        }
+      })
+      .catch(() => setState({ ...state }));
   };
+  ////
 
-  const moveProject = (projectLocation: any) => {
-    console.log(projectLocation);
-  };
-
-  // const orderTodos = (todos: any) => {
-  //   if (todos === undefined || todos.length === 0) return todos;
-  //   let newTodos = [];
-  //   let orderObj: any = {};
-  //   for (let todo of todos) {
-  //     orderObj[todo.order] = todo;
-  //   }
-  //   let finder = orderObj[null]._id;
-  //   let nextObj = {};
-  //   for (let i = 0; i < todos.length - 1; i++) {
-  //     if (nextObj === undefined) return;
-  //     nextObj = orderObj[finder];
-  //     newTodos.unshift(orderObj[finder]);
-  //     finder = nextObj._id;
-  //   }
-  //   newTodos.push(orderObj[null]);
-  //   return newTodos;
-  // };
-
+  ////
   let filteredTodos: any = state.todos.filter(
     (todo: any) => todo.projectId === endURL
   );
+
+  const orderTodos = (filteredTodos: any) => {
+    if (filteredTodos === undefined || filteredTodos.length === 0)
+      return filteredTodos;
+    let newArr: any = [];
+    let orderObj: any = {};
+    for (let todo of filteredTodos) {
+      orderObj[todo.order] = todo;
+    }
+    let finder: any = orderObj["null"]._id;
+    newArr.push(orderObj["null"]);
+    delete orderObj["null"];
+    for (let todo in orderObj) {
+      newArr.unshift(orderObj[finder]);
+      finder = orderObj[finder]._id;
+    }
+    return newArr;
+  };
+  filteredTodos = orderTodos(filteredTodos);
+  ////
 
   if (state.redirectTo) {
     return (

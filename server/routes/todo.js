@@ -53,17 +53,63 @@ router.put("/completeTodo/:id", (req, res, next) => {
     .catch(next);
 });
 
-router.delete("/moveTodoDelete/:projectId", (req, res, next) => {
-  TODO.deleteMany({ projectId: req.params.projectId })
-    .then(data => res.json(data))
-    .catch(next);
+router.put("/updateOrder/:newId", (req, res, next) => {
+  if (req.params.newId === "null") {
+    return res.json({ status: 200 });
+  } else {
+    const orderVal = req.body.orderVal;
+    TODO.findOneAndUpdate(
+      { _id: req.params.newId },
+      { $set: { order: orderVal } }
+    )
+      .then(data => res.json(data))
+      .catch(next);
+  }
 });
 
-router.post("/moveTodoAdd/:projectId", (req, res, next) => {
-  const todos = req.body;
-  TODO.insertMany(todos)
-    .then(data => res.json(data))
-    .catch(next);
+router.put("/movedTodo", (req, res, next) => {
+  const movedTodoId = req.body.movedTodoId;
+  const movedTodoOrder = req.body.movedTodoOrder;
+  if (movedTodoId === null) {
+    return res.json({ status: 200 });
+  } else {
+    TODO.findOneAndUpdate(
+      { _id: movedTodoId },
+      { $set: { order: movedTodoOrder } }
+    )
+      .then(data => res.json(data))
+      .catch(next);
+  }
+});
+
+router.put("/sourceTodo", (req, res, next) => {
+  const sourceTodoId = req.body.sourceTodoId;
+  const sourceTodoOrder = req.body.sourceTodoOrder;
+  if (sourceTodoId === null) {
+    return res.json({ status: 200 });
+  } else {
+    TODO.findOneAndUpdate(
+      { _id: sourceTodoId },
+      { $set: { order: sourceTodoOrder } }
+    )
+      .then(data => res.json(data))
+      .catch(next);
+  }
+});
+
+router.put("/destinationTodo", (req, res, next) => {
+  const destinationTodoId = req.body.destinationTodoId;
+  const destinationTodoOrder = req.body.destinationTodoOrder;
+  if (destinationTodoId === null) {
+    return res.json({ status: 200 });
+  } else {
+    TODO.findOneAndUpdate(
+      { _id: destinationTodoId },
+      { $set: { order: destinationTodoOrder } }
+    )
+      .then(data => res.json(data))
+      .catch(next);
+  }
 });
 
 module.exports = router;

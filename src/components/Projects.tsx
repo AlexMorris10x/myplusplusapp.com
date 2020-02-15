@@ -104,8 +104,9 @@ export default Projects;
 
 const HomeWrapper = styled.div`
   margin: 40px auto;
-  max-width: 250px;
+  max-width: 130px;
   font-size: 2em;
+  border-radius: 8px;
   &:hover {
     background: #e9ebee;
   }

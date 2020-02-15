@@ -26,34 +26,29 @@ function Todos(props: any): any {
     setState({ ...state, todoText: "" });
   };
 
-  // grab project todos
-  let todos = props.todos;
-
   // component wrapper
-  if (todos) {
-    return (
-      <React.Fragment>
-        <ProjectNameWrapper>{props.projectName}</ProjectNameWrapper>
-        <FormWrapper onSubmit={(e: any) => submitAddTodo(e)}>
-          <input
-            placeholder="New todo name..."
-            type="text"
-            name="todoText"
-            value={state.todoText}
-            onChange={e => writeText(e)}
-          />
-          <AddTodoButton>Add Todo</AddTodoButton>
-        </FormWrapper>
-        {displayTodos(props, todos)}
-        {displayCompleteTodos(props, todos)}
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      <ProjectNameWrapper>{props.projectName}</ProjectNameWrapper>
+      <FormWrapper onSubmit={(e: any) => submitAddTodo(e)}>
+        <input
+          placeholder="New todo name..."
+          type="text"
+          name="todoText"
+          value={state.todoText}
+          onChange={e => writeText(e)}
+        />
+        <AddTodoButton>Add Todo</AddTodoButton>
+      </FormWrapper>
+      {displayTodos(props)}
+      {displayCompleteTodos(props)}
+    </React.Fragment>
+  );
 }
 
 // undone todo list
-const displayTodos = (props: any, todos: any) => {
-  todos = todos.filter((todo: any) => todo.complete === false);
+const displayTodos = (props: any) => {
+  let todos = props.todos.filter((todo: any) => todo.complete === false);
   return (
     <DragDropContext onDragEnd={todoLocation => props.moveTodo(todoLocation)}>
       <Droppable droppableId={"todoBoard"} key={"todoBoard"}>
@@ -91,7 +86,7 @@ const displayTodos = (props: any, todos: any) => {
                           </CompleteTodoButton>
                           <TodoTextWrapper>{todo.text}</TodoTextWrapper>
                           <DeleteTodoButton
-                            onClick={() => props.deleteTodo(todo._id)}
+                            onClick={() => props.deleteTodo(todo._id, index)}
                           >
                             <FontAwesomeIcon icon={faTrashAlt} />
                           </DeleteTodoButton>
@@ -110,8 +105,8 @@ const displayTodos = (props: any, todos: any) => {
 };
 
 //completed todo list
-const displayCompleteTodos = (props: any, todos: any) => {
-  todos = todos.filter((todo: any) => todo.complete === true);
+const displayCompleteTodos = (props: any) => {
+  let todos = props.todos.filter((todo: any) => todo.complete === true);
   const todoTotal = todos.length;
   if (todoTotal === 0) return "";
   return (
@@ -147,7 +142,7 @@ const displayCompleteTodos = (props: any, todos: any) => {
                           </CompleteTodoButton>
                           <TodoTextWrapper>{todo.text}</TodoTextWrapper>
                           <DeleteTodoButton
-                            onClick={() => props.deleteTodo(todo._id)}
+                            onClick={() => props.deleteTodo(todo._id, index)}
                           >
                             <FontAwesomeIcon icon={faTrashAlt} />
                           </DeleteTodoButton>
