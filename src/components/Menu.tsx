@@ -12,7 +12,7 @@ function Menu(props: any): any {
     sidebarOpen: false
   });
 
-  const onSetSidebarOpen = (open: any) => {
+  const onSetSidebarOpen = (open: boolean) => {
     setState({ sidebarOpen: open });
   };
 
@@ -128,9 +128,9 @@ const LoggedOutLogoWrapper = styled.div`
 
 const MenuWrapper = styled.div`
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin: -8px;
+  align-items: center;
+  margin: auto;
   padding: 10px;
   background: #f9fafb;
   > div {
@@ -162,8 +162,9 @@ const SideBarWrapper = styled.div`
   > div {
     > div {
       > div {
-        background: white;
+        margin: -4px;
         height: 100vh;
+        background: #f9fafb;
         max-width: 400px;
         width: 40vw;
         @media (max-width: 600px) {

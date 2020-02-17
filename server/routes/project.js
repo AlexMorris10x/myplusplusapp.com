@@ -10,10 +10,11 @@ router.get("/getProject", (req, res, next) => {
 });
 
 router.post("/addProject", (req, res) => {
-  const { username, text } = req.body;
+  const { username, text, order } = req.body;
   const newProject = new PROJECT({
     username: username,
-    text: text
+    text: text,
+    order: order
   });
 
   newProject.save((err, savedProject) => {
@@ -35,17 +36,49 @@ router.delete("/deleteTodos/:id", (req, res, next) => {
     .catch(next);
 });
 
-// router.delete("/moveProjectDelete/:username", (req, res, next) => {
-//   PROJECT.deleteMany({ username: req.params.username })
-//     .then(data => res.json(data))
-//     .catch(next);
-// });
+router.put("/movedProject", (req, res, next) => {
+  const movedProjectId = req.body.movedProjectId;
+  const movedProjectOrder = req.body.movedProjectOrder;
+  if (movedProjectId === undefined) {
+    return res.json({ status: 200 });
+  } else {
+    PROJECT.findOneAndUpdate(
+      { _id: movedProjectId },
+      { $set: { order: movedProjectOrder } }
+    )
+      .then(data => res.json(data))
+      .catch(next);
+  }
+});
 
-// router.post("/moveprojectAdd/:username", (req, res, next) => {
-//   const projects = req.body;
-//   PROJECT.insertMany(projects)
-//     .then(data => res.json(data))
-//     .catch(next);
-// });
+router.put("/sourceProject", (req, res, next) => {
+  const sourceProjectId = req.body.sourceProjectId;
+  const sourceProjectOrder = req.body.sourceProjectOrder;
+  if (sourceProjectId === undefined) {
+    return res.json({ status: 200 });
+  } else {
+    PROJECT.findOneAndUpdate(
+      { _id: sourceProjectId },
+      { $set: { order: sourceProjectOrder } }
+    )
+      .then(data => res.json(data))
+      .catch(next);
+  }
+});
+
+router.put("/destinationProject", (req, res, next) => {
+  const destinationProjectId = req.body.destinationProjectId;
+  const destinationProjectOrder = req.body.destinationProjectOrder;
+  if (destinationProjectId === undefined) {
+    return res.json({ status: 200 });
+  } else {
+    PROJECT.findOneAndUpdate(
+      { _id: destinationProjectId },
+      { $set: { order: destinationProjectOrder } }
+    )
+      .then(data => res.json(data))
+      .catch(next);
+  }
+});
 
 module.exports = router;

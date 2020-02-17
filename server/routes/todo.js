@@ -54,7 +54,7 @@ router.put("/completeTodo/:id", (req, res, next) => {
 });
 
 router.put("/updateOrder/:newId", (req, res, next) => {
-  if (req.params.newId === "null") {
+  if (req.params.newId === "undefined") {
     return res.json({ status: 200 });
   } else {
     const orderVal = req.body.orderVal;
@@ -70,7 +70,7 @@ router.put("/updateOrder/:newId", (req, res, next) => {
 router.put("/movedTodo", (req, res, next) => {
   const movedTodoId = req.body.movedTodoId;
   const movedTodoOrder = req.body.movedTodoOrder;
-  if (movedTodoId === null) {
+  if (movedTodoId === undefined) {
     return res.json({ status: 200 });
   } else {
     TODO.findOneAndUpdate(
@@ -85,7 +85,7 @@ router.put("/movedTodo", (req, res, next) => {
 router.put("/sourceTodo", (req, res, next) => {
   const sourceTodoId = req.body.sourceTodoId;
   const sourceTodoOrder = req.body.sourceTodoOrder;
-  if (sourceTodoId === null) {
+  if (sourceTodoId === undefined) {
     return res.json({ status: 200 });
   } else {
     TODO.findOneAndUpdate(
@@ -100,7 +100,7 @@ router.put("/sourceTodo", (req, res, next) => {
 router.put("/destinationTodo", (req, res, next) => {
   const destinationTodoId = req.body.destinationTodoId;
   const destinationTodoOrder = req.body.destinationTodoOrder;
-  if (destinationTodoId === null) {
+  if (destinationTodoId === undefined) {
     return res.json({ status: 200 });
   } else {
     TODO.findOneAndUpdate(

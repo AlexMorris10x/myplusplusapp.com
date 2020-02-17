@@ -18,12 +18,13 @@ function App(): any {
     todos: []
   });
 
-  // Finding the end URL
-  const endURL: any = window.location.href.split("/").slice(-1)[0];
+  // finding the end URL
+  const endURL: string = window.location.href.split("/").slice(-1)[0];
 
-  // Grab project name
+  // grab project name
   let projectName: any;
 
+  // error catching
   state.projects.length > 0
     ? (projectName = state.projects.filter(
         (project: any) => project._id === endURL
@@ -108,7 +109,6 @@ function App(): any {
       .catch(() => setState({ ...state }));
   };
 
-  //logs user out
   const logout = (e: any) => {
     e.preventDefault();
     axios
@@ -133,8 +133,10 @@ function App(): any {
     e.preventDefault();
     const project = {
       username: state.username,
-      text: projectText
+      text: projectText,
+      order: null
     };
+    createProjectOrderVal(orderedProjects, project);
     if (project.text && project.text.length > 0) {
       axios
         .post("/project/addProject", project)
@@ -147,6 +149,13 @@ function App(): any {
         })
         .catch(() => setState({ ...state }));
     }
+  };
+
+  const createProjectOrderVal = (projects: any[], project: any) => {
+    if (projects.length === 0) return;
+    let previousProject = projects[0]._id;
+    project.order = previousProject;
+    return project;
   };
 
   const deleteProject = (id: string) => {
@@ -170,7 +179,104 @@ function App(): any {
   };
 
   const moveProject = (projectLocation: any) => {
-    console.log(projectLocation);
+    // set variables
+    let projects = orderedProjects;
+    const source: number = projectLocation.source.index;
+    const destination: number = projectLocation.destination.index;
+
+    // return non moves
+    if (destination === source) {
+      setState({ ...state, projects });
+      return;
+    }
+
+    // create order map
+    let movedProjectId: string | null | undefined;
+    let sourceProjectId: string | null | undefined;
+    let destinationProjectId: string | null | undefined;
+
+    let movedProjectOrder: string | null | undefined;
+    let sourceProjectOrder: string | null | undefined;
+    let destinationProjectOrder: string | null | undefined;
+
+    // moving down the list
+    if (source < destination) {
+      // if destination is bottom (null)
+      if (projects[destination + 1] === undefined) {
+        movedProjectId = projects[source]._id;
+        movedProjectOrder = null;
+        projects[source].order = null;
+      } else {
+        movedProjectId = projects[source]._id;
+        movedProjectOrder = projects[destination + 1]._id;
+        projects[source].order = projects[destination + 1]._id;
+      }
+      // if beginning is top (id=null)
+      if (projects[source - 1] === undefined) {
+        sourceProjectId = undefined;
+        sourceProjectOrder = undefined;
+      } else {
+        sourceProjectId = projects[source - 1]._id;
+        sourceProjectOrder = projects[source + 1]._id;
+        projects[source - 1].order = projects[source + 1]._id;
+      }
+      //
+      destinationProjectId = projects[destination]._id;
+      destinationProjectOrder = projects[source]._id;
+      projects[destination].order = projects[source]._id;
+      //
+      //moving up
+    } else if (source > destination) {
+      //
+      movedProjectId = projects[source]._id;
+      movedProjectOrder = projects[destination]._id;
+      projects[source].order = projects[destination]._id;
+      // if source starts at bottom (item above = null)
+      if (projects[source + 1] === undefined) {
+        sourceProjectId = projects[source - 1]._id;
+        sourceProjectOrder = null;
+        projects[source - 1].order = null;
+      } else {
+        sourceProjectId = projects[source - 1]._id;
+        sourceProjectOrder = projects[source + 1]._id;
+        projects[source - 1].order = projects[source + 1]._id;
+      }
+      // if destinaton is top (id = null)
+      if (projects[destination - 1] === undefined) {
+        destinationProjectId = undefined;
+        destinationProjectOrder = undefined;
+      } else {
+        destinationProjectId = projects[destination - 1]._id;
+        destinationProjectOrder = projects[source]._id;
+        projects[destination - 1].order = projects[source]._id;
+      }
+    }
+    //
+    setState({ ...state, projects });
+    const movedProject = {
+      movedProjectId: movedProjectId,
+      movedProjectOrder: movedProjectOrder
+    };
+    const sourceProject = {
+      sourceProjectId: sourceProjectId,
+      sourceProjectOrder: sourceProjectOrder
+    };
+    const destinationProject = {
+      destinationProjectId: destinationProjectId,
+      destinationProjectOrder: destinationProjectOrder
+    };
+    axios
+      .all([
+        axios.put(`/project/movedProject`, movedProject),
+        axios.put(`/project/sourceProject`, sourceProject),
+        axios.put(`/project/destinationProject`, destinationProject)
+      ])
+      .then((res: any) => {
+        if (res.data) {
+          setState({ ...state, projects });
+        }
+      })
+      .catch(() => setState({ ...state }));
   };
   ////
 
@@ -186,7 +292,7 @@ function App(): any {
       completeDate: Date(),
       order: null
     };
-    orderVal(filteredTodos, todo);
+    createTodoOrderVal(filteredTodos, todo);
     if (todo.text && todo.text.length > 0) {
       axios
         .post("/todo/addTodo", todo)
@@ -201,7 +307,7 @@ function App(): any {
     }
   };
 
-  const orderVal = (todos: any, todo: any) => {
+  const createTodoOrderVal = (todos: any[], todo: any) => {
     if (todos.length === 0) return;
     let previousTodo = todos[0]._id;
     todo.order = previousTodo;
@@ -210,11 +316,11 @@ function App(): any {
 
   const deleteTodo = (id: string, index: number) => {
     const todos = filteredTodos.filter((todo: any) => todo._id !== id);
-    let newId: string | null;
-    let newVal: any = {};
+    let newId: string | undefined;
+    let newVal: {};
     if (filteredTodos.length === 1 || index === 0) {
-      newId = null;
-      newVal = { orderVal: null };
+      newId = undefined;
+      newVal = { orderVal: undefined };
     } else if (index < filteredTodos.length - 1) {
       newId = todos[index - 1]._id;
       newVal = { orderVal: todos[index]._id };
@@ -238,7 +344,7 @@ function App(): any {
       .catch(() => setState({ ...state }));
   };
 
-  const completeTodo = (id: string, complete: {}) => {
+  const completeTodo = (id: string, complete: boolean) => {
     if (complete === true) {
       complete = false;
     } else {
@@ -252,9 +358,10 @@ function App(): any {
         return todo;
       }
     });
-    complete = { complete: complete, completeDate: Date() };
+    const date = Date();
+    const completeObj: {} = { complete: complete, completeDate: date };
     axios
-      .put(`/todo/completeTodo/${id}`, complete)
+      .put(`/todo/completeTodo/${id}`, completeObj)
       .then(res => {
         if (res.data) {
           setState({ ...state, todos });
@@ -266,8 +373,8 @@ function App(): any {
   const moveTodo = (todoLocation: any) => {
     // set variables
     let todos: any = filteredTodos;
-    const source: any = todoLocation.source.index;
-    const destination: any = todoLocation.destination.index;
+    const source: number = todoLocation.source.index;
+    const destination: number = todoLocation.destination.index;
 
     // return non moves
     if (destination === source) {
@@ -276,13 +383,13 @@ function App(): any {
     }
 
     // create order map
-    let movedTodoId: any;
-    let sourceTodoId: any;
-    let destinationTodoId: any;
+    let movedTodoId: string | null | undefined;
+    let sourceTodoId: string | null | undefined;
+    let destinationTodoId: string | null | undefined;
 
-    let movedTodoOrder: any;
-    let sourceTodoOrder: any;
-    let destinationTodoOrder: any;
+    let movedTodoOrder: string | null | undefined;
+    let sourceTodoOrder: string | null | undefined;
+    let destinationTodoOrder: string | null | undefined;
 
     // moving down the list
     if (source < destination) {
@@ -298,9 +405,8 @@ function App(): any {
       }
       // if beginning is top (id=null)
       if (todos[source - 1] === undefined) {
-        sourceTodoId = null;
-        sourceTodoOrder = null;
-        // todos[source - 1].order = todos[source + 1]._id;
+        sourceTodoId = undefined;
+        sourceTodoOrder = undefined;
       } else {
         sourceTodoId = todos[source - 1]._id;
         sourceTodoOrder = todos[source + 1]._id;
@@ -329,16 +435,17 @@ function App(): any {
       }
       // if destinaton is top (id = null)
       if (todos[destination - 1] === undefined) {
-        destinationTodoId = null;
-        destinationTodoOrder = null;
-        // todos[destination - 1].order = todos[source]._id;
+        destinationTodoId = undefined;
+        destinationTodoOrder = undefined;
       } else {
         destinationTodoId = todos[destination - 1]._id;
         destinationTodoOrder = todos[source]._id;
         todos[destination - 1].order = todos[source]._id;
       }
     }
-    setState({ ...state, todos });
+    let combindedTodos = { ...todos, ...unfilteredTodos };
+    todos = combindedTodos;
+    setState({ ...state, combindedTodos });
     const movedTodo = {
       movedTodoId: movedTodoId,
       movedTodoOrder: movedTodoOrder
@@ -359,7 +466,7 @@ function App(): any {
       ])
       .then((res: any) => {
         if (res.data) {
-          setState({ ...state, todos });
+          setState({ ...state, combindedTodos });
         }
       })
       .catch(() => setState({ ...state }));
@@ -367,13 +474,47 @@ function App(): any {
   ////
 
   ////
+  // filter todos by page
   let filteredTodos: any = state.todos.filter(
     (todo: any) => todo.projectId === endURL
   );
 
+  // add the rest of the todos for setstate
+  let unfilteredTodos: any = state.todos.filter(
+    (todo: any) => todo.projectId !== endURL
+  );
+
+  // order projects
+  const orderProjects = (projects: any) => {
+    // return projects;
+    // error catching
+    if (projects === undefined || projects.length === 0) {
+      return projects;
+    }
+    //
+    let newArr: any = [];
+    let orderObj: any = {};
+    for (let project of projects) {
+      orderObj[project.order] = project;
+    }
+    let finder: any = orderObj["null"]._id;
+    newArr.push(orderObj["null"]);
+    delete orderObj["null"];
+    for (let project in orderObj) {
+      newArr.unshift(orderObj[finder]);
+      finder = orderObj[finder]._id;
+    }
+    return newArr;
+  };
+
+  let orderedProjects = orderProjects(state.projects);
+
   const orderTodos = (filteredTodos: any) => {
+    // return filteredTodos;
+    // error catching
     if (filteredTodos === undefined || filteredTodos.length === 0)
       return filteredTodos;
+    //
     let newArr: any = [];
     let orderObj: any = {};
     for (let todo of filteredTodos) {
@@ -431,7 +572,7 @@ function App(): any {
                 loggedIn={state.loggedIn}
                 loading={state.loading}
                 error={state.error}
-                projects={state.projects}
+                projects={orderedProjects}
                 todos={filteredTodos}
                 logout={logout}
                 addProject={addProject}
@@ -452,21 +593,25 @@ function App(): any {
 }
 
 export default App;
+//// @TODO complete redux
 // export default connect(mapStateTo(Home);
 
 // const mapStateTo= state => {
 //   console.log(state);
 // };
+////
 
 const AppWrapper = styled.div`
+  margin: -6px;
   text-align: center;
   font-family: Times New Roman;
   font-weight: bold;
   p {
+    font-family: Arial;
     color: #1d2129;
   }
   a {
-    color: #1d2129;
     text-decoration: none;
+    color: #1d2129;
   }
 `;

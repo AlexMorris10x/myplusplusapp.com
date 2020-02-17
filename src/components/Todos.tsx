@@ -19,7 +19,7 @@ function Todos(props: any): any {
     });
   };
 
-  // submitTodo and reset form
+  // submit todo and reset form
   const submitAddTodo = (e: any) => {
     e.preventDefault();
     props.addTodo(e, state.todoText);

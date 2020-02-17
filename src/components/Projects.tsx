@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHome,
+  faCalendarAlt,
+  faTrash,
+  faTrashAlt
+} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
 function Projects(props: any): any {
@@ -18,7 +23,7 @@ function Projects(props: any): any {
     });
   };
 
-  // submitTodo and reset form
+  // submit project and reset form
   const submitAddProject = (e: any, projectText: string) => {
     e.preventDefault();
     props.addProject(e, projectText);
@@ -26,11 +31,26 @@ function Projects(props: any): any {
   };
 
   return (
-    <React.Fragment>
+    <ComponentWrapper>
       <HomeWrapper>
-        <Link to="/">HOME</Link>
+        <Link to="/">
+          <FontAwesomeIcon icon={faHome} />
+          <div>Home</div>
+        </Link>
       </HomeWrapper>
-      <TitleWrapper>Projects</TitleWrapper>
+      <UpcomingWrapper>
+        <Link to="/">
+          <FontAwesomeIcon icon={faCalendarAlt} />
+          <div>Upcoming</div>
+        </Link>
+      </UpcomingWrapper>
+      <TrashWrapper>
+        <Link to="/">
+          <FontAwesomeIcon icon={faTrash} />
+          <div>Trash</div>
+        </Link>
+      </TrashWrapper>
+      <BreakWrapper></BreakWrapper>
       <FormWrapper
         onSubmit={(e: any) => submitAddProject(e, state.projectText)}
       >
@@ -44,7 +64,7 @@ function Projects(props: any): any {
         <AddProjectButton>Add Project</AddProjectButton>
       </FormWrapper>
       {displayProjects(props)}
-    </React.Fragment>
+    </ComponentWrapper>
   );
 }
 
@@ -59,7 +79,12 @@ const displayProjects = (props: any) => {
             <AllProjectsWrapper
               {...provieded.droppableProps}
               ref={provieded.innerRef}
+              style={{
+                background: snapshot.isDraggingOver ? "lightblue" : "#F9FAFB",
+                paddingBottom: snapshot.isDraggingOver ? 80 : 0
+              }}
             >
+              <ListNameWrapper>Projects</ListNameWrapper>
               {props.projects.map(
                 (project: { _id: string; text: string }, index: number) => {
                   return (
@@ -102,21 +127,71 @@ const displayProjects = (props: any) => {
 
 export default Projects;
 
+const ComponentWrapper = styled.div`
+  margin: 40px 0;
+`;
+
 const HomeWrapper = styled.div`
-  margin: 40px auto;
-  max-width: 130px;
-  font-size: 2em;
+  margin: 10px 40px;
+  min-width: 100px;
+  font-size: 1.2em;
   border-radius: 8px;
   &:hover {
     background: #e9ebee;
   }
   > a {
+    display: flex;
     color: #1d2129;
     text-decoration: none;
+    > svg {
+      color: #4065b4;
+    }
   }
 `;
 
+const UpcomingWrapper = styled.div`
+  margin: 10px 40px;
+  min-width: 100px;
+  font-size: 1.2em;
+  border-radius: 8px;
+  &:hover {
+    background: #e9ebee;
+  }
+  > a {
+    display: flex;
+    color: #1d2129;
+    text-decoration: none;
+    > svg {
+      color: #f22664;
+    }
+  }
+`;
+
+const TrashWrapper = styled.div`
+  margin: 10px 40px;
+  min-width: 100px;
+  font-size: 1.2em;
+  border-radius: 8px;
+  &:hover {
+    background: #e9ebee;
+  }
+  > a {
+    display: flex;
+    color: #1d2129;
+    text-decoration: none;
+    > svg {
+      color: #c3c8cc;
+    }
+  }
+`;
+
+const BreakWrapper = styled.div`
+  margin: 40px;
+  border: 1px solid black;
+`;
+
 const FormWrapper = styled.form`
+  margin: 40px auto;
   > input {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
@@ -133,7 +208,7 @@ const AddProjectButton = styled.button`
   border-bottom-right-radius: 10px;
 `;
 
-const TitleWrapper = styled.p`
+const ListNameWrapper = styled.p`
   margin: auto;
   padding: 10px;
   font-size: 2em;
@@ -156,6 +231,7 @@ const AllProjectsWrapper = styled.div`
 const ProjectWrapper = styled.div`
   display: flex;
   margin: auto
+
   background: #e9ebee;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
