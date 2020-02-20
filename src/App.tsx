@@ -182,7 +182,7 @@ function App(): any {
   };
 
   const login = (e: any, username: string, password: string) => {
-    // e.preventDefault();
+    e.preventDefault();
     username = username.toLowerCase();
     axios
       .post("/auth/login", {
