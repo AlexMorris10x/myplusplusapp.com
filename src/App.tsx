@@ -18,6 +18,9 @@ function App(): any {
     todos: []
   });
 
+  // console.log(state);
+
+  ////
   // finding the end URL
   const endURL: string = window.location.href.split("/").slice(-1)[0];
 
@@ -34,7 +37,98 @@ function App(): any {
   projectName[0] !== undefined
     ? (projectName = projectName[0].text)
     : (projectName = "");
-  //
+  ////
+
+  ////
+  // order projects
+  const orderProjects = (projects: any) => {
+    // return projects;
+    // error catching
+    if (projects === undefined || projects.length === 0) {
+      return projects;
+    }
+    //
+    let newArr: any = [];
+    let orderObj: any = {};
+    for (let project of projects) {
+      orderObj[project.order] = project;
+    }
+    let finder: any = orderObj["null"]._id;
+    newArr.push(orderObj["null"]);
+    delete orderObj["null"];
+    for (let project in orderObj) {
+      newArr.unshift(orderObj[finder]);
+      finder = orderObj[finder]._id;
+    }
+    return newArr;
+  };
+
+  let orderedProjects = orderProjects(state.projects);
+
+  // filter todos by page
+  const orderTodos = (todos: any): any => {
+    // return todos
+    let newArr: any = [];
+    let orderObj: any = {};
+
+    let filteredTodos: any = todos.filter(
+      (todo: any) => todo.projectId === endURL && todo.complete === false
+    );
+
+    // error catching
+    if (filteredTodos === undefined || filteredTodos.length === 0)
+      return filteredTodos;
+
+    // return filteredTodos
+
+    for (let todo of filteredTodos) {
+      orderObj[todo.order] = todo;
+    }
+    let finder: any = orderObj["null"]._id;
+    newArr.push(orderObj["null"]);
+    delete orderObj["null"];
+    for (let todo in orderObj) {
+      newArr.unshift(orderObj[finder]);
+      finder = orderObj[finder]._id;
+    }
+    return newArr;
+  };
+
+  let filteredTodos = orderTodos(state.todos);
+
+  // filter todos by page
+  const orderCompleteTodos = (todos: any): any => {
+    let newArr: any = [];
+    let orderObj: any = {};
+
+    let filteredTodosComplete: any = todos.filter(
+      (todo: any) => todo.projectId === endURL && todo.complete === true
+    );
+
+    // error catching
+    if (
+      filteredTodosComplete === undefined ||
+      filteredTodosComplete.length === 0
+    )
+      return filteredTodosComplete;
+
+    // return filteredCompleteTodos
+
+    for (let todo of filteredTodosComplete) {
+      orderObj[todo.order] = todo;
+    }
+    let finder: any = orderObj["null"]._id;
+    newArr.push(orderObj["null"]);
+    delete orderObj["null"];
+    for (let todo in orderObj) {
+      newArr.unshift(orderObj[finder]);
+      finder = orderObj[finder]._id;
+    }
+    return newArr;
+  };
+
+  let filteredCompleteTodos = orderCompleteTodos(state.todos);
+  ////
 
   ////
   useEffect(() => {
@@ -65,7 +159,7 @@ function App(): any {
           });
         })
       )
-      .catch(() => setState({ ...state, username: "test", loading: false }));
+      .catch(() => setState({ ...state, loading: false }));
   }, []);
 
   const signUp = (e: any, username: string, password: string) => {
@@ -88,7 +182,7 @@ function App(): any {
   };
 
   const login = (e: any, username: string, password: string) => {
-    e.preventDefault();
+    // e.preventDefault();
     username = username.toLowerCase();
     axios
       .post("/auth/login", {
@@ -178,6 +272,7 @@ function App(): any {
       .catch(() => setState({ ...state }));
   };
 
+  // moves project
   const moveProject = (projectLocation: any) => {
     // set variables
     let projects = orderedProjects;
@@ -314,10 +409,17 @@ function App(): any {
     return todo;
   };
 
-  const deleteTodo = (id: string, index: number) => {
-    const todos = filteredTodos.filter((todo: any) => todo._id !== id);
+  const deleteTodo = (id: string, index: number, complete: boolean) => {
+    let todos: any;
+    if (complete === false) {
+      todos = filteredTodos.filter((todo: any) => todo._id !== id);
+    } else if (complete === true) {
+      todos = filteredCompleteTodos.filter((todo: any) => todo._id !== id);
+    }
+    //
     let newId: string | undefined;
     let newVal: {};
+    //
     if (filteredTodos.length === 1 || index === 0) {
       newId = undefined;
       newVal = { orderVal: undefined };
@@ -359,15 +461,49 @@ function App(): any {
       }
     });
     const date = Date();
+    const { newId, order }: any = createTodoOrderValComplete(
+      id,
+      complete,
+      filteredTodos,
+      filteredCompleteTodos
+    );
+    const newVal: any = { orderVal: order };
     const completeObj: {} = { complete: complete, completeDate: date };
     axios
-      .put(`/todo/completeTodo/${id}`, completeObj)
-      .then(res => {
+      .all([
+        axios.put(`/todo/completeTodo/${id}`, completeObj),
+        axios.put(`/todo/updateOrder/${newId}`, newVal)
+      ])
+      .then((res: any) => {
         if (res.data) {
           setState({ ...state, todos });
         }
       })
       .catch(() => setState({ ...state }));
+  };
+
+  const createTodoOrderValComplete = (
+    id: string,
+    complete: boolean,
+    filteredTodos: any[],
+    filteredCompleteTodos: any[]
+  ) => {
+    if (complete === true) {
+      if (filteredCompleteTodos.length === 0) {
+        return { newId: id, order: null };
+      } else {
+        let previousTodoId: any = filteredCompleteTodos[0]._id;
+        return { newId: id, order: previousTodoId };
+      }
+    }
+    if (complete === false) {
+      if (filteredTodos.length === 0) {
+        return { newId: id, order: null };
+      } else {
+        let previousTodoId: any = filteredTodos[0]._id;
+        return { newId: id, order: previousTodoId };
+      }
+    }
   };
 
   const moveTodo = (todoLocation: any) => {
@@ -443,9 +579,17 @@ function App(): any {
         todos[destination - 1].order = todos[source]._id;
       }
     }
-    let combindedTodos = { ...todos, ...unfilteredTodos };
-    todos = combindedTodos;
-    setState({ ...state, combindedTodos });
+    // add the rest of the todos for setstate
+    let unfilteredTodos: any = state.todos.filter(
+      (todo: any) => todo.projectId !== endURL
+    );
+    let allTodos = {
+      ...todos,
+      ...filteredCompleteTodos,
+      ...unfilteredTodos
+    };
+    // todos = allTodos;
+    setState({ ...state, allTodos });
     const movedTodo = {
       movedTodoId: movedTodoId,
       movedTodoOrder: movedTodoOrder
@@ -466,71 +610,17 @@ function App(): any {
       ])
       .then((res: any) => {
         if (res.data) {
-          setState({ ...state, combindedTodos });
+          setState({ ...state, allTodos });
         }
       })
       .catch(() => setState({ ...state }));
   };
   ////
 
-  ////
-  // filter todos by page
-  let filteredTodos: any = state.todos.filter(
-    (todo: any) => todo.projectId === endURL
-  );
+  const combinedTodos = [...filteredTodos, ...filteredCompleteTodos];
 
-  // add the rest of the todos for setstate
-  let unfilteredTodos: any = state.todos.filter(
-    (todo: any) => todo.projectId !== endURL
-  );
-
-  // order projects
-  const orderProjects = (projects: any) => {
-    // return projects;
-    // error catching
-    if (projects === undefined || projects.length === 0) {
-      return projects;
-    }
-    //
-    let newArr: any = [];
-    let orderObj: any = {};
-    for (let project of projects) {
-      orderObj[project.order] = project;
-    }
-    let finder: any = orderObj["null"]._id;
-    newArr.push(orderObj["null"]);
-    delete orderObj["null"];
-    for (let project in orderObj) {
-      newArr.unshift(orderObj[finder]);
-      finder = orderObj[finder]._id;
-    }
-    return newArr;
-  };
-
-  let orderedProjects = orderProjects(state.projects);
-
-  const orderTodos = (filteredTodos: any) => {
-    // return filteredTodos;
-    // error catching
-    if (filteredTodos === undefined || filteredTodos.length === 0)
-      return filteredTodos;
-    //
-    let newArr: any = [];
-    let orderObj: any = {};
-    for (let todo of filteredTodos) {
-      orderObj[todo.order] = todo;
-    }
-    let finder: any = orderObj["null"]._id;
-    newArr.push(orderObj["null"]);
-    delete orderObj["null"];
-    for (let todo in orderObj) {
-      newArr.unshift(orderObj[finder]);
-      finder = orderObj[finder]._id;
-    }
-    return newArr;
-  };
-  filteredTodos = orderTodos(filteredTodos);
-  ////
+  // console.log(filteredTodos);
+  // console.log(filteredCompleteTodos);
 
   if (state.redirectTo) {
     return (
@@ -569,11 +659,12 @@ function App(): any {
             path="/"
             render={() => (
               <Home
+                login={login}
                 loggedIn={state.loggedIn}
                 loading={state.loading}
                 error={state.error}
                 projects={orderedProjects}
-                todos={filteredTodos}
+                todos={combinedTodos}
                 logout={logout}
                 addProject={addProject}
                 addTodo={addTodo}

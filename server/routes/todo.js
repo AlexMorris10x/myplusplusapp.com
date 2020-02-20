@@ -4,6 +4,7 @@ const TODO = require("../db/todo");
 
 router.get("/getTodo", (req, res, next) => {
   TODO.find({ username: req.user.username })
+    // TODO.find({ username: "test" })
     .then(data => res.json(data))
     .catch(next);
 });

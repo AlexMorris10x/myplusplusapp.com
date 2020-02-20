@@ -4,10 +4,11 @@ import FrontPageLineGraph from "./FrontPageLineGraph";
 import styled from "styled-components";
 import Todos from "./Todos";
 import BarGraph from "./BarGraph";
+import Login from "./Login";
 
 function Home(props: any): any {
   if (props.error) return <h1>error happened...</h1>;
-  if (props.loading === true)
+  if (props.loading === true) {
     return (
       <React.Fragment>
         <Menu
@@ -18,9 +19,11 @@ function Home(props: any): any {
           deleteProject={props.deleteProject}
           moveProject={props.moveProject}
         />
+        <div>{(e: any) => props.login(e, "test", "test")}</div>
         <h1>loading...</h1>
       </React.Fragment>
     );
+  }
 
   // if (props.endURL === "" && props.loggedIn === false) {
   //   return (

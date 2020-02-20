@@ -86,7 +86,9 @@ const displayTodos = (props: any) => {
                           </CompleteTodoButton>
                           <TodoTextWrapper>{todo.text}</TodoTextWrapper>
                           <DeleteTodoButton
-                            onClick={() => props.deleteTodo(todo._id, index)}
+                            onClick={() =>
+                              props.deleteTodo(todo._id, index, todo.complete)
+                            }
                           >
                             <FontAwesomeIcon icon={faTrashAlt} />
                           </DeleteTodoButton>
@@ -142,7 +144,9 @@ const displayCompleteTodos = (props: any) => {
                           </CompleteTodoButton>
                           <TodoTextWrapper>{todo.text}</TodoTextWrapper>
                           <DeleteTodoButton
-                            onClick={() => props.deleteTodo(todo._id, index)}
+                            onClick={() =>
+                              props.deleteTodo(todo._id, index, todo.complete)
+                            }
                           >
                             <FontAwesomeIcon icon={faTrashAlt} />
                           </DeleteTodoButton>
