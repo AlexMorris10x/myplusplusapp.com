@@ -4,13 +4,13 @@ const PROJECT = require("../db/project");
 const TODO = require("../db/todo");
 
 router.get("/getProject", (req, res, next) => {
-  if (req.user.username === undefined) {
-    return res.json({ status: 404 });
-  } else {
-    PROJECT.find({ username: req.user.username })
-      .then(data => res.json(data))
-      .catch(next);
-  }
+  // if (req.user.username === undefined) {
+  //   return res.json({ status: 404 });
+  // } else {
+  PROJECT.find({ username: req.user.username })
+    .then(data => res.json(data))
+    .catch(next);
+  // }
 });
 
 router.post("/addProject", (req, res) => {

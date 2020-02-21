@@ -34,11 +34,11 @@ function Home(props: any): any {
           deleteProject={props.deleteProject}
           moveProject={props.moveProject}
         />
-        <HomePageWrapper>
+        {/* <HomePageWrapper>
           <div onClick={(e: any) => props.login(e, "test", "test")}>
             click me!
           </div>
-        </HomePageWrapper>
+        </HomePageWrapper> */}
       </React.Fragment>
     );
   }
