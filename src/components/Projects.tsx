@@ -38,7 +38,7 @@ function Projects(props: any): any {
           <div>Home</div>
         </Link>
       </HomeWrapper>
-      <UpcomingWrapper>
+      {/* <UpcomingWrapper>
         <Link to="/">
           <FontAwesomeIcon icon={faCalendarAlt} />
           <div>Upcoming</div>
@@ -49,7 +49,7 @@ function Projects(props: any): any {
           <FontAwesomeIcon icon={faTrash} />
           <div>Trash</div>
         </Link>
-      </TrashWrapper>
+      </TrashWrapper> */}
       <BreakWrapper></BreakWrapper>
       <FormWrapper
         onSubmit={(e: any) => submitAddProject(e, state.projectText)}
