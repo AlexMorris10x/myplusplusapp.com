@@ -19,7 +19,7 @@ function Home(props: any): any {
           deleteProject={props.deleteProject}
           moveProject={props.moveProject}
         />
-        <div>{(e: any) => props.login(e, "test", "test")}</div>
+        {/* <div>{(e: any) => props.login(e, "test", "test")}</div> */}
         <h1>loading...</h1>
       </React.Fragment>
     );
