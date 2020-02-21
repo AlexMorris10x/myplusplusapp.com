@@ -10,15 +10,13 @@ import Home from "./components/Home";
 function App(): any {
   let [state, setState] = useState<any>({
     error: null,
-    loading: true,
+    loading: false,
     loggedIn: false,
     redirectTo: "",
     username: "",
     projects: [],
     todos: []
   });
-
-  // console.log(state);
 
   ////
   // finding the end URL
@@ -130,6 +128,7 @@ function App(): any {
   let filteredCompleteTodos = orderCompleteTodos(state.todos);
   ////
 
+  console.log(state);
   ////
   useEffect(() => {
     axios
@@ -159,7 +158,9 @@ function App(): any {
           });
         })
       )
-      .catch(() => setState({ ...state, loading: false }));
+      .catch(() => {
+        setState({ ...state, loading: false });
+      });
   }, []);
 
   const signUp = (e: any, username: string, password: string) => {

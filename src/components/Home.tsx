@@ -19,37 +19,31 @@ function Home(props: any): any {
           deleteProject={props.deleteProject}
           moveProject={props.moveProject}
         />
-        {/* <div>{(e: any) => props.login(e, "test", "test")}</div> */}
         <h1>loading...</h1>
       </React.Fragment>
     );
   }
 
-  // if (props.endURL === "" && props.loggedIn === false) {
-  //   return (
-  //     <React.Fragment>
-  //       <Menu
-  //         logout={props.logout}
-  //         loggedIn={props.loggedIn}
-  //         projects={props.projects}
-  //         addProject={props.addProject}
-  //         deleteProject={props.deleteProject}
-  //         moveProject={props.moveProject}
-  //       />
-  //       <HomePageWrapper>
-  //         Welcome To PlusPlus!
-  //         <br />
-  //         Your path to incremental improvement. It's easy to get started:
-  //         <br />
-  //         1. Create your account
-  //         <br />
-  //         2. Create your projects and todos
-  //         <br />
-  //         3. Complete your todos and watch your progress increase
-  //       </HomePageWrapper>
-  //     </React.Fragment>
-  //   );
-  // }
+  if (props.endURL === "" && props.loggedIn === false) {
+    return (
+      <React.Fragment>
+        <Menu
+          logout={props.logout}
+          loggedIn={props.loggedIn}
+          projects={props.projects}
+          addProject={props.addProject}
+          deleteProject={props.deleteProject}
+          moveProject={props.moveProject}
+        />
+        <HomePageWrapper>
+          <div onClick={(e: any) => props.login(e, "test", "test")}>
+            click me!
+          </div>
+        </HomePageWrapper>
+      </React.Fragment>
+    );
+  }
+
   if (props.endURL === "") {
     return (
       <React.Fragment>
@@ -65,6 +59,7 @@ function Home(props: any): any {
       </React.Fragment>
     );
   }
+
   if (props.endURL !== "")
     return (
       <React.Fragment>
