@@ -10,7 +10,7 @@ import Home from "./components/Home";
 function App(): any {
   let [state, setState] = useState<any>({
     error: null,
-    loading: false,
+    loading: true,
     loggedIn: false,
     redirectTo: "",
     username: "",

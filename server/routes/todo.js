@@ -3,9 +3,13 @@ const router = express.Router();
 const TODO = require("../db/todo");
 
 router.get("/getTodo", (req, res, next) => {
-  TODO.find({ username: req.user.username })
-    .then(data => res.json(data))
-    .catch(next);
+  if (req.user.username === undefined) {
+    return res.json({ status: 404 });
+  } else {
+    TODO.find({ username: req.user.username })
+      .then(data => res.json(data))
+      .catch(next);
+  }
 });
 
 router.post("/addTodo", (req, res) => {

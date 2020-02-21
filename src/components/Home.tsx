@@ -4,7 +4,6 @@ import FrontPageLineGraph from "./FrontPageLineGraph";
 import styled from "styled-components";
 import Todos from "./Todos";
 import BarGraph from "./BarGraph";
-import Login from "./Login";
 
 function Home(props: any): any {
   if (props.error) return <h1>error happened...</h1>;
