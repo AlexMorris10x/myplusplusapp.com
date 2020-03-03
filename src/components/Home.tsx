@@ -9,7 +9,7 @@ function Home(props: any): any {
   if (props.error) return <h1>error happened...</h1>;
   if (props.loading === true) {
     return (
-      <React.Fragment>
+      <>
         <Menu
           logout={props.logout}
           loggedIn={props.loggedIn}
@@ -19,13 +19,13 @@ function Home(props: any): any {
           moveProject={props.moveProject}
         />
         <h1>loading...</h1>
-      </React.Fragment>
+      </>
     );
   }
 
   if (props.endURL === "" && props.loggedIn === false) {
     return (
-      <React.Fragment>
+      <>
         <Menu
           logout={props.logout}
           loggedIn={props.loggedIn}
@@ -39,13 +39,13 @@ function Home(props: any): any {
             click me!
           </div>
         </HomePageWrapper> */}
-      </React.Fragment>
+      </>
     );
   }
 
   if (props.endURL === "") {
     return (
-      <React.Fragment>
+      <>
         <Menu
           logout={props.logout}
           loggedIn={props.loggedIn}
@@ -55,13 +55,13 @@ function Home(props: any): any {
           moveProject={props.moveProject}
         />
         <FrontPageLineGraph todos={props.todos} projects={props.projects} />
-      </React.Fragment>
+      </>
     );
   }
 
   if (props.endURL !== "")
     return (
-      <React.Fragment>
+      <>
         <Menu
           logout={props.logout}
           loggedIn={props.loggedIn}
@@ -81,7 +81,7 @@ function Home(props: any): any {
           endURL={props.endURL}
           projectName={props.projectName}
         />
-      </React.Fragment>
+      </>
     );
 }
 

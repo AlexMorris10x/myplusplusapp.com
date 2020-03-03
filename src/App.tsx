@@ -128,7 +128,7 @@ function App(): any {
   let filteredCompleteTodos = orderCompleteTodos(state.todos);
   ////
 
-  console.log(state);
+  // console.log(state);
   ////
   useEffect(() => {
     axios
@@ -619,16 +619,14 @@ function App(): any {
   ////
 
   const combinedTodos = [...filteredTodos, ...filteredCompleteTodos];
-
-  // console.log(filteredTodos);
-  // console.log(filteredCompleteTodos);
+  console.log(combinedTodos);
 
   if (state.redirectTo) {
     return (
-      <React.Fragment>
+      <>
         <Redirect to={{ pathname: state.redirectTo }} />
         {window.location.reload()}
-      </React.Fragment>
+      </>
     );
   } else
     return (

@@ -54,7 +54,7 @@ function Menu(props: any): any {
   }
   if (props.loggedIn && state.sidebarOpen === true) {
     return (
-      <React.Fragment>
+      <>
         <MenuWrapper>
           <SideBarWrapper>
             <MainMenuButton onClick={() => onSetSidebarOpen(false)}>
@@ -92,7 +92,7 @@ function Menu(props: any): any {
             onSetOpen={onSetSidebarOpen}
           ></Sidebar>
         </SideBarWrapper>
-      </React.Fragment>
+      </>
     );
   }
 }

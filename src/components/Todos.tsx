@@ -28,7 +28,7 @@ function Todos(props: any): any {
 
   // component wrapper
   return (
-    <React.Fragment>
+    <>
       <ProjectNameWrapper>{props.projectName}</ProjectNameWrapper>
       <FormWrapper onSubmit={(e: any) => submitAddTodo(e)}>
         <input
@@ -42,7 +42,7 @@ function Todos(props: any): any {
       </FormWrapper>
       {displayTodos(props)}
       {displayCompleteTodos(props)}
-    </React.Fragment>
+    </>
   );
 }
 
