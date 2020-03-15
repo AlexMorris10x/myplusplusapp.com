@@ -1,3 +1,4 @@
+// / <reference types="use-simple-shared-state" />
 import React, { useState, useEffect } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import axios from "axios";
@@ -5,18 +6,23 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import styled from "styled-components";
 import Home from "./components/Home";
+import { orderProjects } from "./helpers";
+import { store, setState } from "./store";
+import useSharedState from "use-simple-shared-state";
+import { Generic } from "./types";
 // import { connect } from "react-redux";
 
 function App(): any {
-  let [state, setState] = useState<any>({
-    error: null,
-    loading: true,
-    loggedIn: false,
-    redirectTo: "",
-    username: "",
-    projects: [],
-    todos: []
-  });
+  const [state] = useSharedState(store, [(s: Generic) => s]);
+  // let [state, setState] = useState<any>({
+  //   error: null,
+  //   loading: true,
+  //   loggedIn: false,
+  //   redirectTo: "",
+  //   username: "",
+  //   projects: [],
+  //   todos: []
+  // });
 
   ////
   // finding the end URL
@@ -39,27 +45,6 @@ function App(): any {
 
   ////
   // order projects
-  const orderProjects = (projects: any) => {
-    // return projects;
-    // error catching
-    if (projects === undefined || projects.length === 0) {
-      return projects;
-    }
-    //
-    let newArr: any = [];
-    let orderObj: any = {};
-    for (let project of projects) {
-      orderObj[project.order] = project;
-    }
-    let finder: any = orderObj["null"]._id;
-    newArr.push(orderObj["null"]);
-    delete orderObj["null"];
-    for (let project in orderObj) {
-      newArr.unshift(orderObj[finder]);
-      finder = orderObj[finder]._id;
-    }
-    return newArr;
-  };
 
   let orderedProjects = orderProjects(state.projects);
 
@@ -221,37 +206,6 @@ function App(): any {
       .catch(() => setState({ ...state }));
   };
   ////
-
-  ////
-  // creates new project to list
-  const addProject = (e: any, projectText: string) => {
-    e.preventDefault();
-    const project = {
-      username: state.username,
-      text: projectText,
-      order: null
-    };
-    createProjectOrderVal(orderedProjects, project);
-    if (project.text && project.text.length > 0) {
-      axios
-        .post("/project/addProject", project)
-        .then(res => {
-          if (res.data) {
-            let project = res.data;
-            const projects = [...state.projects, project];
-            setState({ ...state, projects });
-          }
-        })
-        .catch(() => setState({ ...state }));
-    }
-  };
-
-  const createProjectOrderVal = (projects: any[], project: any) => {
-    if (projects.length === 0) return;
-    let previousProject = projects[0]._id;
-    project.order = previousProject;
-    return project;
-  };
 
   const deleteProject = (id: string) => {
     const projects = state.projects.filter(
@@ -665,7 +619,6 @@ function App(): any {
                 projects={orderedProjects}
                 todos={combinedTodos}
                 logout={logout}
-                addProject={addProject}
                 addTodo={addTodo}
                 deleteProject={deleteProject}
                 deleteTodo={deleteTodo}

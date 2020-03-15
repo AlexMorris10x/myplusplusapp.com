@@ -4,8 +4,47 @@ import FrontPageLineGraph from "./FrontPageLineGraph";
 import styled from "styled-components";
 import Todos from "./Todos";
 import BarGraph from "./BarGraph";
+import axios from "axios";
+import { setState, store } from "../store";
+import useSharedState from "use-simple-shared-state";
+import { orderProjects } from "../helpers";
+import { Generic } from "../types";
 
 function Home(props: any): any {
+  const [state] = useSharedState(store, [(s: Generic) => s]);
+
+  let orderedProjects = orderProjects(state.projects);
+  ////
+  // creates new project to list
+  const addProject = (e: any, projectText: string) => {
+    e.preventDefault();
+    const project = {
+      username: state.username,
+      text: projectText,
+      order: null
+    };
+    createProjectOrderVal(orderedProjects, project);
+    if (project.text && project.text.length > 0) {
+      axios
+        .post("/project/addProject", project)
+        .then(res => {
+          if (res.data) {
+            let project = res.data;
+            const projects = [...state.projects, project];
+            setState({ ...state, projects });
+          }
+        })
+        .catch(() => setState({ ...state }));
+    }
+  };
+
+  const createProjectOrderVal = (projects: any[], project: any) => {
+    if (projects.length === 0) return;
+    let previousProject = projects[0]._id;
+    project.order = previousProject;
+    return project;
+  };
+
   if (props.error) return <h1>error happened...</h1>;
   if (props.loading === true) {
     return (
@@ -14,7 +53,6 @@ function Home(props: any): any {
           logout={props.logout}
           loggedIn={props.loggedIn}
           projects={props.projects}
-          addProject={props.addProject}
           deleteProject={props.deleteProject}
           moveProject={props.moveProject}
         />
